@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/KanburaLike/KanburaLike/Properties/Resources.Designer.cs
+/KanburaLike/KanburaLike/Properties/Settings.Designer.cs
