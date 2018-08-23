@@ -1,12 +1,47 @@
-﻿<UserControl x:Class="KanburaLike.Views.Information"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KanburaLike.Views"
+             xmlns:vm="clr-namespace:KanburaLike.ViewModels" 
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+  xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+			 x:Class="KanburaLike.Views.Information"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="265" d:DesignWidth="150"			 
+			 Background="{DynamicResource ThemeBrushKey}"
+			 Foreground="{DynamicResource ActiveForegroundBrushKey}"
+	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}"
+			 >
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="ContentRendered">
+			<l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
+		</i:EventTrigger>
+		<i:EventTrigger EventName="Closed">
+			<l:DataContextDisposeAction/>
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="KanColleResource.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<StackPanel>
+		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
+		<TextBlock TextWrapping="Wrap" Text="あとで任務を表示"/>
+		<ItemsControl ItemsSource="{Binding Fleets}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Expander Header="{Binding Name}" IsExpanded="{Binding IsExpanded}"/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+		<TextBlock TextWrapping="Wrap" Text="あとでキラキラーズ"/>
+		<TextBlock TextWrapping="Wrap" Text="あとで入居待ち"/>
+	</StackPanel>
 </UserControl>
