@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KanburaLike.Views"
              xmlns:vm="clr-namespace:KanburaLike.ViewModels" 
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-  xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-  xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+			 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+			 xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
 			 x:Class="KanburaLike.Views.Information"
              mc:Ignorable="d" 
-             d:DesignHeight="265" d:DesignWidth="150"			 
+             d:DesignHeight="500" d:DesignWidth="300"			 
 			 Background="{DynamicResource ThemeBrushKey}"
 			 Foreground="{DynamicResource ActiveForegroundBrushKey}"
-	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}"
+			 d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}"
 			 >
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="ContentRendered">
@@ -26,6 +26,13 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
+			<x:Array Type="Brush" x:Key="HPColor">
+				<SolidColorBrush Color="{DynamicResource ActiveForegroundColorKey}" />
+				<SolidColorBrush Color="Gray" />
+				<SolidColorBrush Color="Yellow" />
+				<SolidColorBrush Color="Orange" />
+				<SolidColorBrush Color="Red" />
+			</x:Array>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -33,15 +40,50 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
+		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで任務を表示"/>
+		<Separator  />
 		<ItemsControl ItemsSource="{Binding Fleets}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Expander Header="{Binding Name}" IsExpanded="{Binding IsExpanded}"/>
+					<Expander IsExpanded="{Binding IsExpanded}">
+						<Expander.Header>
+							<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+								<Run Text="{Binding Name}" />
+								<Run Text="{Binding SumLv ,StringFormat=Lv合計(\{0:D\})}" />
+								<Run Text="{Binding SumAirSuperiority,StringFormat=制空合計(\{0:D\})}" />
+							</TextBlock>
+						</Expander.Header>
+						<StackPanel>
+							<Separator />
+							<ItemsControl ItemsSource="{Binding Ships}" >
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<TextBlock TextWrapping="Wrap" >
+										<Run Text="{Binding Index}" />
+										<!-- ここからCondで色変え -->
+										<Run Text="{Binding Name}" />
+										<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" />
+										<Run Text="{Binding Condition, StringFormat=(\{0:D\})}" />										
+										<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}" />
+										<!-- ここまで -->
+										<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
+										
+										<Run Text="燃"/><Run Text="弾"/>
+										
+										<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" />
+										</TextBlock>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+					</Expander>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
+		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとでキラキラーズ"/>
+		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで入居待ち"/>
 	</StackPanel>
 </UserControl>

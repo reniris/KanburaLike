@@ -15,6 +15,9 @@ namespace KanburaLike.ViewModels
 		#region Name変更通知プロパティ
 		private string _Name;
 
+		/// <summary>
+		/// 艦の名前
+		/// </summary>
 		public string Name
 		{
 			get
@@ -32,6 +35,9 @@ namespace KanburaLike.ViewModels
 		#region Index変更通知プロパティ
 		private int _Index;
 
+		/// <summary>
+		/// 艦隊のインデックス（１スタート）
+		/// </summary>
 		public int Index
 		{
 			get
@@ -50,6 +56,9 @@ namespace KanburaLike.ViewModels
 		#region Lv変更通知プロパティ
 		private int _Lv;
 
+		/// <summary>
+		/// レベル
+		/// </summary>
 		public int Lv
 		{
 			get
@@ -64,10 +73,53 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		#region Condition変更通知プロパティ
+		private int _Condition;
+
+		/// <summary>
+		/// Cond値
+		/// </summary>
+		public int Condition
+		{
+			get
+			{ return _Condition; }
+			set
+			{
+				if (_Condition == value)
+					return;
+				_Condition = value;
+				RaisePropertyChanged(nameof(Condition));
+			}
+		}
+		#endregion
+
+		#region ConditionType変更通知プロパティ
+		private ConditionType _ConditionType;
+
+		/// <summary>
+		/// Cond値種類
+		/// </summary>
+		public ConditionType ConditionType
+		{
+			get
+			{ return _ConditionType; }
+			set
+			{
+				if (_ConditionType == value)
+					return;
+				_ConditionType = value;
+				RaisePropertyChanged(nameof(ConditionType));
+			}
+		}
+		#endregion
+
 
 		#region ExpForNextLevel変更通知プロパティ
 		private int _ExpForNextLevel;
 
+		/// <summary>
+		/// 次のレベルへの経験値
+		/// </summary>
 		public int ExpForNextLevel
 		{
 			get
@@ -78,6 +130,66 @@ namespace KanburaLike.ViewModels
 					return;
 				_ExpForNextLevel = value;
 				RaisePropertyChanged(nameof(ExpForNextLevel));
+			}
+		}
+		#endregion
+
+		#region AirSuperiority変更通知プロパティ
+		private int _AirSuperiority;
+
+		/// <summary>
+		/// 制空
+		/// </summary>
+		public int AirSuperiority
+		{
+			get
+			{ return _AirSuperiority; }
+			set
+			{
+				if (_AirSuperiority == value)
+					return;
+				_AirSuperiority = value;
+				RaisePropertyChanged(nameof(AirSuperiority));
+			}
+		}
+		#endregion
+
+		#region CurrentHP変更通知プロパティ
+		private int _CurrentHP;
+
+		/// <summary>
+		/// 現在のHP
+		/// </summary>
+		public int CurrentHP
+		{
+			get
+			{ return _CurrentHP; }
+			set
+			{
+				if (_CurrentHP == value)
+					return;
+				_CurrentHP = value;
+				RaisePropertyChanged(nameof(CurrentHP));
+			}
+		}
+		#endregion
+
+		#region MaxHP変更通知プロパティ
+		private int _MaxHP;
+
+		/// <summary>
+		/// 最大HP
+		/// </summary>
+		public int MaxHP
+		{
+			get
+			{ return _MaxHP; }
+			set
+			{
+				if (_MaxHP == value)
+					return;
+				_MaxHP = value;
+				RaisePropertyChanged(nameof(MaxHP));
 			}
 		}
 		#endregion
@@ -96,7 +208,30 @@ namespace KanburaLike.ViewModels
 			this.Name = s.Info.Name;
 			this.Index = i;
 			this.Lv = s.Level;
+			this.Condition = s.Condition;
+			this.ConditionType = s.ConditionType;
 			this.ExpForNextLevel = s.ExpForNextLevel;
+			this.AirSuperiority = s.GetAirSuperiorityPotential();
+
+			var f = s.Fuel.Current / s.Fuel.Maximum;
+			var b = s.Bull.Current / s.Bull.Maximum;
+
+			this.CurrentHP = s.HP.Current;
+			this.MaxHP = s.HP.Maximum;
+		}
+
+		public decimal GetHPRate()
+		{
+			decimal current = this.CurrentHP;
+			decimal max = this.MaxHP;
+
+			return GetRate(current, max);
+		}
+
+		private decimal GetRate(decimal current, decimal max)
+		{
+			var rate = (current / max) * 100;
+			return rate;
 		}
 	}
 }

@@ -63,6 +63,43 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+
+		#region SumLv変更通知プロパティ
+		private int _SumLv;
+
+		public int SumLv
+		{
+			get
+			{ return _SumLv; }
+			set
+			{ 
+				if (_SumLv == value)
+					return;
+				_SumLv = value;
+				RaisePropertyChanged(nameof(SumLv));
+			}
+		}
+		#endregion
+
+
+		#region SumAirSuperiority変更通知プロパティ
+		private int _SumAirSuperiority;
+
+		public int SumAirSuperiority
+		{
+			get
+			{ return _SumAirSuperiority; }
+			set
+			{ 
+				if (_SumAirSuperiority == value)
+					return;
+				_SumAirSuperiority = value;
+				RaisePropertyChanged(nameof(SumAirSuperiority));
+			}
+		}
+		#endregion
+
+
 		/// <summary>
 		/// デザイナ用 <see cref="FleetViewModel"/> class.
 		/// </summary>
@@ -78,6 +115,8 @@ namespace KanburaLike.ViewModels
 		{
 			Name = f.Name;
 			Ships = f.Ships.Select((s, i) => new ShipViewModel(s, i));
+			SumLv = Ships.Sum(s => s.Lv);
+			SumAirSuperiority = Ships.Sum(s => s.AirSuperiority);
 		}
 	}
 }
