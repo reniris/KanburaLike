@@ -1,15 +1,8 @@
-﻿using System;
+﻿using KanburaLike.Models;
+using Livet;
+using Livet.EventListeners;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Livet;
-using Grabacr07.KanColleWrapper;
-using Grabacr07.KanColleWrapper.Models;
-using StatefulModel;
-using KanburaLike.Models;
-using StatefulModel.EventListeners;
-using System.ComponentModel;
 
 namespace KanburaLike.ViewModels
 {
@@ -33,23 +26,30 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public KanColleModel kancolle { get; set; }
+		private KanColleModel Kancolle = new KanColleModel();
+		private readonly PropertyChangedEventListener listener;
 
 		public InformationViewModel()
 		{
+			listener = new PropertyChangedEventListener(this.Kancolle);
 
+			listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) =>
+			{
+				listener.Add(nameof(Fleets), (_,__) => UpdateFleets());
+			});
 
+			this.CompositeDisposable.Add(listener);
 		}
-
-		PropertyChangedEventListener listener;
 
 		public void Initialize()
 		{
-			listener = new PropertyChangedEventListener(this.kancolle);
+			
+		}
 
-			listener.RegisterHandler(nameof(Fleets), (sender, e) => Fleets = this.kancolle.Fleets.Select(f => new FleetViewModel(f)));
-
-			this.CompositeDisposable.Add(listener);
+		private void UpdateFleets()
+		{
+			Fleets = this.Kancolle.Fleets.Select(f => new FleetViewModel(f)).ToArray();
+			Kancolle.DumpDebugData(Fleets, nameof(Fleets));
 		}
 	}
 }

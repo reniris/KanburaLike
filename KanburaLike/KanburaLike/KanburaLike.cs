@@ -24,8 +24,7 @@ namespace KanburaLike
 	class KanburaLike : IPlugin
 	{
 		private Views.InformationWindow info;
-		private ViewModels.InformationViewModel infovm = new ViewModels.InformationViewModel();
-		private Models.KanColleModel kancolle;
+		private ViewModels.InformationViewModel infovm;
 
 		public KanburaLike()
 		{
@@ -33,26 +32,12 @@ namespace KanburaLike
 
 		public void Initialize()
 		{
-			kancolle = new Models.KanColleModel();
+			infovm = new ViewModels.InformationViewModel();
 			info = new Views.InformationWindow
 			{
-				DataContext = infovm
+				DataContext = infovm				
 			};
 			info.Show();
-		}
-
-		/// <summary>
-		/// デバッグ用データ書き出し
-		/// </summary>
-		[Conditional("DEBUG")]
-		private void DumpDebugData(object data, string filename)
-		{
-			var dir = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
-
-			// XAMLで書き出し
-			var text = System.Windows.Markup.XamlWriter.Save(data);
-			filename += ".xaml";
-			System.IO.File.WriteAllText(Path.Combine(dir, filename), text);
 		}
 	}
 }

@@ -170,6 +170,8 @@ namespace KanburaLike.ViewModels
 					return;
 				_CurrentHP = value;
 				RaisePropertyChanged(nameof(CurrentHP));
+
+				UpdateHP();
 			}
 		}
 		#endregion
@@ -190,14 +192,38 @@ namespace KanburaLike.ViewModels
 					return;
 				_MaxHP = value;
 				RaisePropertyChanged(nameof(MaxHP));
+
+				UpdateHP();
 			}
 		}
 		#endregion
 
+
+		#region HPRateIndex変更通知プロパティ
+		private int _HPRateIndex = 0;
+
+		public int HPRateIndex
+		{
+			get
+			{ return _HPRateIndex; }
+			set
+			{
+				if (_HPRateIndex == value)
+					return;
+				_HPRateIndex = value;
+				RaisePropertyChanged(nameof(HPRateIndex));
+			}
+		}
+		#endregion
+
+
 		/// <summary>
 		/// デザイナ用<see cref="ShipViewModel"/> class.
 		/// </summary>
-		public ShipViewModel() { }
+		public ShipViewModel()
+		{
+			//Initialize();
+		}
 
 		/// <summary>
 		/// コードからはこっちを使う <see cref="ShipViewModel"/> class.
@@ -213,25 +239,46 @@ namespace KanburaLike.ViewModels
 			this.ExpForNextLevel = s.ExpForNextLevel;
 			this.AirSuperiority = s.GetAirSuperiorityPotential();
 
-			var f = s.Fuel.Current / s.Fuel.Maximum;
-			var b = s.Bull.Current / s.Bull.Maximum;
+			//var f = s.Fuel.Current / s.Fuel.Maximum;
+			//var b = s.Bull.Current / s.Bull.Maximum;
 
 			this.CurrentHP = s.HP.Current;
 			this.MaxHP = s.HP.Maximum;
-		}
 
-		public decimal GetHPRate()
-		{
-			decimal current = this.CurrentHP;
-			decimal max = this.MaxHP;
-
-			return GetRate(current, max);
+			UpdateHP();
 		}
 
 		private decimal GetRate(decimal current, decimal max)
 		{
 			var rate = (current / max) * 100;
 			return rate;
+		}
+
+		private int GetRateIndex(decimal current, decimal max)
+		{
+			var rate = GetRate(current, max);
+
+			if (rate >= 100)
+				return 0;
+
+			if (rate < 100 && 75 > rate)
+				return 1;
+
+			if (rate <= 75 && 50 > rate)
+				return 2;
+
+			if (rate <= 50 && 25 > rate)
+				return 3;
+
+			if (rate <= 25)
+				return 4;
+
+			throw new ArgumentOutOfRangeException("GetRateIndex err");
+		}
+
+		private void UpdateHP()
+		{
+			this.HPRateIndex = GetRateIndex(this.CurrentHP, this.MaxHP);
 		}
 	}
 }

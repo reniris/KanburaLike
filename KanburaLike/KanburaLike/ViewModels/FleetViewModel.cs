@@ -72,7 +72,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _SumLv; }
 			set
-			{ 
+			{
 				if (_SumLv == value)
 					return;
 				_SumLv = value;
@@ -90,7 +90,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _SumAirSuperiority; }
 			set
-			{ 
+			{
 				if (_SumAirSuperiority == value)
 					return;
 				_SumAirSuperiority = value;
@@ -114,7 +114,7 @@ namespace KanburaLike.ViewModels
 		public FleetViewModel(Fleet f)
 		{
 			Name = f.Name;
-			Ships = f.Ships.Select((s, i) => new ShipViewModel(s, i));
+			Ships = f.Ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
 			SumLv = Ships.Sum(s => s.Lv);
 			SumAirSuperiority = Ships.Sum(s => s.AirSuperiority);
 		}

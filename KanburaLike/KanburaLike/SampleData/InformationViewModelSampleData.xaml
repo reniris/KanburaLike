@@ -40,7 +40,7 @@
 			<ViewModels:FleetViewModel Name="東京急行" >
 				<ViewModels:FleetViewModel.Ships>
 					<x:Array Type="ViewModels:ShipViewModel">
-						<ViewModels:ShipViewModel Index="1" Name="まるゆさん" Lv="170" Condition="100" ExpForNextLevel="65536" CurrentHP="2" MaxHP="5"/>
+						<ViewModels:ShipViewModel Index="1" Name="まるゆさん" Lv="170" Condition="100" ExpForNextLevel="65536" CurrentHP="2" MaxHP="5" HPRateIndex="3"/>
 						<ViewModels:ShipViewModel Index="2" Name="竜飛" Lv="165" Condition="99" ExpForNextLevel="1285963" AirSuperiority="999" CurrentHP="80" MaxHP="80"/>
 					</x:Array>
 				</ViewModels:FleetViewModel.Ships>

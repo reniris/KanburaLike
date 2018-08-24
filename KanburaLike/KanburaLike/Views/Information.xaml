@@ -26,13 +26,13 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<x:Array Type="Brush" x:Key="HPColor">
-				<SolidColorBrush Color="{DynamicResource ActiveForegroundColorKey}" />
+			<AlternationConverter x:Key="LimitedColor">
+				<SolidColorBrush Color="White" />
 				<SolidColorBrush Color="Gray" />
 				<SolidColorBrush Color="Yellow" />
 				<SolidColorBrush Color="Orange" />
 				<SolidColorBrush Color="Red" />
-			</x:Array>
+			</AlternationConverter>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -69,9 +69,9 @@
 										<!-- ここまで -->
 										<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
 										
-										<Run Text="燃"/><Run Text="弾"/>
+										<Run Text="燃" Foreground="{Binding Path=HPRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾"/>
 										
-										<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" />
+										<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}"/>
 										</TextBlock>
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>
