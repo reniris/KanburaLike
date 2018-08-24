@@ -98,6 +98,28 @@
 		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとでキラキラーズ"/>
 		<Separator  />
-		<TextBlock TextWrapping="Wrap" Text="あとで入居待ち"/>
+		<Expander DataContext="{Binding RepairWaiting}">
+			<Expander.Header>
+				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+					<Run Text="入渠待ちーズ" />
+					<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />
+				</TextBlock>
+			</Expander.Header>
+			<ItemsControl ItemsSource="{Binding Ships}" >
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<TextBlock TextWrapping="Wrap" >
+							<!-- ここからCondで色変え -->
+							<Run Text="{Binding Name}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
+							<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}" />
+							<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>										
+							<!-- ここまで -->
+										
+							<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}"/>
+						</TextBlock>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Expander>
 	</StackPanel>
 </UserControl>

@@ -250,6 +250,41 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		#region TimeToRepair変更通知プロパティ
+		private TimeSpan _TimeToRepair;
+
+		public TimeSpan TimeToRepair
+		{
+			get
+			{ return _TimeToRepair; }
+			set
+			{ 
+				if (_TimeToRepair == value)
+					return;
+				_TimeToRepair = value;
+				RaisePropertyChanged(nameof(TimeToRepair));
+			}
+		}
+		#endregion
+
+
+		#region ShipTypeName変更通知プロパティ
+		private string _ShipTypeName;
+
+		public string ShipTypeName
+		{
+			get
+			{ return _ShipTypeName; }
+			set
+			{ 
+				if (_ShipTypeName == value)
+					return;
+				_ShipTypeName = value;
+				RaisePropertyChanged(nameof(ShipTypeName));
+			}
+		}
+		#endregion
+
 
 		/// <summary>
 		/// デザイナ用<see cref="ShipViewModel"/> class.
@@ -285,6 +320,10 @@ namespace KanburaLike.ViewModels
 			this.MaxHP = s.HP.Maximum;
 
 			UpdateHP();
+
+			this.TimeToRepair = s.TimeToRepair;
+
+			this.ShipTypeName = s.Info.ShipType.Name;
 		}
 
 		private decimal GetRate(decimal current, decimal max)

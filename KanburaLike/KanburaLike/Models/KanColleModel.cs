@@ -33,23 +33,25 @@ namespace KanburaLike.Models
 		}
 		#endregion
 
+		#region Ships変更通知プロパティ
+		private IEnumerable<Ship> _Ships;
 
-		#region IsRegistered変更通知プロパティ
-		private bool _IsRegistered = false;
-
-		public bool IsRegistered
+		public IEnumerable<Ship> Ships
 		{
 			get
-			{ return _IsRegistered; }
+			{ return _Ships; }
 			set
 			{ 
-				if (_IsRegistered == value)
+				if (_Ships == value)
 					return;
-				_IsRegistered = value;
-				RaisePropertyChanged(nameof(IsRegistered));
+				_Ships = value;
+				RaisePropertyChanged(nameof(Ships));
 			}
 		}
 		#endregion
+
+
+		private bool isRegistered;
 
 		//private LivetCompositeDisposable organizationDisposables;
 		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
@@ -64,7 +66,7 @@ namespace KanburaLike.Models
 
 		private void RegisterHomeportListener()
 		{
-			if (this.IsRegistered) return;
+			if (this.isRegistered) return;
 
 			var client = KanColleClient.Current;
 
@@ -72,18 +74,28 @@ namespace KanburaLike.Models
 				.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
 				.AddTo(this);
 
-			this.IsRegistered = true;
+			this.isRegistered = true;
 		}
-
+		
+		/// <summary>
+		/// 艦隊に変化があったときに呼ばれる
+		/// </summary>
+		/// <param name="organization">organization</param>
 		private void UpdateFleets(Organization organization)
 		{
 			//this.organizationDisposables?.Dispose();
 			//this.organizationDisposables = new LivetCompositeDisposable();
 
-			var fleets = organization?.Fleets?.Values;
+			var fleets = organization?.Fleets.Values;
 			if (fleets != null)
 			{
 				Fleets = fleets;
+			}
+
+			var ships = organization?.Ships.Values;
+			if(ships != null)
+			{
+				Ships = ships;
 			}
 		}
 
