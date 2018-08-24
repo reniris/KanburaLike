@@ -29,40 +29,42 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		#region IsExpanded変更通知プロパティ
-		private bool _IsExpanded = true;
+		/*		#region IsExpanded変更通知プロパティ
+				private bool _IsExpanded = true;
 
-		public bool IsExpanded
-		{
-			get
-			{ return _IsExpanded; }
-			set
-			{
-				if (_IsExpanded == value)
-					return;
-				_IsExpanded = value;
-				RaisePropertyChanged(nameof(IsExpanded));
-			}
-		}
-		#endregion
+				public bool IsExpanded
+				{
+					get
+					{ return _IsExpanded; }
+					set
+					{
+						if (_IsExpanded == value)
+							return;
+						_IsExpanded = value;
+						RaisePropertyChanged(nameof(IsExpanded));
+					}
+				}
+				#endregion
 
-		#region Ships変更通知プロパティ
-		private IEnumerable<ShipViewModel> _Ships;
+				#region Ships変更通知プロパティ
+				private IEnumerable<ShipViewModel> _Ships;
 
-		public IEnumerable<ShipViewModel> Ships
-		{
-			get
-			{ return _Ships; }
-			set
-			{
-				if (_Ships == value)
-					return;
-				_Ships = value;
-				RaisePropertyChanged(nameof(Ships));
-			}
-		}
-		#endregion
+				public IEnumerable<ShipViewModel> Ships
+				{
+					get
+					{ return _Ships; }
+					set
+					{
+						if (_Ships == value)
+							return;
+						_Ships = value;
+						RaisePropertyChanged(nameof(Ships));
+					}
+				}
+				#endregion
+				*/
 
+		public ShipsViewModel Ships { get; set; } = new ShipsViewModel();
 
 		#region SumLv変更通知プロパティ
 		private int _SumLv;
@@ -105,6 +107,9 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public FleetViewModel()
 		{
+			//listener.RegisterHandler(() => model.Value, (s, e) =>
+			// Value プロパティが変更した時にだけ実行する処理
+			//});
 		}
 
 		/// <summary>
@@ -114,9 +119,9 @@ namespace KanburaLike.ViewModels
 		public FleetViewModel(Fleet f)
 		{
 			Name = f.Name;
-			Ships = f.Ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
-			SumLv = Ships.Sum(s => s.Lv);
-			SumAirSuperiority = Ships.Sum(s => s.AirSuperiority);
+			Ships.Update(f.Ships);
+			SumLv = Ships.Ships.Sum(s => s.Lv);
+			SumAirSuperiority = Ships.Ships.Sum(s => s.AirSuperiority);
 		}
 	}
 }

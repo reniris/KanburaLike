@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.ViewModels
 {
-	class RepairWaitingViewModel : Livet.ViewModel
+	class ShipsViewModel : Livet.ViewModel
 	{
 		#region IsExpanded変更通知プロパティ
 		private bool _IsExpanded = true;
@@ -43,19 +43,9 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public int Count
+		public void Update(IEnumerable<Ship> ships)
 		{
-			get
-			{
-				return (Ships == null) ? 0 : Ships.Count;
-			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RepairWaitingViewModel"/> class.
-		/// </summary>
-		public RepairWaitingViewModel()
-		{
+			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
 		}
 	}
 }

@@ -60,7 +60,7 @@
 		<ItemsControl ItemsSource="{Binding Fleets}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Expander IsExpanded="{Binding IsExpanded}">
+					<Expander IsExpanded="{Binding Ships.IsExpanded}">
 						<Expander.Header>
 							<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 								<Run Text="{Binding Name}" />
@@ -70,7 +70,7 @@
 						</Expander.Header>
 						<StackPanel>
 							<Separator />
-							<ItemsControl ItemsSource="{Binding Ships}" >
+							<ItemsControl ItemsSource="{Binding Ships.Ships}" >
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>
 										<TextBlock TextWrapping="Wrap" >
@@ -96,13 +96,39 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 		<Separator  />
-		<TextBlock TextWrapping="Wrap" Text="あとでキラキラーズ"/>
+		<Expander DataContext="{Binding Brilliant}">
+			<Expander.Header>
+				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+					<Run Text="キラキラーズ" />
+					<!--<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />-->
+				</TextBlock>
+			</Expander.Header>
+			<ItemsControl ItemsSource="{Binding Ships}" >
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<TextBlock TextWrapping="Wrap" >
+							<Run Text="{Binding ShipTypeName}" />
+							<!-- ここからCondで色変え -->
+							<Run Text="{Binding Name}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
+							<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}" />
+							<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>										
+							<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
+							<!-- ここまで -->
+										
+							<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
+										
+							<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}"/>
+						</TextBlock>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Expander>
 		<Separator  />
 		<Expander DataContext="{Binding RepairWaiting}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="入渠待ちーズ" />
-					<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />
+					<!--<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />-->
 				</TextBlock>
 			</Expander.Header>
 			<ItemsControl ItemsSource="{Binding Ships}" >

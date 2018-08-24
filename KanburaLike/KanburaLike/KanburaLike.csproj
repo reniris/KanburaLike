@@ -52,7 +52,7 @@
     <Compile Include="ViewModels\FleetViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
     <Compile Include="KanburaLike.cs" />
-    <Compile Include="ViewModels\RepairWaitingViewModel.cs" />
+    <Compile Include="ViewModels\ShipsViewModel.cs" />
     <Compile Include="ViewModels\ShipViewModel.cs" />
     <Compile Include="Views\Information.xaml.cs">
       <DependentUpon>Information.xaml</DependentUpon>

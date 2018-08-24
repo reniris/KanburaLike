@@ -9,40 +9,56 @@
 		<x:Array Type="ViewModels:FleetViewModel">
 			<ViewModels:FleetViewModel Name="1" >
 				<ViewModels:FleetViewModel.Ships>
-					<x:Array Type="ViewModels:ShipViewModel">
-						<ViewModels:ShipViewModel Index="1" Name="金剛ちゃん" Lv="120" Condition="75" ExpForNextLevel="10" CurrentHP="95" MaxHP="100" HPRateIndex="1" FuelRateIndex="1" BullRateIndex="2"/>
-					</x:Array>
+					<ViewModels:ShipsViewModel>
+						<ViewModels:ShipsViewModel.Ships>
+							<x:Array Type="ViewModels:ShipViewModel">
+								<ViewModels:ShipViewModel Index="1" Name="金剛ちゃん" Lv="120" Condition="75" ExpForNextLevel="10" CurrentHP="95" MaxHP="100" HPRateIndex="1" FuelRateIndex="1" BullRateIndex="2"/>
+							</x:Array>
+						</ViewModels:ShipsViewModel.Ships>
+					</ViewModels:ShipsViewModel>
 				</ViewModels:FleetViewModel.Ships>
 			</ViewModels:FleetViewModel>
 
 			<ViewModels:FleetViewModel Name="ボーキほしいでち" >
 				<ViewModels:FleetViewModel.Ships>
-					<x:Array Type="ViewModels:ShipViewModel">
-						<ViewModels:ShipViewModel Index="1" Name="でっちー" Lv="75" Condition="30" ExpForNextLevel="4520" CurrentHP="1" MaxHP="20" HPRateIndex="4"/>
-						<ViewModels:ShipViewModel Index="2" Name="ろーちゃん" Lv="85" Condition="0" ExpForNextLevel="7120" CurrentHP="9" MaxHP="18"/>
-					</x:Array>
+					<ViewModels:ShipsViewModel>
+						<ViewModels:ShipsViewModel.Ships>
+							<x:Array Type="ViewModels:ShipViewModel">
+								<ViewModels:ShipViewModel Index="1" Name="でっちー" Lv="75" Condition="30" ExpForNextLevel="4520" CurrentHP="1" MaxHP="20" HPRateIndex="4"/>
+								<ViewModels:ShipViewModel Index="2" Name="ろーちゃん" Lv="85" Condition="0" ExpForNextLevel="7120" CurrentHP="9" MaxHP="18"/>
+							</x:Array>
+						</ViewModels:ShipsViewModel.Ships>
+					</ViewModels:ShipsViewModel>
 				</ViewModels:FleetViewModel.Ships>
 			</ViewModels:FleetViewModel>
 
 			<ViewModels:FleetViewModel Name="海上護衛" >
 				<ViewModels:FleetViewModel.Ships>
-					<x:Array Type="ViewModels:ShipViewModel">
-						<ViewModels:ShipViewModel Index="1" Name="フフ怖" Lv="94" Condition="49" ExpForNextLevel="53456" CurrentHP="75" MaxHP="75"/>
-						<ViewModels:ShipViewModel Index="2" Name="くちく1" Lv="85" Condition="49" ExpForNextLevel="12345" CurrentHP="50" MaxHP="50"/>
-						<ViewModels:ShipViewModel Index="3" Name="くちく2" Lv="85" Condition="49" ExpForNextLevel="2564" CurrentHP="50" MaxHP="50"/>
-						<ViewModels:ShipViewModel Index="4" Name="くちく3" Lv="85" Condition="49" ExpForNextLevel="4210" CurrentHP="50" MaxHP="50"/>
-						<ViewModels:ShipViewModel Index="5" Name="くちく4" Lv="85" Condition="49" ExpForNextLevel="12" CurrentHP="50" MaxHP="50"/>
-						<ViewModels:ShipViewModel Index="6" Name="くちく5" Lv="85" Condition="49" ExpForNextLevel="540" CurrentHP="50" MaxHP="50"/>
-					</x:Array>
+					<ViewModels:ShipsViewModel>
+						<ViewModels:ShipsViewModel.Ships>
+							<x:Array Type="ViewModels:ShipViewModel">
+								<ViewModels:ShipViewModel Index="1" Name="フフ怖" Lv="94" Condition="49" ExpForNextLevel="53456" CurrentHP="75" MaxHP="75"/>
+								<ViewModels:ShipViewModel Index="2" Name="くちく1" Lv="85" Condition="49" ExpForNextLevel="12345" CurrentHP="50" MaxHP="50"/>
+								<ViewModels:ShipViewModel Index="3" Name="くちく2" Lv="85" Condition="49" ExpForNextLevel="2564" CurrentHP="50" MaxHP="50"/>
+								<ViewModels:ShipViewModel Index="4" Name="くちく3" Lv="85" Condition="49" ExpForNextLevel="4210" CurrentHP="50" MaxHP="50"/>
+								<ViewModels:ShipViewModel Index="5" Name="くちく4" Lv="85" Condition="49" ExpForNextLevel="12" CurrentHP="50" MaxHP="50"/>
+								<ViewModels:ShipViewModel Index="6" Name="くちく5" Lv="85" Condition="49" ExpForNextLevel="540" CurrentHP="50" MaxHP="50"/>
+							</x:Array>
+						</ViewModels:ShipsViewModel.Ships>
+					</ViewModels:ShipsViewModel>
 				</ViewModels:FleetViewModel.Ships>
 			</ViewModels:FleetViewModel>
 
 			<ViewModels:FleetViewModel Name="東京急行" >
 				<ViewModels:FleetViewModel.Ships>
-					<x:Array Type="ViewModels:ShipViewModel">
-						<ViewModels:ShipViewModel Index="1" Name="まるゆさん" Lv="170" Condition="100" ExpForNextLevel="65536" CurrentHP="2" MaxHP="5" HPRateIndex="3"/>
-						<ViewModels:ShipViewModel Index="2" Name="竜飛" Lv="165" Condition="99" ExpForNextLevel="1285963" AirSuperiority="999" CurrentHP="80" MaxHP="80"/>
-					</x:Array>
+					<ViewModels:ShipsViewModel>
+						<ViewModels:ShipsViewModel.Ships>
+							<x:Array Type="ViewModels:ShipViewModel">
+								<ViewModels:ShipViewModel Index="1" Name="まるゆさん" Lv="170" Condition="100" ExpForNextLevel="65536" CurrentHP="2" MaxHP="5" HPRateIndex="3"/>
+								<ViewModels:ShipViewModel Index="2" Name="竜飛" Lv="165" Condition="99" ExpForNextLevel="1285963" AirSuperiority="999" CurrentHP="80" MaxHP="80"/>
+							</x:Array>
+						</ViewModels:ShipsViewModel.Ships>
+					</ViewModels:ShipsViewModel>
 				</ViewModels:FleetViewModel.Ships>
 			</ViewModels:FleetViewModel>
 

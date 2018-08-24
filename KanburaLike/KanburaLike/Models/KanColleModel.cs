@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace KanburaLike.Models
 {
@@ -114,11 +115,19 @@ namespace KanburaLike.Models
 		public void DumpDebugData(object data, string filename)
 		{
 			var dir = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+			var fullpath = Path.Combine(dir, filename);
 
 			// XAMLで書き出し
-			var text = System.Windows.Markup.XamlWriter.Save(data);
-			filename += ".xaml";
-			System.IO.File.WriteAllText(Path.Combine(dir, filename), text);
+			//var text = System.Windows.Markup.XamlWriter.Save(data);
+			//System.IO.File.WriteAllText(fullpath + ".xaml", text);
+
+			// シリアライズする
+			var xmlSerializer1 = new XmlSerializer(data.GetType());
+			using (var streamWriter = new StreamWriter(fullpath + ".xml", false, Encoding.UTF8))
+			{
+				xmlSerializer1.Serialize(streamWriter, data);
+				streamWriter.Flush();
+			}
 		}
 	}
 }

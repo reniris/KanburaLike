@@ -29,10 +29,28 @@ namespace KanburaLike.ViewModels
 		#endregion
 
 
-		#region RepairWaiting変更通知プロパティ
-		private RepairWaitingViewModel _RepairWaiting = new RepairWaitingViewModel();
+		#region Brilliant変更通知プロパティ
+		private ShipsViewModel _Brilliant = new ShipsViewModel();
 
-		public RepairWaitingViewModel RepairWaiting
+		public ShipsViewModel Brilliant
+		{
+			get
+			{ return _Brilliant; }
+			set
+			{ 
+				if (_Brilliant == value)
+					return;
+				_Brilliant = value;
+				RaisePropertyChanged(nameof(Brilliant));
+			}
+		}
+		#endregion
+
+
+		#region RepairWaiting変更通知プロパティ
+		private ShipsViewModel _RepairWaiting = new ShipsViewModel();
+
+		public ShipsViewModel RepairWaiting
 		{
 			get
 			{ return _RepairWaiting; }
@@ -78,13 +96,13 @@ namespace KanburaLike.ViewModels
 		private void UpdateShips()
 		{
 			var ships = this.Kancolle.Ships;
-			
+
 			//キラキラ
-			var kira = ships.Where(s => s.ConditionType == ConditionType.Brilliant).Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
-			Kancolle.DumpDebugData(kira, nameof(kira));
+			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));
+			Kancolle.DumpDebugData(this.Brilliant.Ships, nameof(this.Brilliant.Ships));
 
 			//入渠待ち
-			this.RepairWaiting.Ships = ships.Where(s => s.TimeToRepair > TimeSpan.Zero).Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
+			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero));
 		}
 	}
 }
