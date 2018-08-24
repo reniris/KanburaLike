@@ -10,7 +10,7 @@
 			<ViewModels:FleetViewModel Name="1" >
 				<ViewModels:FleetViewModel.Ships>
 					<x:Array Type="ViewModels:ShipViewModel">
-						<ViewModels:ShipViewModel Index="1" Name="金剛ちゃん" Lv="120" Condition="75" ExpForNextLevel="10" CurrentHP="95" MaxHP="100" />
+						<ViewModels:ShipViewModel Index="1" Name="金剛ちゃん" Lv="120" Condition="75" ExpForNextLevel="10" CurrentHP="95" MaxHP="100" HPRateIndex="1" FuelRateIndex="1" BullRateIndex="2"/>
 					</x:Array>
 				</ViewModels:FleetViewModel.Ships>
 			</ViewModels:FleetViewModel>
@@ -18,7 +18,7 @@
 			<ViewModels:FleetViewModel Name="ボーキほしいでち" >
 				<ViewModels:FleetViewModel.Ships>
 					<x:Array Type="ViewModels:ShipViewModel">
-						<ViewModels:ShipViewModel Index="1" Name="でっちー" Lv="75" Condition="30" ExpForNextLevel="4520" CurrentHP="1" MaxHP="20"/>
+						<ViewModels:ShipViewModel Index="1" Name="でっちー" Lv="75" Condition="30" ExpForNextLevel="4520" CurrentHP="1" MaxHP="20" HPRateIndex="4"/>
 						<ViewModels:ShipViewModel Index="2" Name="ろーちゃん" Lv="85" Condition="0" ExpForNextLevel="7120" CurrentHP="9" MaxHP="18"/>
 					</x:Array>
 				</ViewModels:FleetViewModel.Ships>

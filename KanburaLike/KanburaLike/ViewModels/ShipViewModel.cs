@@ -94,12 +94,12 @@ namespace KanburaLike.ViewModels
 		#endregion
 
 		#region ConditionType変更通知プロパティ
-		private ConditionType _ConditionType;
+		private int _ConditionType;
 
 		/// <summary>
 		/// Cond値種類
 		/// </summary>
-		public ConditionType ConditionType
+		public int ConditionType
 		{
 			get
 			{ return _ConditionType; }
@@ -216,13 +216,52 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		#region FuelRateIndex変更通知プロパティ
+		private int _FuelRateIndex;
+
+		public int FuelRateIndex
+		{
+			get
+			{ return _FuelRateIndex; }
+			set
+			{
+				if (_FuelRateIndex == value)
+					return;
+				_FuelRateIndex = value;
+				RaisePropertyChanged(nameof(FuelRateIndex));
+			}
+		}
+		#endregion
+
+		#region BullRateIndex変更通知プロパティ
+		private int _BullRateIndex;
+
+		public int BullRateIndex
+		{
+			get
+			{ return _BullRateIndex; }
+			set
+			{
+				if (_BullRateIndex == value)
+					return;
+				_BullRateIndex = value;
+				RaisePropertyChanged(nameof(BullRateIndex));
+			}
+		}
+		#endregion
+
 
 		/// <summary>
 		/// デザイナ用<see cref="ShipViewModel"/> class.
 		/// </summary>
 		public ShipViewModel()
 		{
-			//Initialize();
+			Initialize();
+		}
+
+		private void Initialize()
+		{
+			UpdateHP();
 		}
 
 		/// <summary>
@@ -235,12 +274,12 @@ namespace KanburaLike.ViewModels
 			this.Index = i;
 			this.Lv = s.Level;
 			this.Condition = s.Condition;
-			this.ConditionType = s.ConditionType;
+			this.ConditionType = (int)s.ConditionType;
 			this.ExpForNextLevel = s.ExpForNextLevel;
 			this.AirSuperiority = s.GetAirSuperiorityPotential();
 
-			//var f = s.Fuel.Current / s.Fuel.Maximum;
-			//var b = s.Bull.Current / s.Bull.Maximum;
+			this.FuelRateIndex = GetRateIndex(s.Fuel.Current, s.Fuel.Maximum);
+			this.BullRateIndex = GetRateIndex(s.Bull.Current, s.Bull.Maximum);
 
 			this.CurrentHP = s.HP.Current;
 			this.MaxHP = s.HP.Maximum;

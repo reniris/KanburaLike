@@ -28,11 +28,25 @@
 		<ResourceDictionary>
 			<AlternationConverter x:Key="LimitedColor">
 				<SolidColorBrush Color="White" />
-				<SolidColorBrush Color="Gray" />
+				<SolidColorBrush Color="LightGray" />
 				<SolidColorBrush Color="Yellow" />
 				<SolidColorBrush Color="Orange" />
 				<SolidColorBrush Color="Red" />
 			</AlternationConverter>
+
+			<AlternationConverter x:Key="CondColor">
+				<SolidColorBrush Color="Yellow" />
+				<!-- ConditionType.Brilliant-->
+				<SolidColorBrush Color="White" />
+				<!-- ConditionType.Normal -->
+				<SolidColorBrush Color="LightGray" />
+				<!-- ConditionType.Tired-->
+				<SolidColorBrush Color="Orange" />
+				<!-- ConditionType.OrangeTired -->
+				<SolidColorBrush Color="Red" />
+				<!-- ConditionType.RedTired -->
+			</AlternationConverter>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -62,14 +76,14 @@
 										<TextBlock TextWrapping="Wrap" >
 										<Run Text="{Binding Index}" />
 										<!-- ここからCondで色変え -->
-										<Run Text="{Binding Name}" />
-										<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" />
-										<Run Text="{Binding Condition, StringFormat=(\{0:D\})}" />										
-										<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}" />
+										<Run Text="{Binding Name}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
+										<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}" />
+										<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>										
+										<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
 										<!-- ここまで -->
 										<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
 										
-										<Run Text="燃" Foreground="{Binding Path=HPRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾"/>
+										<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
 										
 										<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}"/>
 										</TextBlock>

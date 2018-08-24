@@ -49,7 +49,7 @@ namespace KanburaLike.ViewModels
 		private void UpdateFleets()
 		{
 			Fleets = this.Kancolle.Fleets.Select(f => new FleetViewModel(f)).ToArray();
-			Kancolle.DumpDebugData(Fleets, nameof(Fleets));
+			//Kancolle.DumpDebugData(Fleets, nameof(Fleets));
 		}
 	}
 }
