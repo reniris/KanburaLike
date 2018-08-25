@@ -157,7 +157,7 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 		<Separator  />
-		<ScrollViewer>
+		<ScrollViewer VerticalScrollBarVisibility="Auto">
 		<Expander DataContext="{Binding Brilliant}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
@@ -170,7 +170,7 @@
 		</Expander>
 		</ScrollViewer>
 		<Separator  />
-		<ScrollViewer>
+		<ScrollViewer VerticalScrollBarVisibility="Auto">
 			<Expander DataContext="{Binding RepairWaiting}">
 				<Expander.Header>
 					<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
