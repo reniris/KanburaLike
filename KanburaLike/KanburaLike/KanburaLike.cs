@@ -1,6 +1,7 @@
 ﻿using Grabacr07.KanColleViewer.Composition;
 using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
+using KanburaLike.Models;
 using Livet;
 using MetroTrilithon.Lifetime;
 using MetroTrilithon.Mvvm;
@@ -21,23 +22,23 @@ namespace KanburaLike
 	[ExportMetadata("Description", "艦ぶらっぽいの")]
 	[ExportMetadata("Version", "0.1")]
 	[ExportMetadata("Author", "reniris")]
-	class KanburaLike : IPlugin
+	[Export(typeof(ISettings))]
+	class KanburaLike : IPlugin, ISettings
 	{
-		private Views.InformationWindow info;
+		private KanColleModel kancolle;
+		//private readonly Views.InformationWindow info;
 		private ViewModels.InformationViewModel infovm;
 
 		public KanburaLike()
 		{
 		}
 
+		public object View => new Views.Information { DataContext = infovm };
+
 		public void Initialize()
 		{
-			infovm = new ViewModels.InformationViewModel();
-			info = new Views.InformationWindow
-			{
-				DataContext = infovm				
-			};
-			info.Show();
+			kancolle = new KanColleModel();
+			infovm = new ViewModels.InformationViewModel(kancolle);
 		}
 	}
 }

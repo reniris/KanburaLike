@@ -47,12 +47,91 @@
 				<!-- ConditionType.RedTired -->
 			</AlternationConverter>
 
+			<Thickness x:Key="DataMargin">5,0,0,0</Thickness>
+			<DataTemplate x:Key="Fleet" DataType="{x:Type vm:ShipViewModel}">
+				<StackPanel Orientation="Horizontal">
+					<StackPanel.Resources>
+						<Style TargetType="TextBlock">
+							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
+						</Style>
+					</StackPanel.Resources>
+					<TextBlock>
+						<Run Text="{Binding Index}" />
+					</TextBlock>
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}">
+						<!-- ここからCondで色変え -->
+						<Run Text="{Binding Name}"/>
+						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
+						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  />										
+						<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}"  />
+						<!-- ここまで -->
+					</TextBlock>
+					<TextBlock>
+						<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
+					</TextBlock>
+					<TextBlock>
+						<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
+					</TextBlock>
+					<TextBlock Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}">
+						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
+					</TextBlock>
+				</StackPanel>
+			</DataTemplate>
+
+			<DataTemplate x:Key="Brilliant" DataType="{x:Type vm:ShipViewModel}">
+				<StackPanel Orientation="Horizontal">
+					<StackPanel.Resources>
+						<Style TargetType="TextBlock">
+							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
+						</Style>
+					</StackPanel.Resources>
+					<TextBlock TextWrapping="Wrap">
+						<Run Text="{Binding ShipTypeName}" />
+					</TextBlock>
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}">
+						<!-- ここからCondで色変え -->
+						<Run Text="{Binding Name}" />
+						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" />
+						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"/>
+						<!-- ここまで -->
+					</TextBlock>
+					<TextBlock>
+						<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
+					</TextBlock>
+					<TextBlock Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}">
+						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
+					</TextBlock>
+				</StackPanel>
+			</DataTemplate>
+
+			<DataTemplate x:Key="RepairWaiting" DataType="{x:Type vm:ShipViewModel}">
+				<StackPanel Orientation="Horizontal">
+					<StackPanel.Resources>
+						<Style TargetType="TextBlock">
+							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
+						</Style>
+					</StackPanel.Resources>
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}">
+						<!-- ここからCondで色変え -->
+						<Run Text="{Binding Name}"/>
+						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
+						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  />										
+						<Run Text="{Binding TimeToRepair, StringFormat=\{0:hh\\:mm\\:ss}"  />
+						<!-- ここまで -->
+					</TextBlock>
+					<TextBlock Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" HorizontalAlignment="Right">
+						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
+					</TextBlock>
+				</StackPanel>
+			</DataTemplate>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
+		<Button Content="TestCommand" Command="{Binding TestCommand}" />
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで任務を表示"/>
@@ -70,25 +149,7 @@
 						</Expander.Header>
 						<StackPanel>
 							<Separator />
-							<ItemsControl ItemsSource="{Binding Ships.Ships}" >
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<TextBlock TextWrapping="Wrap" >
-										<Run Text="{Binding Index}" />
-										<!-- ここからCondで色変え -->
-										<Run Text="{Binding Name}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
-										<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}" />
-										<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>										
-										<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
-										<!-- ここまで -->
-										<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
-										
-										<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
-										
-										<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}"/>
-										</TextBlock>
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
+							<ItemsControl ItemsSource="{Binding Ships.Ships}" ItemTemplate="{DynamicResource Fleet}" >
 							</ItemsControl>
 						</StackPanel>
 					</Expander>
@@ -103,24 +164,7 @@
 					<!--<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />-->
 				</TextBlock>
 			</Expander.Header>
-			<ItemsControl ItemsSource="{Binding Ships}" >
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<TextBlock TextWrapping="Wrap" >
-							<Run Text="{Binding ShipTypeName}" />
-							<!-- ここからCondで色変え -->
-							<Run Text="{Binding Name}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
-							<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}" />
-							<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>										
-							<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
-							<!-- ここまで -->
-										
-							<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
-										
-							<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}"/>
-						</TextBlock>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
+			<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource Brilliant}" >
 			</ItemsControl>
 		</Expander>
 		<Separator  />
@@ -131,20 +175,7 @@
 					<!--<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />-->
 				</TextBlock>
 			</Expander.Header>
-			<ItemsControl ItemsSource="{Binding Ships}" >
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<TextBlock TextWrapping="Wrap" >
-							<!-- ここからCondで色変え -->
-							<Run Text="{Binding Name}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>
-							<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}" />
-							<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}"/>										
-							<!-- ここまで -->
-										
-							<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}" Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}"/>
-						</TextBlock>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
+			<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource RepairWaiting}" >
 			</ItemsControl>
 		</Expander>
 	</StackPanel>

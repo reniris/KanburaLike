@@ -1,8 +1,10 @@
 ﻿using Grabacr07.KanColleWrapper.Models;
+using KanburaLike.Models;
 using Livet;
 using Livet.EventListeners;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -135,7 +137,7 @@ namespace KanburaLike.ViewModels
 		#endregion
 
 		#region AirSuperiority変更通知プロパティ
-		private int _AirSuperiority;
+		private int _AirSuperiority = 0;
 
 		/// <summary>
 		/// 制空
@@ -170,8 +172,6 @@ namespace KanburaLike.ViewModels
 					return;
 				_CurrentHP = value;
 				RaisePropertyChanged(nameof(CurrentHP));
-
-				UpdateHP();
 			}
 		}
 		#endregion
@@ -192,8 +192,6 @@ namespace KanburaLike.ViewModels
 					return;
 				_MaxHP = value;
 				RaisePropertyChanged(nameof(MaxHP));
-
-				UpdateHP();
 			}
 		}
 		#endregion
@@ -258,7 +256,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _TimeToRepair; }
 			set
-			{ 
+			{
 				if (_TimeToRepair == value)
 					return;
 				_TimeToRepair = value;
@@ -276,7 +274,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _ShipTypeName; }
 			set
-			{ 
+			{
 				if (_ShipTypeName == value)
 					return;
 				_ShipTypeName = value;
@@ -305,12 +303,13 @@ namespace KanburaLike.ViewModels
 		/// <param name="s">s</param>
 		public ShipViewModel(Ship s, int i)
 		{
-			this.Name = s.Info.Name;
+			this.Name = s.Info?.Name;
 			this.Index = i;
 			this.Lv = s.Level;
 			this.Condition = s.Condition;
 			this.ConditionType = (int)s.ConditionType;
 			this.ExpForNextLevel = s.ExpForNextLevel;
+
 			this.AirSuperiority = s.GetAirSuperiorityPotential();
 
 			this.FuelRateIndex = GetRateIndex(s.Fuel.Current, s.Fuel.Maximum);
@@ -323,11 +322,14 @@ namespace KanburaLike.ViewModels
 
 			this.TimeToRepair = s.TimeToRepair;
 
-			this.ShipTypeName = s.Info.ShipType.Name;
+			this.ShipTypeName = s.Info?.ShipType.Name;
 		}
 
 		private decimal GetRate(decimal current, decimal max)
 		{
+			if (max == decimal.Zero)
+				return decimal.MinusOne;
+
 			var rate = (current / max) * 100;
 			return rate;
 		}
@@ -339,19 +341,24 @@ namespace KanburaLike.ViewModels
 			if (rate >= 100)
 				return 0;
 
-			if (rate < 100 && 75 > rate)
+			//100未満 75超
+			if (rate < 100 && 75 < rate)
 				return 1;
 
-			if (rate <= 75 && 50 > rate)
+			//75以下 50超
+			if (rate <= 75 && 50 < rate)
 				return 2;
 
-			if (rate <= 50 && 25 > rate)
+			//50以下 25超
+			if (rate <= 50 && 25 < rate)
 				return 3;
 
+			//25以下
 			if (rate <= 25)
 				return 4;
 
-			throw new ArgumentOutOfRangeException("GetRateIndex err");
+			KanColleModel.DebugWriteLine("GetRateIndex err {0}", rate);
+			return 4;
 		}
 
 		private void UpdateHP()

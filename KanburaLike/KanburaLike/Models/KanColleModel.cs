@@ -25,7 +25,7 @@ namespace KanburaLike.Models
 			get
 			{ return _Fleets; }
 			set
-			{ 
+			{
 				if (_Fleets == value)
 					return;
 				_Fleets = value;
@@ -42,7 +42,7 @@ namespace KanburaLike.Models
 			get
 			{ return _Ships; }
 			set
-			{ 
+			{
 				if (_Ships == value)
 					return;
 				_Ships = value;
@@ -52,7 +52,7 @@ namespace KanburaLike.Models
 		#endregion
 
 
-		private bool isRegistered;
+		private bool isRegistered = false;
 
 		//private LivetCompositeDisposable organizationDisposables;
 		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
@@ -63,21 +63,48 @@ namespace KanburaLike.Models
 			KanColleClient.Current
 				.Subscribe(nameof(KanColleClient.IsStarted), this.RegisterHomeportListener, false)
 				.AddTo(this);
+
+			InitDebug();
+		}
+
+		public void UpdateHomeport()
+		{
+			RegisterHomeportListener();
 		}
 
 		private void RegisterHomeportListener()
 		{
 			if (this.isRegistered) return;
 
+			DebugWriteLine("RegisterHomeportListener");
+
 			var client = KanColleClient.Current;
+			if (client.Homeport == null) return;
 
 			client.Homeport.Organization
 				.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
+				.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))
 				.AddTo(this);
+
+			DebugWriteLine("Registered HomeportListener");
 
 			this.isRegistered = true;
 		}
-		
+
+		/// <summary>
+		/// 艦娘に変化があったときに呼ばれる
+		/// </summary>
+		/// <param name="organization">organization</param>
+		/// <returns></returns>
+		private void UpdateShips(Organization organization)
+		{
+			var ships = organization?.Ships.Values;
+			if (ships != null)
+			{
+				Ships = ships;
+			}
+		}
+
 		/// <summary>
 		/// 艦隊に変化があったときに呼ばれる
 		/// </summary>
@@ -91,12 +118,6 @@ namespace KanburaLike.Models
 			if (fleets != null)
 			{
 				Fleets = fleets;
-			}
-
-			var ships = organization?.Ships.Values;
-			if(ships != null)
-			{
-				Ships = ships;
 			}
 		}
 
@@ -112,22 +133,50 @@ namespace KanburaLike.Models
 		/// デバッグ用データ書き出し
 		/// </summary>
 		[Conditional("DEBUG")]
-		public void DumpDebugData(object data, string filename)
+		public static void DumpDebugData(object data, string filename)
 		{
-			var dir = Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+			string dir = GetDllFolder();
 			var fullpath = Path.Combine(dir, filename);
 
 			// XAMLで書き出し
-			//var text = System.Windows.Markup.XamlWriter.Save(data);
-			//System.IO.File.WriteAllText(fullpath + ".xaml", text);
+			var text = System.Windows.Markup.XamlWriter.Save(data);
+			System.IO.File.WriteAllText(fullpath + ".xaml", text);
 
 			// シリアライズする
-			var xmlSerializer1 = new XmlSerializer(data.GetType());
+			/*var xmlSerializer1 = new XmlSerializer(data.GetType());
 			using (var streamWriter = new StreamWriter(fullpath + ".xml", false, Encoding.UTF8))
 			{
 				xmlSerializer1.Serialize(streamWriter, data);
 				streamWriter.Flush();
-			}
+			}*/
+		}
+
+		[Conditional("DEBUG")]
+		public static void DebugWriteLine(string format, params object[] args)
+		{
+			Debug.WriteLine(format, args);
+		}
+
+		[Conditional("DEBUG")]
+		public static void DebugWriteLine(string message)
+		{
+			Debug.WriteLine(message);
+		}
+
+		[Conditional("DEBUG")]
+		private static void InitDebug()
+		{
+			//DefaultTraceListenerオブジェクトを取得
+			DefaultTraceListener drl = (DefaultTraceListener)Trace.Listeners["Default"];
+			//LogFileNameを変更する
+			string dir = GetDllFolder();
+
+			drl.LogFileName = Path.Combine(dir, "debug.txt");
+		}
+
+		private static string GetDllFolder()
+		{
+			return Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
 		}
 	}
 }

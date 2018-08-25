@@ -1,9 +1,14 @@
-﻿using Grabacr07.KanColleWrapper.Models;
+﻿using Grabacr07.KanColleWrapper;
+using Grabacr07.KanColleWrapper.Models;
 using KanburaLike.Models;
 using Livet;
+using Livet.Commands;
 using Livet.EventListeners;
+using MetroTrilithon.Lifetime;
+using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace KanburaLike.ViewModels
@@ -37,7 +42,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _Brilliant; }
 			set
-			{ 
+			{
 				if (_Brilliant == value)
 					return;
 				_Brilliant = value;
@@ -64,16 +69,22 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		public KanColleModel Kancolle { get; set; }
 
-		private KanColleModel Kancolle = new KanColleModel();
 		private readonly PropertyChangedEventListener listener;
 
 		public InformationViewModel()
+		{
+
+		}
+
+		public InformationViewModel(KanColleModel k)
 		{
 			/*listener.RegisterHandler(() => model.Value, (s, e) =>
 				// Value プロパティが変更した時にだけ実行する処理
 			});*/
 
+			Kancolle = k;
 			listener = new PropertyChangedEventListener(this.Kancolle);
 
 			listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
@@ -90,19 +101,53 @@ namespace KanburaLike.ViewModels
 		private void UpdateFleets()
 		{
 			Fleets = this.Kancolle.Fleets.Select(f => new FleetViewModel(f)).ToArray();
-			Kancolle.DumpDebugData(Fleets, nameof(Fleets));
+			
 		}
 
 		private void UpdateShips()
 		{
 			var ships = this.Kancolle.Ships;
 
+			if (ships == null) return;
+
 			//キラキラ
 			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));
-			Kancolle.DumpDebugData(this.Brilliant.Ships, nameof(this.Brilliant.Ships));
-
+			
 			//入渠待ち
 			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero));
 		}
+
+
+		#region TestCommand
+		private Livet.Commands.ViewModelCommand _TestCommand;
+
+		public Livet.Commands.ViewModelCommand TestCommand
+		{
+			get
+			{
+				if (_TestCommand == null)
+				{
+					_TestCommand = new Livet.Commands.ViewModelCommand(Test, CanTest);
+				}
+				return _TestCommand;
+			}
+		}
+
+		public bool CanTest()
+		{
+			return true;
+		}
+
+		public void Test()
+		{
+			KanColleModel.DebugWriteLine("TestCommand");
+
+			KanColleModel.DumpDebugData(Fleets, nameof(Fleets));
+			KanColleModel.DumpDebugData(this.Brilliant.Ships, nameof(this.Brilliant.Ships));
+
+			KanColleModel.DebugWriteLine("TestCommanded");
+		}
+		#endregion
+
 	}
 }
