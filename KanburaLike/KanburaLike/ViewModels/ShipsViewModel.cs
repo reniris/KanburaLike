@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.ViewModels
 {
-	class ShipsViewModel : Livet.ViewModel
+	public class ShipsViewModel : Livet.ViewModel
 	{
 		#region IsExpanded変更通知プロパティ
 		private bool _IsExpanded = true;
@@ -47,6 +47,10 @@ namespace KanburaLike.ViewModels
 		public void Update(IEnumerable<Ship> ships)
 		{
 			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
+		}
+
+		public ShipsViewModel()
+		{
 		}
 	}
 }

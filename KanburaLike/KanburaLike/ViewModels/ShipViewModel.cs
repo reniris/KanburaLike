@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.ViewModels
 {
-	class ShipViewModel : Livet.ViewModel
+	public class ShipViewModel : Livet.ViewModel
 	{
 
 		#region Name変更通知プロパティ
@@ -289,12 +289,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public ShipViewModel()
 		{
-			Initialize();
-		}
-
-		private void Initialize()
-		{
-			UpdateHP();
+			
 		}
 
 		/// <summary>

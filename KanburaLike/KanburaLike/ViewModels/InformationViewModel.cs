@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace KanburaLike.ViewModels
 {
-	class InformationViewModel : ViewModel
+	public class InformationViewModel : ViewModel
 	{
 
 		#region Fleets変更通知プロパティ
@@ -69,33 +69,47 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public KanColleModel Kancolle { get; set; }
+		//public KanColleModel Kancolle { get; set; }
 
-		private readonly PropertyChangedEventListener listener;
+		#region KanColle
+		private KanColleModel _Kancolle;
+
+		public KanColleModel Kancolle
+		{
+			get
+			{ return _Kancolle; }
+			set
+			{ 
+				if (_Kancolle == value)
+					return;
+
+				_Kancolle = value;
+
+				/*listener.RegisterHandler(() => model.Value, (s, e) =>
+				// Value プロパティが変更した時にだけ実行する処理
+				});*/
+
+				listener = new PropertyChangedEventListener(this.Kancolle);
+
+				listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
+				listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
+
+				this.CompositeDisposable.Add(listener);
+			}
+		}
+		#endregion
+
+
+		private PropertyChangedEventListener listener;
 
 		public InformationViewModel()
 		{
-
-		}
-
-		public InformationViewModel(KanColleModel k)
-		{
-			/*listener.RegisterHandler(() => model.Value, (s, e) =>
-				// Value プロパティが変更した時にだけ実行する処理
-			});*/
-
-			Kancolle = k;
-			listener = new PropertyChangedEventListener(this.Kancolle);
-
-			listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
-			listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
-
-			this.CompositeDisposable.Add(listener);
+			
 		}
 
 		public void Initialize()
 		{
-
+			KanColleModel.DebugWriteLine("Initialize");
 		}
 
 		private void UpdateFleets()

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.ViewModels
 {
-	class FleetViewModel : Livet.ViewModel
+	public class FleetViewModel : Livet.ViewModel
 	{
 
 		#region Name変更通知プロパティ

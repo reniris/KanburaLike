@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 
 namespace KanburaLike.Models
 {
-	class KanColleModel : Livet.NotificationObject, IDisposableHolder
+	public class KanColleModel : Livet.NotificationObject, IDisposableHolder
 	{
 
 		#region Fleets変更通知プロパティ
@@ -60,16 +60,11 @@ namespace KanburaLike.Models
 
 		public KanColleModel()
 		{
+			InitDebug();
+
 			KanColleClient.Current
 				.Subscribe(nameof(KanColleClient.IsStarted), this.RegisterHomeportListener, false)
 				.AddTo(this);
-
-			InitDebug();
-		}
-
-		public void UpdateHomeport()
-		{
-			RegisterHomeportListener();
 		}
 
 		private void RegisterHomeportListener()
@@ -137,18 +132,25 @@ namespace KanburaLike.Models
 		{
 			string dir = GetDllFolder();
 			var fullpath = Path.Combine(dir, filename);
-
-			// XAMLで書き出し
-			var text = System.Windows.Markup.XamlWriter.Save(data);
-			System.IO.File.WriteAllText(fullpath + ".xaml", text);
-
-			// シリアライズする
-			/*var xmlSerializer1 = new XmlSerializer(data.GetType());
-			using (var streamWriter = new StreamWriter(fullpath + ".xml", false, Encoding.UTF8))
+			try
 			{
-				xmlSerializer1.Serialize(streamWriter, data);
-				streamWriter.Flush();
-			}*/
+				// XAMLで書き出し
+				var text = System.Windows.Markup.XamlWriter.Save(data);
+				DebugWriteLine(text);
+				System.IO.File.WriteAllText(fullpath + ".xaml", text);
+
+				//XMLで書き出し
+				var xmls = new XmlSerializer(data.GetType());
+				using (var writer = new StreamWriter(fullpath + ".xml", false, Encoding.UTF8))
+				{
+					xmls.Serialize(writer, data);
+					writer.Flush();
+				}
+			}
+			catch (Exception e)
+			{
+				DebugWriteLine("Exception {0} {1}", e.GetType().ToString(), e.Message);
+			}
 		}
 
 		[Conditional("DEBUG")]
@@ -174,6 +176,10 @@ namespace KanburaLike.Models
 			drl.LogFileName = Path.Combine(dir, "debug.txt");
 		}
 
+		/// <summary>
+		/// このプラグインのあるフォルダを取得
+		/// </summary>
+		/// <returns></returns>
 		private static string GetDllFolder()
 		{
 			return Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;

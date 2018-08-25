@@ -26,19 +26,29 @@ namespace KanburaLike
 	class KanburaLike : IPlugin, ISettings
 	{
 		private KanColleModel kancolle;
-		//private readonly Views.InformationWindow info;
+		private Views.InformationWindow info;
 		private ViewModels.InformationViewModel infovm;
 
 		public KanburaLike()
 		{
 		}
 
-		public object View => new Views.Information { DataContext = infovm };
+		public object View => new Views.Settings { };
 
 		public void Initialize()
 		{
 			kancolle = new KanColleModel();
-			infovm = new ViewModels.InformationViewModel(kancolle);
+			infovm = new ViewModels.InformationViewModel()
+			{
+				Kancolle = kancolle
+			};
+
+			info = new Views.InformationWindow
+			{
+				DataContext = infovm
+			};
+
+			info.Show();    //仮対応
 		}
 	}
 }
