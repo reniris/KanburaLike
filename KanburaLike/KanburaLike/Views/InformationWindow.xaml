@@ -26,8 +26,9 @@
 				IsChecked="{Binding Settings.TopMost.Value, Mode=TwoWay}"
 				Style="{DynamicResource PinButtonStyleKey}" />
 
-			<metro:CaptionButton WindowAction="Minimize"
-				Style="{DynamicResource MinimizeIconKey}" />
+			<metro:CaptionButton WindowAction="Minimize" >
+				<Path Style="{DynamicResource MinimizeIconKey}"/>
+			</metro:CaptionButton>
 		</StackPanel>
 		<local:Information/>
 	</StackPanel>
