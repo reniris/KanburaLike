@@ -131,7 +131,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
-		<Button Content="TestCommand" Command="{Binding TestCommand}" />
+		<Button Content="TestCommand" Command="{Binding TestCommand}" Visibility="Collapsed" />
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで任務を表示"/>
