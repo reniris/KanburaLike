@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,12 @@ namespace KanburaLike.Views
 	/// <summary>
 	/// InformationWindow.xaml の相互作用ロジック
 	/// </summary>
-	public partial class InformationWindow : Window
+	public partial class InformationWindow 
 	{
 		public InformationWindow()
 		{
 			InitializeComponent();
+
 		}
 	}
 }

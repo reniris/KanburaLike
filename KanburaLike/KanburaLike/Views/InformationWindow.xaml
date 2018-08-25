@@ -1,10 +1,34 @@
-﻿<Window x:Class="KanburaLike.Views.InformationWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KanburaLike.Views"
-        mc:Ignorable="d"
-        Title="情報 - 艦ぶらっぽいの" Height="800" Width="300">
-	<local:Information/>
-</Window>
+﻿<metro:MetroWindow
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:kcvc="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
+		xmlns:local="clr-namespace:KanburaLike.Views"
+	x:Class="KanburaLike.Views.InformationWindow"
+				   mc:Ignorable="d"
+	Background="{DynamicResource ThemeBrushKey}"
+			 Foreground="{DynamicResource ActiveForegroundBrushKey}"
+        Title="情報 - 艦ぶらっぽいの" Height="800" Width="300" IsRestoringWindowPlacement="True"
+				   >
+	<metro:MetroWindow.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="KanColleResource.xaml"/>
+	</ResourceDictionary.MergedDictionaries>
+	</ResourceDictionary>
+	</metro:MetroWindow.Resources>
+	
+	<StackPanel>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<metro:CaptionButton 
+				IsChecked="{Binding Settings.TopMost.Value, Mode=TwoWay}"
+				Style="{DynamicResource PinButtonStyleKey}" />
+
+			<metro:CaptionButton WindowAction="Minimize"
+				Style="{DynamicResource MinimizeIconKey}" />
+		</StackPanel>
+		<local:Information/>
+	</StackPanel>
+</metro:MetroWindow>
