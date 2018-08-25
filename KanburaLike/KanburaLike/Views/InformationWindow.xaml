@@ -19,17 +19,18 @@
 	</ResourceDictionary.MergedDictionaries>
 	</ResourceDictionary>
 	</metro:MetroWindow.Resources>
-	
-	<StackPanel>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-			<metro:CaptionButton 
+	<ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
+		<StackPanel>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<metro:CaptionButton 
 				IsChecked="{Binding Settings.TopMost.Value, Mode=TwoWay}"
 				Style="{DynamicResource PinButtonStyleKey}" />
 
-			<metro:CaptionButton WindowAction="Minimize" >
-				<Path Style="{DynamicResource MinimizeIconKey}"/>
-			</metro:CaptionButton>
+				<metro:CaptionButton WindowAction="Minimize" >
+					<Path Style="{DynamicResource MinimizeIconKey}"/>
+				</metro:CaptionButton>
+			</StackPanel>
+			<local:Information/>
 		</StackPanel>
-		<local:Information/>
-	</StackPanel>
+	</ScrollViewer>
 </metro:MetroWindow>

@@ -157,6 +157,7 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 		<Separator  />
+		<ScrollViewer>
 		<Expander DataContext="{Binding Brilliant}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
@@ -167,16 +168,19 @@
 			<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource Brilliant}" >
 			</ItemsControl>
 		</Expander>
+		</ScrollViewer>
 		<Separator  />
-		<Expander DataContext="{Binding RepairWaiting}">
-			<Expander.Header>
-				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+		<ScrollViewer>
+			<Expander DataContext="{Binding RepairWaiting}">
+				<Expander.Header>
+					<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="入渠待ちーズ" />
 					<!--<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />-->
-				</TextBlock>
-			</Expander.Header>
-			<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource RepairWaiting}" >
-			</ItemsControl>
-		</Expander>
+					</TextBlock>
+				</Expander.Header>
+				<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource RepairWaiting}" >
+				</ItemsControl>
+			</Expander>
+		</ScrollViewer>
 	</StackPanel>
 </UserControl>
