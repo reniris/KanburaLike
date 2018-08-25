@@ -79,7 +79,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _Kancolle; }
 			set
-			{ 
+			{
 				if (_Kancolle == value)
 					return;
 
@@ -104,7 +104,7 @@ namespace KanburaLike.ViewModels
 
 		public InformationViewModel()
 		{
-			
+
 		}
 
 		public void Initialize()
@@ -115,7 +115,7 @@ namespace KanburaLike.ViewModels
 		private void UpdateFleets()
 		{
 			Fleets = this.Kancolle.Fleets.Select(f => new FleetViewModel(f)).ToArray();
-			
+
 		}
 
 		private void UpdateShips()
@@ -126,7 +126,7 @@ namespace KanburaLike.ViewModels
 
 			//キラキラ
 			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));
-			
+
 			//入渠待ち
 			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero));
 		}
@@ -149,7 +149,11 @@ namespace KanburaLike.ViewModels
 
 		public bool CanTest()
 		{
+#if DEBUG
 			return true;
+#else
+			return false
+#endif
 		}
 
 		public void Test()
