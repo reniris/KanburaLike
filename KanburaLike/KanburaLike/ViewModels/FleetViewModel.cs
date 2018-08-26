@@ -30,7 +30,7 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public ShipsViewModel Ships { get; set; } = new ShipsViewModel();
+		public ShipsViewModel Ships { get; } = new ShipsViewModel();
 
 		#region SumLv変更通知プロパティ
 		private int _SumLv;
@@ -88,6 +88,8 @@ namespace KanburaLike.ViewModels
 			Ships.Update(f.Ships);
 			SumLv = Ships.Ships.Sum(s => s.Lv);
 			SumAirSuperiority = Ships.Ships.Sum(s => s.AirSuperiority);
+
+			RaisePropertyChanged(nameof(Ships));
 		}
 	}
 }
