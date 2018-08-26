@@ -64,6 +64,14 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <DesignData Include="SampleData\InformationViewModelSampleData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </DesignData>
+    <DesignData Include="SampleData\RepairWaiting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <DesignData Include="SampleData\Brilliant.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
@@ -108,6 +116,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\Settings\" />
     <Folder Include="Views\Converter\" />
   </ItemGroup>
   <ItemGroup>

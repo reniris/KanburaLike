@@ -1,0 +1,11 @@
+﻿<vm:ShipsViewModel 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:vm="clr-namespace:KanburaLike.ViewModels">
+	<vm:ShipsViewModel.Ships>
+		<x:Array Type="vm:ShipViewModel">
+			<vm:ShipViewModel Name="頭威嚇改" Index="1" Lv="91" Condition="49" ConditionType="1" ExpForNextLevel="9483" AirSuperiority="0" CurrentHP="59" MaxHP="75" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="05:12:30" ShipTypeName="世紀空母"></vm:ShipViewModel>
+			<vm:ShipViewModel Name="雪風改" Index="2" Lv="82" Condition="49" ConditionType="1" ExpForNextLevel="5595" AirSuperiority="0" CurrentHP="16" MaxHP="32" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="02:24:30" ShipTypeName="駆逐艦"></vm:ShipViewModel>
+			<vm:ShipViewModel Name="川内改二" Index="3" Lv="81" Condition="61" ConditionType="0" ExpForNextLevel="28234" AirSuperiority="0" CurrentHP="33" MaxHP="48" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="02:14:15" ShipTypeName="軽巡洋艦"></vm:ShipViewModel>
+		</x:Array>
+	</vm:ShipsViewModel.Ships>
+</vm:ShipsViewModel>
