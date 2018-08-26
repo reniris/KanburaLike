@@ -149,6 +149,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
+		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで任務を表示"/>
