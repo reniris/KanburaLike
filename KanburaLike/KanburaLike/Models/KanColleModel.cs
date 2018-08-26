@@ -156,13 +156,15 @@ namespace KanburaLike.Models
 		[Conditional("DEBUG")]
 		public static void DebugWriteLine(string format, params object[] args)
 		{
-			Debug.WriteLine(format, args);
+			var now = DateTime.Now;
+			Debug.WriteLine($"{now}\t{format}", args);
 		}
 
 		[Conditional("DEBUG")]
 		public static void DebugWriteLine(string message)
 		{
-			Debug.WriteLine(message);
+			var now = DateTime.Now;
+			Debug.WriteLine($"{now}\t{message}");
 		}
 
 		[Conditional("DEBUG")]

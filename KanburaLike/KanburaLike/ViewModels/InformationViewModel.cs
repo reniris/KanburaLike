@@ -115,7 +115,7 @@ namespace KanburaLike.ViewModels
 		private void UpdateFleets()
 		{
 			Fleets = this.Kancolle.Fleets.Select(f => new FleetViewModel(f)).ToArray();
-
+			KanColleModel.DebugWriteLine("UpdateFleets");
 		}
 
 		private void UpdateShips()
@@ -123,6 +123,8 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 
 			if (ships == null) return;
+
+			KanColleModel.DebugWriteLine("UpdateShips");
 
 			//キラキラ
 			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));
