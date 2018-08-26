@@ -5,13 +5,16 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:kcvc="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+			 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+			 xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
 		xmlns:local="clr-namespace:KanburaLike.Views"
 		x:Class="KanburaLike.Views.InformationWindow"
 		mc:Ignorable="d"
 		Background="{DynamicResource ThemeBrushKey}"
 		Foreground="{DynamicResource ActiveForegroundBrushKey}"
-        Height="600" Width="300" IsRestoringWindowPlacement="True"
-				   >
+        Height="600" Width="300" IsRestoringWindowPlacement="True">
+
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -20,18 +23,25 @@
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
 
+	<!-- 画面を開く -->
+	<i:Interaction.Triggers>
+		<l:InteractionMessageTrigger MessageKey="ShowMain" Messenger="{Binding Messenger}">
+			<l:WindowInteractionMessageAction />
+		</l:InteractionMessageTrigger>
+	</i:Interaction.Triggers>
+	
 	<StackPanel>
 
 		<!-- #region Caption area -->
 		<DockPanel metro:MetroWindow.IsCaptionBar="True">
 			<Border DockPanel.Dock="Bottom"
-					Height="10" />
+					Height="4" />
 			<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
 				<metro:CaptionButton 
 				IsChecked="{Binding Topmost, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}"
-				Style="{DynamicResource PinButtonStyleKey}" />
+				Style="{DynamicResource PinButtonStyleKey}" VerticalAlignment="Top" />
 
-				<metro:CaptionButton WindowAction="Minimize" >
+				<metro:CaptionButton WindowAction="Minimize" VerticalAlignment="Top" >
 					<Path Style="{DynamicResource MinimizeIconKey}"/>
 				</metro:CaptionButton>
 			</StackPanel>

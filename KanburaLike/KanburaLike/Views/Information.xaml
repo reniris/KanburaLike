@@ -1,28 +1,19 @@
 ﻿<UserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KanburaLike.Views"
-             xmlns:vm="clr-namespace:KanburaLike.ViewModels" 
-			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-			 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-			 xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
-			 x:Class="KanburaLike.Views.Information"
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300"			 
-			 Background="{DynamicResource ThemeBrushKey}"
-			 Foreground="{DynamicResource ActiveForegroundBrushKey}"
-			 d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}"
-			 >
-	<i:Interaction.Triggers>
-		<i:EventTrigger EventName="ContentRendered">
-			<l:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
-		</i:EventTrigger>
-		<i:EventTrigger EventName="Closed">
-			<l:DataContextDisposeAction/>
-		</i:EventTrigger>
-	</i:Interaction.Triggers>
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:KanburaLike.Views"
+    xmlns:vm="clr-namespace:KanburaLike.ViewModels" 
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+	xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+	x:Class="KanburaLike.Views.Information"
+	Background="{DynamicResource ThemeBrushKey}"
+	Foreground="{DynamicResource ActiveForegroundBrushKey}"
+	mc:Ignorable="d"
+	d:DesignHeight="1000" d:DesignWidth="300" 
+	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}">
 
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -52,7 +43,7 @@
 			<DataTemplate x:Key="Fleet" DataType="{x:Type vm:ShipViewModel}">
 				<StackPanel Orientation="Horizontal">
 					<StackPanel.Resources>
-						<Style TargetType="TextBlock">
+						<Style TargetType="{x:Type TextBlock}">
 							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
 						</Style>
 					</StackPanel.Resources>
@@ -119,7 +110,7 @@
 						<Run Text="{Binding Name}"/>
 						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
 						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  />										
-						<Run Text="{Binding TimeToRepair, StringFormat=\{0:hh\\:mm\\:ss}"  />
+						<Run Text="{Binding TimeToRepair, StringFormat={}{0:hh\\:mm\\:ss}}"  />
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" HorizontalAlignment="Right">
@@ -181,7 +172,7 @@
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="キラキラーズ" />
-					<!--<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />-->
+					<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />
 				</TextBlock>
 			</Expander.Header>
 			<ItemsControl ItemsSource="{Binding Ships}" 
@@ -197,11 +188,11 @@
 		</Expander>
 		<Separator  />
 		<!-- 入渠待ち -->
-		<Expander DataContext="{Binding RepairWaiting}">
+		<Expander DataContext="{Binding RepairWaiting}" d:DataContext="{d:DesignData /SampleData/RepairWaitingSampleData.xaml}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="入渠待ちーズ" />
-					<!--<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />-->
+					<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />
 				</TextBlock>
 			</Expander.Header>
 			<ItemsControl ItemsSource="{Binding Ships}" 
@@ -215,6 +206,5 @@
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
 		</Expander>
-
 	</StackPanel>
 </UserControl>
