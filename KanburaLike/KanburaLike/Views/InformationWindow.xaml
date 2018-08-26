@@ -6,31 +6,46 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:kcvc="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
 		xmlns:local="clr-namespace:KanburaLike.Views"
-	x:Class="KanburaLike.Views.InformationWindow"
-				   mc:Ignorable="d"
-	Background="{DynamicResource ThemeBrushKey}"
-			 Foreground="{DynamicResource ActiveForegroundBrushKey}"
-        Title="情報 - 艦ぶらっぽいの" Height="800" Width="300" IsRestoringWindowPlacement="True"
+		x:Class="KanburaLike.Views.InformationWindow"
+		mc:Ignorable="d"
+		Background="{DynamicResource ThemeBrushKey}"
+		Foreground="{DynamicResource ActiveForegroundBrushKey}"
+        Height="600" Width="300" IsRestoringWindowPlacement="True"
 				   >
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="KanColleResource.xaml"/>
-	</ResourceDictionary.MergedDictionaries>
-	</ResourceDictionary>
+				<ResourceDictionary Source="KanColleResource.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
-	<ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto">
-		<StackPanel>
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+	<StackPanel>
+
+		<!-- #region Caption area -->
+		<DockPanel metro:MetroWindow.IsCaptionBar="True">
+			<Border DockPanel.Dock="Bottom"
+					Height="10" />
+			<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
 				<metro:CaptionButton 
-				IsChecked="{Binding Settings.TopMost.Value, Mode=TwoWay}"
+				IsChecked="{Binding Topmost, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}"
 				Style="{DynamicResource PinButtonStyleKey}" />
 
 				<metro:CaptionButton WindowAction="Minimize" >
 					<Path Style="{DynamicResource MinimizeIconKey}"/>
 				</metro:CaptionButton>
 			</StackPanel>
+
+			<TextBlock Text="情報 - 艦ぶらっぽいの" HorizontalAlignment="Left"
+					   Style="{DynamicResource CaptionTextStyleKey}"
+					   Margin="2,0,8,0" />
+		</DockPanel>
+		<!-- #endregion -->
+		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
+					  MaxWidth="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}" 
+					  MaxHeight="{Binding Height, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}">
 			<local:Information/>
-		</StackPanel>
-	</ScrollViewer>
+		</ScrollViewer>
+	</StackPanel>
+
 </metro:MetroWindow>
