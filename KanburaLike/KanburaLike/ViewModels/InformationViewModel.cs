@@ -4,6 +4,7 @@ using KanburaLike.Models;
 using Livet;
 using Livet.Commands;
 using Livet.EventListeners;
+using Livet.Messaging;
 using MetroTrilithon.Lifetime;
 using MetroTrilithon.Mvvm;
 using System;
@@ -15,61 +16,18 @@ namespace KanburaLike.ViewModels
 {
 	public class InformationViewModel : ViewModel
 	{
-
-		#region Fleets変更通知プロパティ
-		private IEnumerable<FleetViewModel> _Fleets;
-
-		public IEnumerable<FleetViewModel> Fleets
-		{
-			get
-			{ return _Fleets; }
-			set
-			{
-				if (_Fleets == value)
-					return;
-				_Fleets = value;
-				RaisePropertyChanged(nameof(Fleets));
-			}
-		}
-		#endregion
-
-
-		#region Brilliant変更通知プロパティ
-		private ShipsViewModel _Brilliant = new ShipsViewModel();
-
-		public ShipsViewModel Brilliant
-		{
-			get
-			{ return _Brilliant; }
-			set
-			{
-				if (_Brilliant == value)
-					return;
-				_Brilliant = value;
-				RaisePropertyChanged(nameof(Brilliant));
-			}
-		}
-		#endregion
-
-
-		#region RepairWaiting変更通知プロパティ
-		private ShipsViewModel _RepairWaiting = new ShipsViewModel();
-
-		public ShipsViewModel RepairWaiting
-		{
-			get
-			{ return _RepairWaiting; }
-			set
-			{
-				if (_RepairWaiting == value)
-					return;
-				_RepairWaiting = value;
-				RaisePropertyChanged(nameof(RepairWaiting));
-			}
-		}
-		#endregion
-
-		//public KanColleModel Kancolle { get; set; }
+		/// <summary>
+		/// 艦隊情報
+		/// </summary>
+		public FleetViewModel[] Fleets { get; set; }
+		/// <summary>
+		/// キラ艦
+		/// </summary>
+		public ShipsViewModel Brilliant { get; } = new ShipsViewModel();
+		/// <summary>
+		/// 入渠待ち
+		/// </summary>
+		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel();
 
 		#region KanColle
 		private KanColleModel _Kancolle;
@@ -91,14 +49,22 @@ namespace KanburaLike.ViewModels
 
 				listener = new PropertyChangedEventListener(this.Kancolle);
 
+				listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) => Register());
 				listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
 				listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
 
 				this.CompositeDisposable.Add(listener);
 			}
 		}
-		#endregion
 
+		/// <summary>
+		/// 艦これが始まったときに呼ばれる
+		/// </summary>
+		private void Register()
+		{
+			Messenger.Raise(new TransitionMessage(typeof(Views.InformationWindow), this, TransitionMode.NewOrActive, "ShowMain"));
+		}
+		#endregion
 
 		private PropertyChangedEventListener listener;
 
@@ -115,7 +81,8 @@ namespace KanburaLike.ViewModels
 		private void UpdateFleets()
 		{
 			Fleets = this.Kancolle.Fleets.Select(f => new FleetViewModel(f)).ToArray();
-			KanColleModel.DebugWriteLine("UpdateFleets");
+			RaisePropertyChanged(nameof(Fleets));
+			KanColleModel.DebugWriteLine("ViewModel UpdateFleets");
 		}
 
 		private void UpdateShips()
@@ -124,15 +91,16 @@ namespace KanburaLike.ViewModels
 
 			if (ships == null) return;
 
-			KanColleModel.DebugWriteLine("UpdateShips");
+			KanColleModel.DebugWriteLine("ViewModel UpdateShips");
 
 			//キラキラ
 			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));
+			RaisePropertyChanged(nameof(Brilliant));
 
 			//入渠待ち
 			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero));
+			RaisePropertyChanged(nameof(RepairWaiting));
 		}
-
 
 		#region TestCommand
 		private Livet.Commands.ViewModelCommand _TestCommand;

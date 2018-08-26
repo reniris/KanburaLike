@@ -51,8 +51,25 @@ namespace KanburaLike.Models
 		}
 		#endregion
 
+		#region IsRegistered変更通知プロパティ
+		private bool _IsRegistered = false;
 
-		private bool isRegistered = false;
+		public bool IsRegistered
+		{
+			get
+			{ return _IsRegistered; }
+			set
+			{ 
+				if (_IsRegistered == value)
+					return;
+				_IsRegistered = value;
+				RaisePropertyChanged(nameof(IsRegistered));
+			}
+		}
+		#endregion
+
+
+		//private bool isRegistered = false;
 
 		//private LivetCompositeDisposable organizationDisposables;
 		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
@@ -69,7 +86,7 @@ namespace KanburaLike.Models
 
 		private void RegisterHomeportListener()
 		{
-			if (this.isRegistered) return;
+			if (this.IsRegistered) return;
 
 			DebugWriteLine("RegisterHomeportListener");
 
@@ -83,7 +100,7 @@ namespace KanburaLike.Models
 
 			DebugWriteLine("Registered HomeportListener");
 
-			this.isRegistered = true;
+			this.IsRegistered = true;
 		}
 
 		/// <summary>
@@ -93,6 +110,7 @@ namespace KanburaLike.Models
 		/// <returns></returns>
 		private void UpdateShips(Organization organization)
 		{
+			DebugWriteLine("Model UpdateShips");
 			var ships = organization?.Ships.Values;
 			if (ships != null)
 			{
@@ -109,6 +127,7 @@ namespace KanburaLike.Models
 			//this.organizationDisposables?.Dispose();
 			//this.organizationDisposables = new LivetCompositeDisposable();
 
+			DebugWriteLine("Model UpdateFleets");
 			var fleets = organization?.Fleets.Values;
 			if (fleets != null)
 			{
