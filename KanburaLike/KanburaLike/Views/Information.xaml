@@ -13,7 +13,8 @@
 	Foreground="{DynamicResource ActiveForegroundBrushKey}"
 	mc:Ignorable="d"
 	d:DesignHeight="1000" d:DesignWidth="300" 
-	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}">
+	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}" 
+	>
 
 	<UserControl.Resources>
 		<ResourceDictionary>
@@ -50,7 +51,7 @@
 					<TextBlock>
 						<Run Text="{Binding Index}" />
 					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}">
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding ConditionType, Converter={StaticResource CondColor}}">
 						<!-- ここからCondで色変え -->
 						<Run Text="{Binding Name}"/>
 						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
@@ -62,9 +63,9 @@
 						<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
 					</TextBlock>
 					<TextBlock>
-						<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
+						<Run Text="燃" Foreground="{Binding FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding BullRateIndex, Converter={StaticResource LimitedColor}}"/>
 					</TextBlock>
-					<TextBlock Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}">
+					<TextBlock Foreground="{Binding HPRateIndex, Converter={StaticResource LimitedColor}}">
 						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
 					</TextBlock>
 				</StackPanel>
@@ -81,7 +82,7 @@
 					<TextBlock TextWrapping="Wrap">
 						<Run Text="{Binding ShipTypeName}" />
 					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}">
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding ConditionType, Converter={StaticResource CondColor}}">
 						<!-- ここからCondで色変え -->
 						<Run Text="{Binding Name}" />
 						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" />
@@ -89,9 +90,9 @@
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock>
-						<Run Text="燃" Foreground="{Binding Path=FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding Path=BullRateIndex, Converter={StaticResource LimitedColor}}"/>
+						<Run Text="燃" Foreground="{Binding FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding BullRateIndex, Converter={StaticResource LimitedColor}}"/>
 					</TextBlock>
-					<TextBlock Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}">
+					<TextBlock Foreground="{Binding HPRateIndex, Converter={StaticResource LimitedColor}}">
 						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
 					</TextBlock>
 				</StackPanel>
@@ -113,8 +114,8 @@
 						<Run Text="{Binding TimeToRepair, StringFormat={}{0:hh\\:mm\\:ss}}"  />
 						<!-- ここまで -->
 					</TextBlock>
-					<TextBlock Foreground="{Binding Path=HPRateIndex,Converter={StaticResource LimitedColor}}" HorizontalAlignment="Right">
-						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
+					<TextBlock Foreground="{Binding HPRateIndex,Converter={StaticResource LimitedColor}}">
+						<Run Text="{Binding CurrentHP, StringFormat=HP(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
 					</TextBlock>
 				</StackPanel>
 			</DataTemplate>
@@ -168,7 +169,7 @@
 		</ItemsControl>
 		<Separator  />
 		<!-- キラキラ -->
-		<Expander DataContext="{Binding Brilliant}">
+		<Expander DataContext="{Binding Brilliant}" d:DataContext="{d:DesignData /SampleData/Brilliant.xaml}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="キラキラーズ" />
@@ -188,11 +189,11 @@
 		</Expander>
 		<Separator  />
 		<!-- 入渠待ち -->
-		<Expander DataContext="{Binding RepairWaiting}" d:DataContext="{d:DesignData /SampleData/RepairWaitingSampleData.xaml}">
+		<Expander DataContext="{Binding RepairWaiting}" d:DataContext="{d:DesignData /SampleData/RepairWaiting.xaml}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="入渠待ちーズ" />
-					<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />
+					<Run Text="{Binding Count, Mode=OneWay, StringFormat=(\{0:D\} 隻)}" />
 				</TextBlock>
 			</Expander.Header>
 			<ItemsControl ItemsSource="{Binding Ships}" 
