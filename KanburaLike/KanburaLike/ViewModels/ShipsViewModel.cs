@@ -1,4 +1,5 @@
 ﻿using Grabacr07.KanColleWrapper.Models;
+using Livet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,13 +45,20 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		/// <summary>
+		/// 隻数
+		/// </summary>
+		public int Count => (Ships != null) ? Ships.Count : 0;
+
 		public void Update(IEnumerable<Ship> ships)
 		{
 			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
+			RaisePropertyChanged(nameof(Count));
 		}
 
 		public ShipsViewModel()
 		{
+			RaisePropertyChanged();
 		}
 	}
 }
