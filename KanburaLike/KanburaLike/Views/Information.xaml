@@ -175,7 +175,7 @@
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="キラキラーズ" />
-					<Run Text="{Binding Count ,StringFormat=(\{0:D\} 隻)}" />
+					<Run Text="{Binding Count, Mode=OneWay, StringFormat=(\{0:D\} 隻)}" />
 				</TextBlock>
 			</Expander.Header>
 			<ItemsControl ItemsSource="{Binding Ships}" 
