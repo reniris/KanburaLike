@@ -52,8 +52,8 @@
 		</DockPanel>
 		<!-- #endregion -->
 		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-					  MaxWidth="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}" 
-					  MaxHeight="{Binding Height, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}">
+					  Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}" 
+					  Height="{Binding Height, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}">
 			<local:Information/>
 		</ScrollViewer>
 	</StackPanel>

@@ -129,7 +129,9 @@
 			<ControlTemplate x:Key="ScrollableTemplate">
 				<ScrollViewer Padding="{TemplateBinding Control.Padding}" 
 							  Focusable="True" 
-							  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" 
+							  VerticalScrollBarVisibility="Auto" 
+							  HorizontalScrollBarVisibility="Disabled" 
+							  Height="{TemplateBinding ActualHeight}" 
 							  >
 					<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
 				</ScrollViewer>
