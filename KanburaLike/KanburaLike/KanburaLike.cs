@@ -26,7 +26,7 @@ namespace KanburaLike
 	class KanburaLike : IPlugin, ISettings
 	{
 		private KanColleModel kancolle;
-		//private Views.InformationWindow info;
+		private Views.InformationWindow info;
 		private ViewModels.InformationViewModel infovm;
 
 		public KanburaLike()
@@ -43,10 +43,11 @@ namespace KanburaLike
 				Kancolle = kancolle
 			};
 
-			/*info = new Views.InformationWindow
+			info = new Views.InformationWindow
 			{
 				DataContext = infovm
-			}*/
+			};
+			info.Show();
 		}
 	}
 }
