@@ -23,11 +23,9 @@
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
 
-	<!-- 画面を開く -->
+	<!-- Interaction -->
 	<i:Interaction.Triggers>
-		<l:InteractionMessageTrigger MessageKey="ShowMain" Messenger="{Binding Messenger}">
-			<l:WindowInteractionMessageAction />
-		</l:InteractionMessageTrigger>
+		
 	</i:Interaction.Triggers>
 	
 	<StackPanel>
