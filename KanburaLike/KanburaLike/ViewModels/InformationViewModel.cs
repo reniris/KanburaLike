@@ -29,7 +29,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel();
 
-		#region KanColle
+		#region KanColleModel
 		private KanColleModel _Kancolle;
 
 		public KanColleModel Kancolle
@@ -47,35 +47,31 @@ namespace KanburaLike.ViewModels
 				// Value プロパティが変更した時にだけ実行する処理
 				});*/
 
-				listener = new PropertyChangedEventListener(this.Kancolle);
+				listener = new PropertyChangedEventListener(value);
 
-				listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) => Register());
-				listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
-				listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
+				listener.RegisterHandler(() => value.IsRegistered, (s, e) => Register());
+				listener.RegisterHandler(() => value.Fleets, (s, e) => UpdateFleets());
+				listener.RegisterHandler(() => value.Ships, (s, e) => UpdateShips());
 
 				this.CompositeDisposable.Add(listener);
 			}
 		}
+		#endregion
 
 		/// <summary>
 		/// 艦これが始まったときに呼ばれる
 		/// </summary>
 		private void Register()
 		{
-			Messenger.Raise(new TransitionMessage(typeof(Views.InformationWindow), this, TransitionMode.NewOrActive, "ShowMain"));
+			//Messenger.Raise(new TransitionMessage(typeof(Views.InformationWindow), this, TransitionMode.NewOrActive, "ShowMain"));
+			KanColleModel.DebugWriteLine("艦これ Start");
 		}
-		#endregion
 
 		private PropertyChangedEventListener listener;
 
 		public InformationViewModel()
 		{
 
-		}
-
-		public void Initialize()
-		{
-			KanColleModel.DebugWriteLine("Initialize");
 		}
 
 		private void UpdateFleets()
