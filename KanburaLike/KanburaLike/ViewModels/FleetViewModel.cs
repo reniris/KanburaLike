@@ -1,4 +1,5 @@
 ﻿using Grabacr07.KanColleWrapper.Models;
+using KanburaLike.Models;
 using Livet;
 using Livet.EventListeners;
 using System;
@@ -30,43 +31,36 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public ShipsViewModel Ships { get; } = new ShipsViewModel();
+		#region IsExpanded変更通知プロパティ
+		private bool _IsExpanded = true;
 
-		#region SumLv変更通知プロパティ
-		private int _SumLv;
-
-		public int SumLv
+		public bool IsExpanded
 		{
 			get
-			{ return _SumLv; }
+			{ return _IsExpanded; }
 			set
 			{
-				if (_SumLv == value)
+				if (_IsExpanded == value)
 					return;
-				_SumLv = value;
-				RaisePropertyChanged(nameof(SumLv));
+				_IsExpanded = value;
+				RaisePropertyChanged(nameof(IsExpanded));
 			}
 		}
 		#endregion
 
+		//public ShipsViewModel Ships { get; } = new ShipsViewModel();
+		//public ShipViewModel[] Ships { get { return this.Source.Ships.Select((x, i) => new ShipViewModel(x, i)).ToArray(); } }
+		public DispatcherCollection<ShipViewModel> Ships { get; } = new DispatcherCollection<ShipViewModel>(DispatcherHelper.UIDispatcher);
 
-		#region SumAirSuperiority変更通知プロパティ
-		private int _SumAirSuperiority;
+		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
+		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
 
-		public int SumAirSuperiority
-		{
-			get
-			{ return _SumAirSuperiority; }
-			set
-			{
-				if (_SumAirSuperiority == value)
-					return;
-				_SumAirSuperiority = value;
-				RaisePropertyChanged(nameof(SumAirSuperiority));
-			}
-		}
-		#endregion
+		/// <summary>
+		/// 艦これの艦隊データ
+		/// </summary>
+		public Fleet Source { get; }
 
+		private PropertyChangedEventListener listener;
 
 		/// <summary>
 		/// デザイナ用 <see cref="FleetViewModel"/> class.
@@ -83,12 +77,28 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		/// <param name="f">f</param>
 		public FleetViewModel(Fleet f)
-		{	
-			Name = f.Name;
-			Ships.Update(f.Ships);
-			SumLv = Ships.Ships.Sum(s => s.Lv);
-			SumAirSuperiority = Ships.Ships.Sum(s => s.AirSuperiority);
+		{
+			Source = f;
 
+			Name = f.Name;
+			UpdateShips();
+
+			RaisePropertyChanged(nameof(SumLv));
+			RaisePropertyChanged(nameof(SumAirSuperiority));
+
+			listener = new PropertyChangedEventListener(f);
+			listener.RegisterHandler(() => f.Ships, (s, e) => UpdateShips());
+			this.CompositeDisposable.Add(listener);
+		}
+
+		private void UpdateShips()
+		{
+			this.Ships.Clear();
+			var ships = this.Source.Ships.Select((x, i) => new ShipViewModel(x, i));
+			foreach (var s in ships)
+			{
+				this.Ships.Add(s);
+			}
 			RaisePropertyChanged(nameof(Ships));
 		}
 	}

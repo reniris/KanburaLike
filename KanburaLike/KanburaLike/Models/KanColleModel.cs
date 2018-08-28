@@ -59,7 +59,7 @@ namespace KanburaLike.Models
 			get
 			{ return _IsRegistered; }
 			set
-			{ 
+			{
 				if (_IsRegistered == value)
 					return;
 				_IsRegistered = value;
@@ -67,9 +67,6 @@ namespace KanburaLike.Models
 			}
 		}
 		#endregion
-
-
-		//private bool isRegistered = false;
 
 		//private LivetCompositeDisposable organizationDisposables;
 		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
@@ -87,20 +84,27 @@ namespace KanburaLike.Models
 		private void RegisterHomeportListener()
 		{
 			if (this.IsRegistered) return;
+			try
+			{
+				DebugWriteLine("");
+				DebugWriteLine("RegisterHomeportListener");
 
-			DebugWriteLine("RegisterHomeportListener");
+				var client = KanColleClient.Current;
+				if (client.Homeport == null) return;
 
-			var client = KanColleClient.Current;
-			if (client.Homeport == null) return;
+				client.Homeport.Organization
+					.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
+					.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))
+					.AddTo(this);
 
-			client.Homeport.Organization
-				.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
-				.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))
-				.AddTo(this);
+				DebugWriteLine("Registered HomeportListener");
 
-			DebugWriteLine("Registered HomeportListener");
-
-			this.IsRegistered = true;
+				this.IsRegistered = true;
+			}
+			catch (Exception e)
+			{
+				DebugWriteLine($"{e.GetType().ToString()} {e.Message}");
+			}
 		}
 
 		/// <summary>
@@ -126,13 +130,24 @@ namespace KanburaLike.Models
 		{
 			//this.organizationDisposables?.Dispose();
 			//this.organizationDisposables = new LivetCompositeDisposable();
-
-			DebugWriteLine("Model UpdateFleets");
-			var fleets = organization?.Fleets.Values;
-			if (fleets != null)
+			try
 			{
-				Fleets = fleets;
+				DebugWriteLine("Model UpdateFleets");
+				var fleets = organization.Fleets.Values;
+				if (fleets != null)
+				{
+					Fleets = fleets;
+				}
 			}
+			catch (Exception e)
+			{
+				DebugExWriteLine(e);
+			}
+		}
+
+		public static void DebugExWriteLine(Exception e)
+		{
+			DebugWriteLine($"{e.GetType().ToString()} {e?.TargetSite.ToString()} {e.Message}");
 		}
 
 		public void Dispose()

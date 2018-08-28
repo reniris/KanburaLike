@@ -9,6 +9,7 @@ using MetroTrilithon.Lifetime;
 using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -19,7 +20,8 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// 艦隊情報
 		/// </summary>
-		public FleetViewModel[] Fleets { get; set; }
+		public DispatcherCollection<FleetViewModel> Fleets { get; } = new DispatcherCollection<FleetViewModel>(DispatcherHelper.UIDispatcher);
+
 		/// <summary>
 		/// キラ艦
 		/// </summary>
@@ -43,18 +45,24 @@ namespace KanburaLike.ViewModels
 
 				_Kancolle = value;
 
-				/*listener.RegisterHandler(() => model.Value, (s, e) =>
-				// Value プロパティが変更した時にだけ実行する処理
-				});*/
-
-				listener = new PropertyChangedEventListener(value);
-
-				listener.RegisterHandler(() => value.IsRegistered, (s, e) => Register());
-				listener.RegisterHandler(() => value.Fleets, (s, e) => UpdateFleets());
-				listener.RegisterHandler(() => value.Ships, (s, e) => UpdateShips());
-
-				this.CompositeDisposable.Add(listener);
+				RegisterHandler();
 			}
+		}
+
+		private void RegisterHandler()
+		{
+			/*listener.RegisterHandler(
+			 * () => model.Value, (s, e) =>
+				// Value プロパティが変更した時にだけ実行する処理
+			});*/
+
+			listener = new PropertyChangedEventListener(Kancolle);
+
+			listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) => Register());
+			listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
+			listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
+
+			this.CompositeDisposable.Add(listener);
 		}
 		#endregion
 
@@ -76,9 +84,26 @@ namespace KanburaLike.ViewModels
 
 		private void UpdateFleets()
 		{
-			Fleets = this.Kancolle.Fleets.Select(f => new FleetViewModel(f)).ToArray();
-			RaisePropertyChanged(nameof(Fleets));
-			KanColleModel.DebugWriteLine("ViewModel UpdateFleets");
+			try
+			{
+				var fleets = this.Kancolle.Fleets;
+
+				if (fleets == null) return;
+
+				KanColleModel.DebugWriteLine("ViewModel UpdateFleets");
+
+				Fleets.Clear();
+				foreach (var f in fleets.Select(f => new FleetViewModel(f)))
+				{
+					Fleets.Add(f);
+				}
+				RaisePropertyChanged(nameof(Fleets));
+				KanColleModel.DebugWriteLine("ViewModel UpdatedFleets");
+			}
+			catch (Exception e)
+			{
+				KanColleModel.DebugExWriteLine(e);
+			}
 		}
 
 		private void UpdateShips()
@@ -92,6 +117,7 @@ namespace KanburaLike.ViewModels
 			//キラキラ
 			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));
 			RaisePropertyChanged(nameof(Brilliant));
+			//RaisePropertyChanged(nameof(Brilliant.Ships));
 
 			//入渠待ち
 			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero));
@@ -126,8 +152,6 @@ namespace KanburaLike.ViewModels
 		{
 			KanColleModel.DebugWriteLine("TestCommand");
 
-			KanColleModel.DumpDebugData(Fleets, nameof(Fleets));
-			KanColleModel.DumpDebugData(this.Brilliant.Ships, nameof(this.Brilliant.Ships));
 
 			KanColleModel.DebugWriteLine("TestCommanded");
 		}
