@@ -91,7 +91,6 @@ namespace KanburaLike.Models
 			if (this.IsRegistered) return;
 			try
 			{
-				DebugWriteLine("");
 				DebugWriteLine("RegisterHomeportListener");
 
 				var client = KanColleClient.Current;
@@ -207,8 +206,10 @@ namespace KanburaLike.Models
 			DefaultTraceListener drl = (DefaultTraceListener)Trace.Listeners["Default"];
 			//LogFileNameを変更する
 			string dir = GetDllFolder();
-
 			drl.LogFileName = Path.Combine(dir, "debug.txt");
+
+			//デバッグログを見やすくするために空行を入れる
+			Debug.WriteLine("");
 		}
 
 		/// <summary>
