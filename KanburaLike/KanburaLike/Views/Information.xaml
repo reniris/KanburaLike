@@ -18,6 +18,8 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
+			<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+			
 			<AlternationConverter x:Key="LimitedColor">
 				<SolidColorBrush Color="White" />
 				<SolidColorBrush Color="LightGray" />
@@ -131,7 +133,6 @@
 							  Focusable="True" 
 							  VerticalScrollBarVisibility="Auto" 
 							  HorizontalScrollBarVisibility="Disabled" 
-							  Height="{TemplateBinding ActualHeight}" 
 							  >
 					<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
 				</ScrollViewer>
@@ -143,6 +144,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
+		<Button Command="{Binding TestCommand}" Content="Debug Command" Visibility="{Binding TestCommand.CanExecute, Mode=OneWay}" />
 		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
@@ -152,17 +154,17 @@
 		<ItemsControl ItemsSource="{Binding Fleets}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Expander IsExpanded="{Binding Ships.IsExpanded}">
+					<Expander IsExpanded="{Binding IsExpanded}">
 						<Expander.Header>
 							<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 								<Run Text="{Binding Name}" />
-								<Run Text="{Binding SumLv ,StringFormat=Lv合計(\{0:D\})}" />
-								<Run Text="{Binding SumAirSuperiority,StringFormat=制空合計(\{0:D\})}" />
+								<Run Text="{Binding SumLv, Mode=OneWay, StringFormat=Lv合計(\{0:D\})}" />
+								<Run Text="{Binding SumAirSuperiority, Mode=OneWay, StringFormat=制空合計(\{0:D\})}" />
 							</TextBlock>
 						</Expander.Header>
 						<StackPanel>
 							<Separator />
-							<ItemsControl ItemsSource="{Binding Ships.Ships}" ItemTemplate="{DynamicResource Fleet}" >
+							<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource Fleet}" >
 							</ItemsControl>
 						</StackPanel>
 					</Expander>
@@ -171,7 +173,7 @@
 		</ItemsControl>
 		<Separator  />
 		<!-- キラキラ -->
-		<Expander DataContext="{Binding Brilliant}" d:DataContext="{d:DesignData /SampleData/Brilliant.xaml}">
+		<Expander DataContext="{Binding Brilliant}" d:DataContext="{d:DesignData /SampleData/Brilliant.xaml}" IsExpanded="{Binding IsExpanded}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="キラキラーズ" />
@@ -191,7 +193,7 @@
 		</Expander>
 		<Separator  />
 		<!-- 入渠待ち -->
-		<Expander DataContext="{Binding RepairWaiting}" d:DataContext="{d:DesignData /SampleData/RepairWaiting.xaml}">
+		<Expander DataContext="{Binding RepairWaiting}" d:DataContext="{d:DesignData /SampleData/RepairWaiting.xaml}" IsExpanded="{Binding IsExpanded}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="入渠待ちーズ" />
