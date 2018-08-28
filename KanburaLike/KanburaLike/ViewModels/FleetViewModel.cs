@@ -48,8 +48,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		//public ShipsViewModel Ships { get; } = new ShipsViewModel();
-		//public ShipViewModel[] Ships { get { return this.Source.Ships.Select((x, i) => new ShipViewModel(x, i)).ToArray(); } }
 		public DispatcherCollection<ShipViewModel> Ships { get; } = new DispatcherCollection<ShipViewModel>(DispatcherHelper.UIDispatcher);
 
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
