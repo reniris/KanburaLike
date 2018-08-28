@@ -352,7 +352,7 @@ namespace KanburaLike.ViewModels
 			if (rate <= 25)
 				return 4;
 
-			KanColleModel.DebugWriteLine("GetRateIndex err {0}", rate);
+			KanColleModel.DebugWriteLine($"GetRateIndex err {rate}");
 			return 4;
 		}
 

@@ -141,11 +141,11 @@ namespace KanburaLike.Models
 			}
 			catch (Exception e)
 			{
-				DebugExWriteLine(e);
+				DebugWriteLine(e);
 			}
 		}
 
-		public static void DebugExWriteLine(Exception e)
+		public static void DebugWriteLine(Exception e)
 		{
 			DebugWriteLine($"{e.GetType().ToString()} {e?.TargetSite.ToString()} {e.Message}");
 		}
@@ -183,15 +183,8 @@ namespace KanburaLike.Models
 			}
 			catch (Exception e)
 			{
-				DebugWriteLine("Exception {0} {1}", e.GetType().ToString(), e.Message);
+				DebugWriteLine(e);
 			}
-		}
-
-		[Conditional("DEBUG")]
-		public static void DebugWriteLine(string format, params object[] args)
-		{
-			var now = DateTime.Now;
-			Debug.WriteLine($"{now}\t{format}", args);
 		}
 
 		[Conditional("DEBUG")]

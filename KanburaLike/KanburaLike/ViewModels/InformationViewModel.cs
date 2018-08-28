@@ -102,7 +102,7 @@ namespace KanburaLike.ViewModels
 			}
 			catch (Exception e)
 			{
-				KanColleModel.DebugExWriteLine(e);
+				KanColleModel.DebugWriteLine(e);
 			}
 		}
 
