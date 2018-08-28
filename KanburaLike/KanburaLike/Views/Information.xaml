@@ -144,7 +144,9 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<StackPanel>
-		<Button Command="{Binding TestCommand}" Content="Debug Command" Visibility="{Binding TestCommand.CanExecute, Mode=OneWay}" />
+		<Button Command="{Binding TestCommand}" Content="Debug Command" 
+				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
+				Margin="2" HorizontalAlignment="Center" />
 		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
