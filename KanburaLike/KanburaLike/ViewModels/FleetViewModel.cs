@@ -53,7 +53,7 @@ namespace KanburaLike.ViewModels
 		public DispatcherCollection<ShipViewModel> Ships { get; } = new DispatcherCollection<ShipViewModel>(DispatcherHelper.UIDispatcher);
 
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
-		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
+		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
 
 		/// <summary>
 		/// 艦これの艦隊データ
