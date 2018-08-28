@@ -9,11 +9,12 @@
 			 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 			 xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
 		xmlns:local="clr-namespace:KanburaLike.Views"
+		xmlns:ViewModels="clr-namespace:KanburaLike.ViewModels"
 		x:Class="KanburaLike.Views.InformationWindow"
 		mc:Ignorable="d"
 		Background="{DynamicResource ThemeBrushKey}"
 		Foreground="{DynamicResource ActiveForegroundBrushKey}"
-        Height="600" Width="300" IsRestoringWindowPlacement="True">
+        Height="600" Width="300" IsRestoringWindowPlacement="True" d:DataContext="{d:DesignInstance {x:Type ViewModels:InformationWindowViewModel}}">
 
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
@@ -24,7 +25,7 @@
 	</metro:MetroWindow.Resources>
 
 	<!-- Interaction -->
-	
+
 	<StackPanel>
 
 		<!-- #region Caption area -->
@@ -49,7 +50,7 @@
 		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
 					  Width="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}" 
 					  Height="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}">
-			<local:Information/>
+			<local:Information DataContext="{Binding Info}"/>
 		</ScrollViewer>
 	</StackPanel>
 

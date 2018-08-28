@@ -16,6 +16,11 @@ namespace KanburaLike.Models
 {
 	public class KanColleModel : Livet.NotificationObject, IDisposableHolder
 	{
+		#region singleton
+
+		public static KanColleModel Current { get; } = new KanColleModel();
+
+		#endregion
 
 		#region Fleets変更通知プロパティ
 		private IEnumerable<Fleet> _Fleets;
@@ -72,7 +77,7 @@ namespace KanburaLike.Models
 		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 		public ICollection<IDisposable> CompositeDisposable => this.compositeDisposable;
 
-		public KanColleModel()
+		private KanColleModel()
 		{
 			InitDebug();
 
@@ -145,11 +150,6 @@ namespace KanburaLike.Models
 			}
 		}
 
-		public static void DebugWriteLine(Exception e)
-		{
-			DebugWriteLine($"{e.GetType().ToString()} {e?.TargetSite.ToString()} {e.Message}");
-		}
-
 		public void Dispose()
 		{
 			this.compositeDisposable.Dispose();
@@ -192,6 +192,12 @@ namespace KanburaLike.Models
 		{
 			var now = DateTime.Now;
 			Debug.WriteLine($"{now}\t{message}");
+		}
+
+		[Conditional("DEBUG")]
+		public static void DebugWriteLine(Exception e)
+		{
+			DebugWriteLine($"{e.GetType().ToString()} {e?.TargetSite.ToString()} {e.Message}");
 		}
 
 		[Conditional("DEBUG")]

@@ -31,40 +31,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel();
 
-		#region KanColleModel
-		private KanColleModel _Kancolle;
-
-		public KanColleModel Kancolle
-		{
-			get
-			{ return _Kancolle; }
-			set
-			{
-				if (_Kancolle == value)
-					return;
-
-				_Kancolle = value;
-
-				RegisterHandler();
-			}
-		}
-
-		private void RegisterHandler()
-		{
-			/*listener.RegisterHandler(
-			 * () => model.Value, (s, e) =>
-				// Value プロパティが変更した時にだけ実行する処理
-			});*/
-
-			listener = new PropertyChangedEventListener(Kancolle);
-
-			listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) => Register());
-			listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
-			listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
-
-			this.CompositeDisposable.Add(listener);
-		}
-		#endregion
+		private KanColleModel Kancolle { get; } = KanColleModel.Current;
 
 		/// <summary>
 		/// 艦これが始まったときに呼ばれる
@@ -79,7 +46,18 @@ namespace KanburaLike.ViewModels
 
 		public InformationViewModel()
 		{
+			/*listener.RegisterHandler(
+			 * () => model.Value, (s, e) =>
+				// Value プロパティが変更した時にだけ実行する処理
+			});*/
 
+			listener = new PropertyChangedEventListener(Kancolle);
+
+			listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) => Register());
+			listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
+			listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
+
+			this.CompositeDisposable.Add(listener);
 		}
 
 		private void UpdateFleets()

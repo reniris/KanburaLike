@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Models\KanColleModel.cs" />
     <Compile Include="ViewModels\FleetViewModel.cs" />
+    <Compile Include="ViewModels\InformationWindowViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
     <Compile Include="KanburaLike.cs" />
     <Compile Include="ViewModels\ShipsViewModel.cs" />
