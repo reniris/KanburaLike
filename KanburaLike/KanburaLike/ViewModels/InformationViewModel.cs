@@ -144,7 +144,7 @@ namespace KanburaLike.ViewModels
 #if DEBUG
 			return true;
 #else
-			return false
+			return false;
 #endif
 		}
 
