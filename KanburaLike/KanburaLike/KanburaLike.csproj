@@ -49,10 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\KanColleModel.cs" />
+    <Compile Include="Models\Settings\SettingsHost.cs" />
     <Compile Include="ViewModels\FleetViewModel.cs" />
     <Compile Include="ViewModels\InformationWindowViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
     <Compile Include="KanburaLike.cs" />
+    <Compile Include="ViewModels\Settings\WindowSettingViewModel.cs" />
     <Compile Include="ViewModels\ShipsViewModel.cs" />
     <Compile Include="ViewModels\ShipViewModel.cs" />
     <Compile Include="Views\Information.xaml.cs">
@@ -117,7 +119,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Settings\" />
     <Folder Include="Views\Converter\" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +140,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Release" (
+    Compress-Archive -Path $(TargetPath) -DestinationPath $(TargetDir)$(SolutionName).zip
+)
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

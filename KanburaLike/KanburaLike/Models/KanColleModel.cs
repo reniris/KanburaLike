@@ -163,7 +163,7 @@ namespace KanburaLike.Models
 		[Conditional("DEBUG")]
 		public static void DumpDebugData(object data, string filename)
 		{
-			string dir = GetDllFolder();
+			string dir = Settings.SettingsHost.GetDllFolder();
 			var fullpath = Path.Combine(dir, filename);
 			try
 			{
@@ -205,20 +205,11 @@ namespace KanburaLike.Models
 			//DefaultTraceListenerオブジェクトを取得
 			DefaultTraceListener drl = (DefaultTraceListener)Trace.Listeners["Default"];
 			//LogFileNameを変更する
-			string dir = GetDllFolder();
+			string dir = Settings.SettingsHost.GetDllFolder();
 			drl.LogFileName = Path.Combine(dir, "debug.txt");
 
 			//デバッグログを見やすくするために空行を入れる
 			Debug.WriteLine("");
-		}
-
-		/// <summary>
-		/// このプラグインのあるフォルダを取得
-		/// </summary>
-		/// <returns></returns>
-		private static string GetDllFolder()
-		{
-			return Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
 		}
 	}
 }

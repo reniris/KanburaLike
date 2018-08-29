@@ -2,6 +2,7 @@
 using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
 using KanburaLike.Models;
+using KanburaLike.Models.Settings;
 using Livet;
 using MetroTrilithon.Lifetime;
 using MetroTrilithon.Mvvm;
@@ -20,7 +21,7 @@ namespace KanburaLike
 	[ExportMetadata("Guid", "9143C600-3D98-4014-A8E9-406C68252611")]
 	[ExportMetadata("Title", "KanburaLike")]
 	[ExportMetadata("Description", "艦ぶらっぽいの")]
-	[ExportMetadata("Version", "0.1")]
+	[ExportMetadata("Version", "0.2")]
 	[ExportMetadata("Author", "reniris")]
 	[Export(typeof(ISettings))]
 	class KanburaLike : IPlugin, ISettings
@@ -36,6 +37,7 @@ namespace KanburaLike
 
 		public void Initialize()
 		{
+			SettingsHost.Load();
 			infovm = new ViewModels.InformationWindowViewModel();
 
 			info = new Views.InformationWindow

@@ -14,7 +14,9 @@
 		mc:Ignorable="d"
 		Background="{DynamicResource ThemeBrushKey}"
 		Foreground="{DynamicResource ActiveForegroundBrushKey}"
-        Height="600" Width="300" IsRestoringWindowPlacement="True" d:DataContext="{d:DesignInstance {x:Type ViewModels:InformationWindowViewModel}}">
+        Height="600" Width="300" IsRestoringWindowPlacement="True" 
+		d:DataContext="{d:DesignInstance {x:Type ViewModels:InformationWindowViewModel}}" 
+		WindowSettings="{Binding Setting}" Topmost="{Binding Setting.Topmost, Mode=TwoWay}">
 
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
@@ -27,14 +29,13 @@
 	<!-- Interaction -->
 
 	<StackPanel>
-
 		<!-- #region Caption area -->
 		<DockPanel metro:MetroWindow.IsCaptionBar="True">
 			<Border DockPanel.Dock="Bottom"
 					Height="4" />
 			<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
 				<metro:CaptionButton 
-				IsChecked="{Binding Topmost, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}"
+				IsChecked="{Binding Setting.Topmost, Mode=TwoWay}"
 				Style="{DynamicResource PinButtonStyleKey}" VerticalAlignment="Top" />
 
 				<metro:CaptionButton WindowAction="Minimize" VerticalAlignment="Top" >
@@ -48,8 +49,8 @@
 		</DockPanel>
 		<!-- #endregion -->
 		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-					  Width="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}" 
-					  Height="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}">
+					  Width="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UIElement}}}" 
+					  Height="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UIElement}}}">
 			<local:Information DataContext="{Binding Info}"/>
 		</ScrollViewer>
 	</StackPanel>

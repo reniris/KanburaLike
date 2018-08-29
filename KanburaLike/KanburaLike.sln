@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanburaLike", "KanburaLike\KanburaLike.csproj", "{36BD31F9-9E7D-4411-BB14-1A00636A2A40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanburaLikeTests", "KanburaLikeTests\KanburaLikeTests.csproj", "{1E4A563B-AB52-426B-8F7F-F077A622973A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{36BD31F9-9E7D-4411-BB14-1A00636A2A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36BD31F9-9E7D-4411-BB14-1A00636A2A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36BD31F9-9E7D-4411-BB14-1A00636A2A40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E4A563B-AB52-426B-8F7F-F077A622973A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E4A563B-AB52-426B-8F7F-F077A622973A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E4A563B-AB52-426B-8F7F-F077A622973A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E4A563B-AB52-426B-8F7F-F077A622973A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

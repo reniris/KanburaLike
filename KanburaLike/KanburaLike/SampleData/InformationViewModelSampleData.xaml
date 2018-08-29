@@ -4,7 +4,7 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:vm="clr-namespace:KanburaLike.ViewModels">
 	<vm:InformationViewModel.Fleets>
-		<vm:FleetViewModel Name="1-5キラ付け" IsExpanded="True" SumLv="359" SumAirSuperiority="98">
+		<vm:FleetViewModel Name="1-5キラ付け" IsExpanded="True">
 			<vm:FleetViewModel.Ships>
 				<vm:ShipViewModel Name="大東改" Index="1" Lv="50" Condition="49" ConditionType="1" ExpForNextLevel="2978" AirSuperiority="0" CurrentHP="18" MaxHP="18" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="海防艦">
 				</vm:ShipViewModel>
@@ -18,7 +18,7 @@
 				</vm:ShipViewModel>
 			</vm:FleetViewModel.Ships>
 		</vm:FleetViewModel>
-		<vm:FleetViewModel Name="しえん" IsExpanded="True" SumLv="107" SumAirSuperiority="0">
+		<vm:FleetViewModel Name="しえん" IsExpanded="True">
 			<vm:FleetViewModel.Ships>
 				<vm:ShipViewModel Name="伊58" Index="1" Lv="27" Condition="49" ConditionType="1" ExpForNextLevel="2544" AirSuperiority="0" CurrentHP="14" MaxHP="14" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="潜水艦">
 				</vm:ShipViewModel>
@@ -30,7 +30,7 @@
 				</vm:ShipViewModel>
 			</vm:FleetViewModel.Ships>
 		</vm:FleetViewModel>
-		<vm:FleetViewModel Name="海上護衛" IsExpanded="True" SumLv="468" SumAirSuperiority="0">
+		<vm:FleetViewModel Name="海上護衛" IsExpanded="True">
 			<vm:FleetViewModel.Ships>
 				<vm:ShipViewModel Name="那珂改二" Index="1" Lv="94" Condition="66" ConditionType="0" ExpForNextLevel="28234" AirSuperiority="0" CurrentHP="48" MaxHP="48" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦">
 				</vm:ShipViewModel>
@@ -46,7 +46,7 @@
 				</vm:ShipViewModel>
 			</vm:FleetViewModel.Ships>
 		</vm:FleetViewModel>
-		<vm:FleetViewModel Name="第4艦隊" IsExpanded="True" SumLv="475" SumAirSuperiority="0">
+		<vm:FleetViewModel Name="第4艦隊" IsExpanded="True">
 			<vm:FleetViewModel.Ships>
 				<vm:ShipViewModel Name="天龍改二" Index="1" Lv="94" Condition="49" ConditionType="1" ExpForNextLevel="20289" AirSuperiority="0" CurrentHP="42" MaxHP="42" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦">
 				</vm:ShipViewModel>
