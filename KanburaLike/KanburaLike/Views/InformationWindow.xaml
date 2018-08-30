@@ -28,15 +28,16 @@
 
 	<!-- Interaction -->
 
-	<StackPanel>
+	<DockPanel>
 		<!-- #region Caption area -->
-		<DockPanel metro:MetroWindow.IsCaptionBar="True">
+		<DockPanel metro:MetroWindow.IsCaptionBar="True" DockPanel.Dock="Top">
 			<Border DockPanel.Dock="Bottom"
 					Height="4" />
 			<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
 				<metro:CaptionButton 
-				IsChecked="{Binding Setting.Topmost, Mode=TwoWay}"
-				Style="{DynamicResource PinButtonStyleKey}" VerticalAlignment="Top" />
+					Style="{DynamicResource PinButtonStyleKey}" 
+					VerticalAlignment="Top" 
+					IsChecked="{Binding Setting.Topmost, Mode=TwoWay}" />
 
 				<metro:CaptionButton WindowAction="Minimize" VerticalAlignment="Top" >
 					<Path Style="{DynamicResource MinimizeIconKey}"/>
@@ -48,11 +49,9 @@
 					   Margin="2,0,8,0" />
 		</DockPanel>
 		<!-- #endregion -->
-		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-					  Width="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UIElement}}}" 
-					  Height="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UIElement}}}">
+		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 			<local:Information DataContext="{Binding Info}"/>
 		</ScrollViewer>
-	</StackPanel>
+	</DockPanel>
 
 </metro:MetroWindow>
