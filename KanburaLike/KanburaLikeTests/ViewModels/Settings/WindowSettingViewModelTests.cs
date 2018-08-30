@@ -14,20 +14,25 @@ namespace KanburaLike.ViewModels.Settings.Tests
 	public class WindowSettingViewModelTests
 	{
 		[TestMethod()]
-		public void ApplyTest()
+		public void Test1()
 		{
-			var vm = new WindowSettingViewModel();
-
-			Console.WriteLine(vm.Setting.Topmost);
-
 			var target = new PrivateType(typeof(SettingsHost));
 			var fullpath = (string)target.GetStaticField("fullpath");
 
-			File.Exists(fullpath).Is(true);
+			if (File.Exists(fullpath) == true)
+				File.Delete(fullpath);
 
 			SettingsHost.Init();
+			var vm = new InformationWindowViewModel();
+			vm.Setting.Topmost = true;	//ここでプロパティを書き換え
+			Console.WriteLine(vm.Setting.Topmost);
+
+			SettingsHost.SaveFile();
+			
 			var wsetting = SettingsHost.Instance<WindowSetting>();
 			Console.WriteLine(wsetting.Topmost);
+
+			wsetting.Topmost.Is(true);
 		}
 	}
 }
