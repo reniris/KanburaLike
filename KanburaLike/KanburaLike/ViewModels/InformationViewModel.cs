@@ -68,7 +68,7 @@ namespace KanburaLike.ViewModels
 
 				if (fleets == null) return;
 
-				KanColleModel.DebugWriteLine("ViewModel UpdateFleets");
+				//KanColleModel.DebugWriteLine("ViewModel UpdateFleets");
 
 				Fleets.Clear();
 				foreach (var f in fleets.Select(f => new FleetViewModel(f)))
@@ -76,7 +76,7 @@ namespace KanburaLike.ViewModels
 					Fleets.Add(f);
 				}
 				RaisePropertyChanged(nameof(Fleets));
-				KanColleModel.DebugWriteLine("ViewModel UpdatedFleets");
+				//KanColleModel.DebugWriteLine("ViewModel UpdatedFleets");
 			}
 			catch (Exception e)
 			{
@@ -90,7 +90,7 @@ namespace KanburaLike.ViewModels
 
 			if (ships == null) return;
 
-			KanColleModel.DebugWriteLine("ViewModel UpdateShips");
+			//KanColleModel.DebugWriteLine("ViewModel UpdateShips");
 
 			//キラキラ
 			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));

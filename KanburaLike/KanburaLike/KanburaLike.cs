@@ -24,7 +24,7 @@ namespace KanburaLike
 	[ExportMetadata("Version", "0.2")]
 	[ExportMetadata("Author", "reniris")]
 	[Export(typeof(ISettings))]
-	class KanburaLike : IPlugin, ISettings
+	class KanburaLike : IPlugin, ISettings, IDisposable
 	{
 		private Views.InformationWindow info;
 		private ViewModels.InformationWindowViewModel infovm;
@@ -37,7 +37,8 @@ namespace KanburaLike
 
 		public void Initialize()
 		{
-			SettingsHost.Load();
+			KanColleModel.DebugWriteLine("KanburaLike Init");
+			SettingsHost.Init();
 			infovm = new ViewModels.InformationWindowViewModel();
 
 			info = new Views.InformationWindow
@@ -45,6 +46,15 @@ namespace KanburaLike
 				DataContext = infovm
 			};
 			info.Show();
+		}
+
+		public void Dispose()
+		{
+			if (info.IsVisible == true)
+				info.Close();
+
+			SettingsHost.SaveFile();
+			KanColleModel.DebugWriteLine("KanburaLike Dispose");
 		}
 	}
 }

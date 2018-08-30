@@ -10,28 +10,13 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.ViewModels.Settings
 {
-	public class WindowSettingViewModel : Livet.ViewModel
+	public abstract class WindowSettingViewModel : Livet.ViewModel
 	{
-		#region Setting変更通知プロパティ
-		private WindowSetting _Setting;
-
-		public WindowSetting Setting
-		{
-			get
-			{ return _Setting; }
-			set
-			{ 
-				if (_Setting == value)
-					return;
-				_Setting = value;
-				RaisePropertyChanged(nameof(Setting));
-			}
-		}
-		#endregion
+		public WindowSetting Setting { get; } 
 
 		public WindowSettingViewModel()
 		{
-			this.Setting = Models.Settings.SettingsHost.Instance<WindowSetting>();
+			this.Setting = SettingsHost.Instance<WindowSetting>();
 		}
 	}
 }

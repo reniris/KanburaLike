@@ -1,5 +1,6 @@
 ﻿using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
+using KanburaLike.Models.Settings;
 using Livet;
 using MetroTrilithon.Lifetime;
 using MetroTrilithon.Mvvm;
@@ -107,7 +108,7 @@ namespace KanburaLike.Models
 			}
 			catch (Exception e)
 			{
-				DebugWriteLine($"{e.GetType().ToString()} {e.Message}");
+				DebugWriteLine(e);
 			}
 		}
 
@@ -118,7 +119,7 @@ namespace KanburaLike.Models
 		/// <returns></returns>
 		private void UpdateShips(Organization organization)
 		{
-			DebugWriteLine("Model UpdateShips");
+			//DebugWriteLine("Model UpdateShips");
 			var ships = organization?.Ships.Values;
 			if (ships != null)
 			{
@@ -136,7 +137,7 @@ namespace KanburaLike.Models
 			//this.organizationDisposables = new LivetCompositeDisposable();
 			try
 			{
-				DebugWriteLine("Model UpdateFleets");
+				//DebugWriteLine("Model UpdateFleets");
 				var fleets = organization.Fleets.Values;
 				if (fleets != null)
 				{
@@ -205,7 +206,7 @@ namespace KanburaLike.Models
 			//DefaultTraceListenerオブジェクトを取得
 			DefaultTraceListener drl = (DefaultTraceListener)Trace.Listeners["Default"];
 			//LogFileNameを変更する
-			string dir = Settings.SettingsHost.GetDllFolder();
+			string dir = SettingsHost.GetDllFolder();
 			drl.LogFileName = Path.Combine(dir, "debug.txt");
 
 			//デバッグログを見やすくするために空行を入れる

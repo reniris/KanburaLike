@@ -1,6 +1,4 @@
-﻿using Livet;
-using Livet.EventListeners;
-using MetroRadiance.Interop.Win32;
+﻿using MetroRadiance.Interop.Win32;
 using MetroRadiance.UI.Controls;
 using System;
 using System.Collections.Generic;
@@ -9,34 +7,33 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Xml.Serialization;
 
 namespace KanburaLike.Models.Settings
 {
-	public abstract class SettingsHost : INotifyPropertyChanged, IDisposable
+	public abstract class SettingsHost : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = null)
-			=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			KanColleModel.DebugWriteLine($"Changed {propertyName}");
+		}
 
 		/// <summary>
 		/// 設定データ
 		/// </summary>
-		private static Dictionary<Type, SettingsHost> SettingData = new Dictionary<Type, SettingsHost>();
+		protected static Dictionary<Type, SettingsHost> SettingData { get; set; } = new Dictionary<Type, SettingsHost>();
 
 		/// <summary>
 		/// ファイル書き込み用設定データ
 		/// </summary>
-		private static List<SettingsHost> SettingValue { get { return SettingData?.Values.ToList(); } }
-
-		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
+		protected static List<SettingsHost> SettingValue { get { return SettingData?.Values.ToList(); } }
 
 		/// <summary>
 		/// 設定ファイルのフルパス
 		/// </summary>
-		private static readonly string fullpath = Path.Combine(GetDllFolder(), "KanburaLike.xml");
+		protected static readonly string fullpath = Path.Combine(GetDllFolder(), "KanburaLike.xml");
 
 		private static XmlSerializer serializer;
 
@@ -50,7 +47,6 @@ namespace KanburaLike.Models.Settings
 			};
 			var types = new Type[] { typeof(WindowSetting) };
 			serializer = new XmlSerializer(typeof(List<SettingsHost>), null, types, root, "");
-
 		}
 
 		/// <summary>
@@ -58,60 +54,37 @@ namespace KanburaLike.Models.Settings
 		/// </summary>
 		protected SettingsHost()
 		{
-			this[this.GetType()] = this;
-
-			var listener = new PropertyChangedEventListener(this);
-			listener.RegisterHandler((s, e) => Save());
-			compositeDisposable.Add(listener);
+			SettingData[this.GetType()] = this;
 		}
 
 		/// <summary>
-		/// 初期化（ファイルが読める場合はそれを読んで、読めない場合はデフォルト値を書く）
+		/// 初期化（ファイルが読める場合はそれを読んで、読めない場合は何もしない）
 		/// </summary>
 		public static void Init()
 		{
-			SettingData.Clear();
 			if (System.IO.File.Exists(fullpath))
 			{
 				try
 				{
-					Load();
+					SettingData.Clear();
+					LoadFile();
 				}
-				catch
+				catch (Exception e)
 				{
-					Save();
+					KanColleModel.DebugWriteLine("SettingHost Init Exception");
+					KanColleModel.DebugWriteLine(e);
 				}
 			}
 			else
 			{
-				Save();
-			}
-		}
-
-		/// <summary>
-		/// Gets the <see cref="SettingsHost"/> with the specified t.
-		/// </summary>
-		/// <value>
-		/// The <see cref="SettingsHost"/>.
-		/// </value>
-		/// <param name="t">t</param>
-		/// <returns></returns>
-		public SettingsHost this[Type t]
-		{
-			get
-			{
-				return SettingData[t];
-			}
-			private set
-			{
-				SettingData[t] = value;
+				KanColleModel.DebugWriteLine("SettingHost File Not Found");
 			}
 		}
 
 		/// <summary>
 		/// ファイルから読み込み
 		/// </summary>
-		public static void Load()
+		public static void LoadFile()
 		{
 			// 読み込み
 			using (var inputStream = new FileStream(fullpath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -128,9 +101,9 @@ namespace KanburaLike.Models.Settings
 		/// <summary>
 		/// ファイルへ書き込み
 		/// </summary>
-		public static void Save()
+		public static void SaveFile()
 		{
-			using (var outputStream = new FileStream(fullpath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+			using (var outputStream = new FileStream(fullpath, FileMode.OpenOrCreate, FileAccess.Write))
 			using (var writer = new StreamWriter(outputStream, Encoding.UTF8))
 			{
 				serializer.Serialize(writer, SettingValue);
@@ -139,11 +112,7 @@ namespace KanburaLike.Models.Settings
 				writer.Close();
 				outputStream.Close();
 			}
-		}
-
-		public void Dispose()
-		{
-			this.compositeDisposable.Dispose();
+			KanColleModel.DebugWriteLine("SettingHost Save");
 		}
 
 		/// <summary>
@@ -173,6 +142,7 @@ namespace KanburaLike.Models.Settings
 				if (_Topmost == value)
 					return;
 				_Topmost = value;
+
 				RaisePropertyChanged(nameof(Topmost));
 			}
 		}
@@ -188,23 +158,35 @@ namespace KanburaLike.Models.Settings
 			{
 				if (_Placement.Equals(value))
 					return;
-
 				_Placement = value;
-				RaisePropertyChanged(nameof(Placement));
 			}
 		}
 		#endregion
 
-		public void Reload()
+		protected WindowSetting data
 		{
-			throw new NotImplementedException();
+			get { return (WindowSetting)SettingData[GetType()]; }
 		}
 
-		public new void Save()
+		public virtual void Reload()
 		{
-			throw new NotImplementedException();
+			KanColleModel.DebugWriteLine($"WindowSetting Load Topmost={Topmost} {Placement.Value.normalPosition.Left}");
+
+			this.Topmost = data.Topmost;
+			this.Placement = data.Placement;
+
+			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost} {data.Placement.Value.normalPosition.Left}");
+		}
+
+		public virtual void Save()
+		{
+			KanColleModel.DebugWriteLine($"WindowSetting Save Topmost={Topmost} {Placement.Value.normalPosition.Left}");
+
+			data.Topmost = this.Topmost;
+			data.Placement = this.Placement;
+
+			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost} {data.Placement.Value.normalPosition.Left}");
 		}
 		#endregion
-
 	}
 }
