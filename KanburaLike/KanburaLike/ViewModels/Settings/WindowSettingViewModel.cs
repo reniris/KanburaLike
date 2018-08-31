@@ -12,11 +12,11 @@ namespace KanburaLike.ViewModels.Settings
 {
 	public abstract class WindowSettingViewModel : Livet.ViewModel
 	{
-		public WindowSetting Setting { get; } 
+		public WindowSetting Setting { get; protected set; } 
 
 		public WindowSettingViewModel()
 		{
-			this.Setting = SettingsHost.Instance<InformationWindowSetting>();
+			
 		}
 	}
 }

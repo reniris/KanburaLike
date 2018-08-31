@@ -1,4 +1,5 @@
-﻿using KanburaLike.ViewModels.Settings;
+﻿using KanburaLike.Models.Settings;
+using KanburaLike.ViewModels.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,10 @@ namespace KanburaLike.ViewModels
 	public class InformationWindowViewModel : WindowSettingViewModel
 	{
 		public InformationViewModel Info { get; } = new InformationViewModel();
+
+		public InformationWindowViewModel()
+		{
+			this.Setting = SettingsHost.Instance<InformationWindowSetting>();
+		}
 	}
 }
