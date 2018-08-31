@@ -283,6 +283,23 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		#region ShipTypeSortNumber変更通知プロパティ
+		private int _SortNumber;
+
+		public int ShipTypeSortNumber
+		{
+			get
+			{ return _SortNumber; }
+			set
+			{ 
+				if (_SortNumber == value)
+					return;
+				_SortNumber = value;
+				RaisePropertyChanged(nameof(ShipTypeSortNumber));
+			}
+		}
+		#endregion
+
 
 		/// <summary>
 		/// デザイナ用<see cref="ShipViewModel"/> class.
@@ -318,6 +335,7 @@ namespace KanburaLike.ViewModels
 			this.TimeToRepair = s.TimeToRepair;
 
 			this.ShipTypeName = s.Info?.ShipType.Name;
+			this.ShipTypeSortNumber = s.Info.ShipType.SortNumber;
 		}
 
 		private decimal GetRate(decimal current, decimal max)

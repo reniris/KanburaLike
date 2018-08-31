@@ -92,8 +92,8 @@ namespace KanburaLike.ViewModels
 
 			//KanColleModel.DebugWriteLine("ViewModel UpdateShips");
 
-			//キラキラ
-			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant));
+			//キラキラ（艦種ごとにソート）
+			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant).OrderBy(s => s.Info.ShipType.SortNumber));
 			RaisePropertyChanged(nameof(Brilliant));
 			//RaisePropertyChanged(nameof(Brilliant.Ships));
 
