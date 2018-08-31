@@ -3,10 +3,12 @@ using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,12 +33,36 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public DispatcherCollection<ShipViewModel> Ships { get; } = new DispatcherCollection<ShipViewModel>(DispatcherHelper.UIDispatcher);
+		#region IsAscending変更通知プロパティ
+		private bool _IsAscending = true;
 
+		public bool IsAscending
+		{
+			get
+			{ return _IsAscending; }
+			set
+			{
+				if (_IsAscending == value)
+					return;
+				_IsAscending = value;
+
+				ReverseShips();
+				RaisePropertyChanged(nameof(IsAscending));
+			}
+		}
+		#endregion
+
+		public DispatcherCollection<ShipViewModel> Ships { get; } = new DispatcherCollection<ShipViewModel>(DispatcherHelper.UIDispatcher);
+		
 		/// <summary>
 		/// 隻数
 		/// </summary>
 		public int Count => (Ships != null) ? Ships.Count : 0;
+
+		public ShipsViewModel()
+		{
+
+		}
 
 		/// <summary>
 		/// 更新
@@ -54,9 +80,31 @@ namespace KanburaLike.ViewModels
 			RaisePropertyChanged(nameof(Count));
 		}
 
-		public ShipsViewModel()
+		/// <summary>
+		/// ソートして更新
+		/// </summary>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
+		/// <param name="ships">ships</param>
+		/// <param name="sort">sort</param>
+		public void SortedUpdate<TKey>(IEnumerable<Ship> ships, Func<Ship, TKey> sort)
 		{
+			if (this.IsAscending == true)
+				Update(ships.OrderBy(sort));
+			else
+				Update(ships.OrderByDescending(sort));
+		}
 
+		/// <summary>
+		/// 昇順、降順を切り替え（SortedUpdateでソートされてるはずなのでここでは逆順にするだけ）
+		/// </summary>
+		public void ReverseShips()
+		{
+			this.Ships.Clear();
+			foreach (var s in this.Ships.Reverse())
+			{
+				this.Ships.Add(s);	//めんどいのでIndexは変えない
+			}
+			RaisePropertyChanged(nameof(Ships));
 		}
 	}
 }

@@ -60,6 +60,9 @@ namespace KanburaLike.ViewModels
 			this.CompositeDisposable.Add(listener);
 		}
 
+		/// <summary>
+		/// 艦隊情報が更新されたときに呼ばれる
+		/// </summary>
 		private void UpdateFleets()
 		{
 			try
@@ -84,21 +87,40 @@ namespace KanburaLike.ViewModels
 			}
 		}
 
+		/// <summary>
+		/// 艦船情報が更新されたときに呼ばれる
+		/// </summary>
 		private void UpdateShips()
 		{
-			var ships = this.Kancolle.Ships;
-
-			if (ships == null) return;
-
 			//KanColleModel.DebugWriteLine("ViewModel UpdateShips");
 
-			//キラキラ（艦種ごとにソート）
-			this.Brilliant.Update(ships.Where(s => s.ConditionType == ConditionType.Brilliant).OrderBy(s => s.Info.ShipType.SortNumber));
+			UpdateBrilliant();
+			UpdateRepairWaiting();
+		}
+
+		/// <summary>
+		/// キラキラ（艦種ごとにソート）
+		/// </summary>
+		private void UpdateBrilliant()
+		{
+			var ships = this.Kancolle.Ships;
+			if (ships == null) return;
+
+			this.Brilliant.SortedUpdate(ships.Where(s => s.ConditionType == ConditionType.Brilliant), Ship => Ship.Info.ShipType.SortNumber);
 			RaisePropertyChanged(nameof(Brilliant));
 			//RaisePropertyChanged(nameof(Brilliant.Ships));
+		}
 
-			//入渠待ち
-			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero && s.Situation.HasFlag(ShipSituation.Repair) == false));
+		/// <summary>
+		/// 入渠待ち
+		/// </summary>
+		private void UpdateRepairWaiting()
+		{
+			var ships = this.Kancolle.Ships;
+			if (ships == null) return;
+
+			this.RepairWaiting.SortedUpdate(ships.Where(s => s.TimeToRepair > TimeSpan.Zero && s.Situation.HasFlag(ShipSituation.Repair) == false)
+				, Ship => Ship.TimeToRepair);
 			RaisePropertyChanged(nameof(RepairWaiting));
 		}
 
