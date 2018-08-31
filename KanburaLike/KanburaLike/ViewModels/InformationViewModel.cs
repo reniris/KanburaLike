@@ -98,7 +98,7 @@ namespace KanburaLike.ViewModels
 			//RaisePropertyChanged(nameof(Brilliant.Ships));
 
 			//入渠待ち
-			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero));
+			this.RepairWaiting.Update(ships.Where(s => s.TimeToRepair > TimeSpan.Zero && s.Situation.HasFlag(ShipSituation.Repair) == false));
 			RaisePropertyChanged(nameof(RepairWaiting));
 		}
 
