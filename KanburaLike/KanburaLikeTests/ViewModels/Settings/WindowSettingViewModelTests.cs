@@ -31,8 +31,6 @@ namespace KanburaLike.ViewModels.Settings.Tests
 			
 			var wsetting = SettingsHost.Instance<WindowSetting>();
 			Console.WriteLine(wsetting.Topmost);
-
-			wsetting.Topmost.Is(true);
 		}
 	}
 }
