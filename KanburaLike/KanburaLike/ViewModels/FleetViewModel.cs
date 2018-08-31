@@ -92,7 +92,7 @@ namespace KanburaLike.ViewModels
 		private void UpdateShips()
 		{
 			this.Ships.Clear();
-			var ships = this.Source.Ships.Select((x, i) => new ShipViewModel(x, i));
+			var ships = this.Source.Ships.Select((x, i) => new ShipViewModel(x, i + 1));
 			foreach (var s in ships)
 			{
 				this.Ships.Add(s);
