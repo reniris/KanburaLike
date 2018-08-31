@@ -16,7 +16,7 @@ namespace KanburaLike.ViewModels.Settings
 
 		public WindowSettingViewModel()
 		{
-			this.Setting = SettingsHost.Instance<WindowSetting>();
+			this.Setting = SettingsHost.Instance<InformationWindowSetting>();
 		}
 	}
 }

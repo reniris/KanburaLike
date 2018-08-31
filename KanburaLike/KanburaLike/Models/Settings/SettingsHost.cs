@@ -45,7 +45,7 @@ namespace KanburaLike.Models.Settings
 				Namespace = String.Empty,
 				IsNullable = true
 			};
-			var types = new Type[] { typeof(WindowSetting) };
+			var types = new Type[] { typeof(InformationWindowSetting) };
 			serializer = new XmlSerializer(typeof(List<SettingsHost>), null, types, root, "");
 		}
 

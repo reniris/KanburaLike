@@ -1,9 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Microsoft Managed Recommended Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. It is recommended to include this rule set in any custom rule set you create for your projects." ToolsVersion="10.0">
-  <Localization ResourceAssembly="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.dll" ResourceBaseName="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.Localized">
-    <Name Resource="MinimumRecommendedRules_Name" />
-    <Description Resource="MinimumRecommendedRules_Description" />
-  </Localization>
+<RuleSet Name="Microsoft マネージド推奨規則 のコピー" Description="これらの規則は、セキュリティ ホール、アプリケーション クラッシュ、その他の重要な論理エラーやデザイン エラーなど、コードに含まれる最も重要な問題に関するものです。プロジェクトにカスタムの規則セットを作成する場合は、必ずこの規則セットを含める必要があります。" ToolsVersion="15.0">
+  <Rules AnalyzerId="KanColleViewer.PluginAnalyzer" RuleNamespace="KanColleViewer.PluginAnalyzer">
+    <Rule Id="KanColleViewer_PluginAnalyzer_DuplicateAttribute" Action="None" />
+    <Rule Id="KanColleViewer_PluginAnalyzer_DuplicateGuid" Action="None" />
+    <Rule Id="KanColleViewer_PluginAnalyzer_Export" Action="None" />
+    <Rule Id="KanColleViewer_PluginAnalyzer_ExportGuidMetadata" Action="None" />
+    <Rule Id="KanColleViewer_PluginAnalyzer_ExportMetadata" Action="None" />
+    <Rule Id="KanColleViewer_PluginAnalyzer_InvalidGuidMetadata" Action="None" />
+    <Rule Id="KanColleViewer_PluginAnalyzer_RequireIPlugin" Action="None" />
+  </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
@@ -67,8 +72,5 @@
     <Rule Id="CA2240" Action="Warning" />
     <Rule Id="CA2241" Action="Warning" />
     <Rule Id="CA2242" Action="Warning" />
-  </Rules>
-  <Rules AnalyzerId="KanColleViewer.PluginAnalyzer" RuleNamespace="KanColleViewer.PluginAnalyzer">
-    <Rule Id="KanColleViewer_PluginAnalyzer_RequireIPlugin" Action="None" />
   </Rules>
 </RuleSet>

@@ -29,7 +29,7 @@ namespace KanburaLike.ViewModels.Settings.Tests
 
 			SettingsHost.SaveFile();
 			
-			var wsetting = SettingsHost.Instance<WindowSetting>();
+			var wsetting = SettingsHost.Instance<InformationWindowSetting>();
 			Console.WriteLine(wsetting.Topmost);
 		}
 	}
