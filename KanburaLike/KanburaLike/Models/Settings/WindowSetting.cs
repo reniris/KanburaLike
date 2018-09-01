@@ -86,7 +86,7 @@ namespace KanburaLike.Models.Settings
 		/// <typeparam name="T"></typeparam>
 		protected virtual void Reload<T>() where T : WindowSetting
 		{
-			KanColleModel.DebugWriteLine($"WindowSetting Load Topmost={Topmost} {Placement.Value.normalPosition.Left}");
+			KanColleModel.DebugWriteLine($"WindowSetting Load Topmost={Topmost}");
 
 			var data = GetSettingData<T>();
 			this.Topmost = data.Topmost;
@@ -94,7 +94,7 @@ namespace KanburaLike.Models.Settings
 			if (data.Placement.HasValue)
 				this.Placement = data.Placement;
 
-			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost} {data.Placement.Value.normalPosition.Left}");
+			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost}");
 		}
 
 		/// <summary>
