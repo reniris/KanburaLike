@@ -38,7 +38,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private void Register()
 		{
-			//Messenger.Raise(new TransitionMessage(typeof(Views.InformationWindow), this, TransitionMode.NewOrActive, "ShowMain"));
+			Messenger.Raise(new InteractionMessage("InfoShow"));
 			KanColleModel.DebugWriteLine("艦これ Start");
 		}
 

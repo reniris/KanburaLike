@@ -25,8 +25,13 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</metro:MetroWindow.Resources>
-
+	
 	<!-- Interaction -->
+	<i:Interaction.Triggers>
+		<l:InteractionMessageTrigger MessageKey="InfoShow" Messenger="{Binding Messenger}" InvokeActionsOnlyWhileAttatchedObjectLoaded="True">
+			<l:LivetCallMethodAction MethodTarget="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}" MethodName="Show"/>
+		</l:InteractionMessageTrigger>
+	</i:Interaction.Triggers>
 
 	<DockPanel>
 		<!-- #region Caption area -->
