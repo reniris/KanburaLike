@@ -28,7 +28,7 @@
 	
 	<!-- Interaction -->
 	<i:Interaction.Triggers>
-		<l:InteractionMessageTrigger MessageKey="InfoShow" Messenger="{Binding Messenger}" InvokeActionsOnlyWhileAttatchedObjectLoaded="True">
+		<l:InteractionMessageTrigger MessageKey="InfoShow" Messenger="{Binding Info.Messenger}" InvokeActionsOnlyWhileAttatchedObjectLoaded="True">
 			<l:LivetCallMethodAction MethodTarget="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationWindow}}}" MethodName="Show"/>
 		</l:InteractionMessageTrigger>
 	</i:Interaction.Triggers>
