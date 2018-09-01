@@ -77,7 +77,7 @@ namespace KanburaLike.Models.Settings
 		/// </summary>
 		public virtual void Reload()
 		{
-			
+
 		}
 
 		/// <summary>
@@ -90,7 +90,9 @@ namespace KanburaLike.Models.Settings
 
 			var data = GetSettingData<T>();
 			this.Topmost = data.Topmost;
-			this.Placement = data.Placement;
+
+			if (data.Placement.HasValue)
+				this.Placement = data.Placement;
 
 			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost} {data.Placement.Value.normalPosition.Left}");
 		}
@@ -100,7 +102,7 @@ namespace KanburaLike.Models.Settings
 		/// </summary>
 		public virtual void Save()
 		{
-			
+
 		}
 
 		/// <summary>
@@ -113,7 +115,9 @@ namespace KanburaLike.Models.Settings
 
 			var data = GetSettingData<T>();
 			data.Topmost = this.Topmost;
-			data.Placement = this.Placement;
+
+			if (this.Placement.HasValue)
+				data.Placement = this.Placement;
 
 			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost} {data.Placement.Value.normalPosition.Left}");
 		}
