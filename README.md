@@ -40,5 +40,5 @@ MIT ライセンスの下で公開する、オープンソース / フリーソ�
 * **ライセンス :** zlib/libpng
 
 
-#### [ほしいものリスト](https://www.amazon.co.jp/gp/registry/wishlist/111ANSVEUB01D/ref=nav_wishlist_lists_2)
+#### [ほしいものリスト](https://www.amazon.co.jp/hz/wishlist/ls/111ANSVEUB01D?type=wishlist&filter=unpurchased&sort=price-asc)
 よかったらなんか買って
