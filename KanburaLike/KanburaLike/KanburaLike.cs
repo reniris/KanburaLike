@@ -45,7 +45,6 @@ namespace KanburaLike
 			{
 				DataContext = infovm
 			};
-			//info.Show();
 		}
 
 		public void Dispose()
