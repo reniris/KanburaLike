@@ -48,7 +48,7 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public DispatcherCollection<ShipViewModel> Ships { get; } = new DispatcherCollection<ShipViewModel>(DispatcherHelper.UIDispatcher);
+		public ShipViewModel[] Ships { get; private set; }
 
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
@@ -81,23 +81,19 @@ namespace KanburaLike.ViewModels
 			Name = f.Name;
 			UpdateShips();
 
-			RaisePropertyChanged(nameof(SumLv));
-			RaisePropertyChanged(nameof(SumAirSuperiority));
-
 			listener = new PropertyChangedEventListener(f);
 			listener.RegisterHandler(() => f.Ships, (s, e) => UpdateShips());
+			listener.RegisterHandler(() => f.Name, (s, e) => Name = f.Name);
 			this.CompositeDisposable.Add(listener);
 		}
 
 		private void UpdateShips()
 		{
-			this.Ships.Clear();
-			var ships = this.Source.Ships.Select((x, i) => new ShipViewModel(x, i + 1));
-			foreach (var s in ships)
-			{
-				this.Ships.Add(s);
-			}
+			this.Ships = this.Source.Ships.Select((x, i) => new ShipViewModel(x, i + 1)).ToArray();
+
 			RaisePropertyChanged(nameof(Ships));
+			RaisePropertyChanged(nameof(SumLv));
+			RaisePropertyChanged(nameof(SumAirSuperiority));
 		}
 	}
 }
