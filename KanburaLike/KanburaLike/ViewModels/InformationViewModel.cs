@@ -27,6 +27,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public ShipsViewModel Brilliant { get; } = new ShipsViewModel();
 		/// <summary>
+
 		/// 入渠待ち
 		/// </summary>
 		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel();
@@ -70,7 +71,7 @@ namespace KanburaLike.ViewModels
 				var fleets = this.Kancolle.Fleets;
 
 				if (fleets == null) return;
-				
+
 				Fleets.Clear();
 				foreach (var f in fleets.Select(f => new FleetViewModel(f)))
 				{
@@ -103,7 +104,6 @@ namespace KanburaLike.ViewModels
 
 			this.Brilliant.SortedUpdate(ships.Where(s => s.ConditionType == ConditionType.Brilliant), Ship => Ship.Info.ShipType.SortNumber);
 			RaisePropertyChanged(nameof(Brilliant));
-			//RaisePropertyChanged(nameof(Brilliant.Ships));
 		}
 
 		/// <summary>
@@ -114,9 +114,9 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
-			this.RepairWaiting.SortedUpdate(ships.Where(s =>
-			s.TimeToRepair > TimeSpan.Zero
-			&& s.Situation.HasFlag(ShipSituation.Repair) == false)
+			this.RepairWaiting.SortedUpdate(ships
+				.Where(s => s.TimeToRepair > TimeSpan.Zero)
+				.Where(s => s.Situation.HasFlag(ShipSituation.Repair) == false)
 				, Ship => Ship.TimeToRepair);
 			RaisePropertyChanged(nameof(RepairWaiting));
 		}
