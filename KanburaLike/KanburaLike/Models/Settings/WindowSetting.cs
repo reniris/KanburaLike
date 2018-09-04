@@ -1,15 +1,5 @@
-﻿using Livet;
-using MetroRadiance.Interop.Win32;
+﻿using MetroRadiance.Interop.Win32;
 using MetroRadiance.UI.Controls;
-using MetroTrilithon.Serialization;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace KanburaLike.Models.Settings
 {
@@ -23,7 +13,6 @@ namespace KanburaLike.Models.Settings
 		/// <summary>
 		/// ウィンドウを常に最前面に表示するかどうかを示す設定値を取得します。
 		/// </summary>
-	
 		#region TopMost変更通知プロパティ
 		private bool _TopMost;
 

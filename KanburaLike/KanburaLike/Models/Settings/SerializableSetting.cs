@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.Models.Settings
 {
+	/// <summary>
+	/// シリアライズする設定項目の基本クラス
+	/// </summary>
+	/// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
 	public abstract class SerializableSetting : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -18,10 +22,5 @@ namespace KanburaLike.Models.Settings
 		}
 
 		public virtual string CategoryName => this.GetType().Name;
-
-		public SerializableSetting()
-		{
-
-		}
 	}
 }
