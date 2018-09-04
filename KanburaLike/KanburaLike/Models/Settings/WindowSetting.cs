@@ -70,57 +70,15 @@ namespace KanburaLike.Models.Settings
 		/// </summary>
 		public virtual void Reload()
 		{
-			//var data = SettingsHost.GetCache<WindowSetting>(this.CategoryName);
-			//KanColleModel.DebugWriteLine($"WindowSetting Load T {data.TopMost == this.TopMost}");
+
 		}
-
-		/// <summary>
-		/// SettingsHost.SettingDataから読み出す
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/*protected virtual void Reload<T>() where T : WindowSetting
-		{
-			KanColleModel.DebugWriteLine($"WindowSetting Load");
-
-			var data = GetSettingData<T>();
-			this.Topmost = data.Topmost;
-
-			if (data.Placement.HasValue)
-				this.Placement = data.Placement;
-
-			KanColleModel.DebugWriteLine($"SettingValue}");
-		}*/
 
 		/// <summary>
 		/// IWindowSettings.Save
 		/// </summary>
 		public virtual void Save()
 		{
-			/*var data = SettingsHost.GetCache<WindowSetting>(this.CategoryName);
 
-			KanColleModel.DebugWriteLine($"WindowSetting Save T {data.TopMost == this.TopMost}");
-
-			data.TopMost = this.TopMost;
-
-			if (this.Placement.HasValue)
-				data.Placement = this.Placement;*/
 		}
-
-		/// <summary>
-		/// SettingsHost.SettingDataへ書き出す
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/*protected virtual void Save<T>() where T : WindowSetting
-		{
-			KanColleModel.DebugWriteLine($"WindowSetting Save Topmost={Topmost} {Placement.Value.normalPosition.Left}");
-
-			var data = GetSettingData<T>();
-			data.Topmost = this.Topmost;
-
-			if (this.Placement.HasValue)
-				data.Placement = this.Placement;
-
-			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost} {data.Placement.Value.normalPosition.Left}");
-		}*/
 	}
 }
