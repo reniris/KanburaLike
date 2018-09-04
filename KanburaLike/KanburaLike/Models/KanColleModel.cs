@@ -80,7 +80,7 @@ namespace KanburaLike.Models
 
 		private KanColleModel()
 		{
-			InitDebug();
+			
 
 			KanColleClient.Current
 				.Subscribe(nameof(KanColleClient.IsStarted), this.RegisterHomeportListener, false)
@@ -92,7 +92,7 @@ namespace KanburaLike.Models
 			if (this.IsRegistered) return;
 			try
 			{
-				DebugWriteLine("RegisterHomeportListener");
+				DebugModel.DebugWriteLine("RegisterHomeportListener");
 
 				var client = KanColleClient.Current;
 				if (client.Homeport == null) return;
@@ -102,13 +102,13 @@ namespace KanburaLike.Models
 					.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))
 					.AddTo(this);
 
-				DebugWriteLine("Registered HomeportListener");
+				DebugModel.DebugWriteLine("Registered HomeportListener");
 
 				this.IsRegistered = true;
 			}
 			catch (Exception e)
 			{
-				DebugWriteLine(e);
+				DebugModel.DebugWriteLine(e);
 			}
 		}
 
@@ -146,7 +146,7 @@ namespace KanburaLike.Models
 			}
 			catch (Exception e)
 			{
-				DebugWriteLine(e);
+				DebugModel.DebugWriteLine(e);
 			}
 		}
 
@@ -170,7 +170,7 @@ namespace KanburaLike.Models
 			{
 				// XAMLで書き出し
 				var text = System.Windows.Markup.XamlWriter.Save(data);
-				DebugWriteLine(text);
+				DebugModel.DebugWriteLine(text);
 				System.IO.File.WriteAllText(fullpath + ".xaml", text);
 
 				//XMLで書き出し
@@ -183,37 +183,8 @@ namespace KanburaLike.Models
 			}
 			catch (Exception e)
 			{
-				DebugWriteLine(e);
+				DebugModel.DebugWriteLine(e);
 			}
-		}
-
-		[Conditional("DEBUG")]
-		public static void DebugWriteLine(string message)
-		{
-			var now = DateTime.Now;
-			Debug.WriteLine($"{now}\t{message}");
-		}
-
-		[Conditional("DEBUG")]
-		public static void DebugWriteLine(Exception e)
-		{
-			DebugWriteLine($"{e.GetType().ToString()} {e?.TargetSite.ToString()} {e.Message}");
-			var inner = e.InnerException;
-			if (inner != null)
-				DebugWriteLine($"{inner.GetType().ToString()} {inner.TargetSite.ToString()} {inner.Message}");
-		}
-
-		[Conditional("DEBUG")]
-		private static void InitDebug()
-		{
-			//DefaultTraceListenerオブジェクトを取得
-			DefaultTraceListener drl = (DefaultTraceListener)Trace.Listeners["Default"];
-			//LogFileNameを変更する
-			string dir = SettingPath.GetDllFolder();
-			drl.LogFileName = Path.Combine(dir, "debug.txt");
-
-			//デバッグログを見やすくするために空行を入れる
-			Debug.WriteLine("");
 		}
 	}
 }

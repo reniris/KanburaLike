@@ -39,7 +39,7 @@ namespace KanburaLike.ViewModels
 		private void Register()
 		{
 			Messenger.Raise(new InteractionMessage("InfoShow"));
-			KanColleModel.DebugWriteLine("艦これ Start");
+			DebugModel.DebugWriteLine("艦これ Start");
 		}
 
 		private PropertyChangedEventListener listener;
@@ -70,20 +70,17 @@ namespace KanburaLike.ViewModels
 				var fleets = this.Kancolle.Fleets;
 
 				if (fleets == null) return;
-
-				//KanColleModel.DebugWriteLine("ViewModel UpdateFleets");
-
+				
 				Fleets.Clear();
 				foreach (var f in fleets.Select(f => new FleetViewModel(f)))
 				{
 					Fleets.Add(f);
 				}
 				RaisePropertyChanged(nameof(Fleets));
-				//KanColleModel.DebugWriteLine("ViewModel UpdatedFleets");
 			}
 			catch (Exception e)
 			{
-				KanColleModel.DebugWriteLine(e);
+				DebugModel.DebugWriteLine(e);
 			}
 		}
 
@@ -92,8 +89,6 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private void UpdateShips()
 		{
-			//KanColleModel.DebugWriteLine("ViewModel UpdateShips");
-
 			UpdateBrilliant();
 			UpdateRepairWaiting();
 		}
@@ -152,10 +147,6 @@ namespace KanburaLike.ViewModels
 
 		public void Test()
 		{
-			KanColleModel.DebugWriteLine("TestCommand");
-
-
-			KanColleModel.DebugWriteLine("TestCommanded");
 		}
 		#endregion
 

@@ -21,7 +21,7 @@ namespace KanburaLike
 	[ExportMetadata("Guid", "9143C600-3D98-4014-A8E9-406C68252611")]
 	[ExportMetadata("Title", "KanburaLike")]
 	[ExportMetadata("Description", "艦ぶらっぽいの")]
-	[ExportMetadata("Version", "0.2")]
+	[ExportMetadata("Version", "0.4")]
 	[ExportMetadata("Author", "reniris")]
 	[Export(typeof(ISettings))]
 	class KanburaLike : IPlugin, ISettings, IDisposable
@@ -37,7 +37,7 @@ namespace KanburaLike
 
 		public void Initialize()
 		{
-			KanColleModel.DebugWriteLine("KanburaLike Init");
+			DebugModel.DebugWriteLine("KanburaLike Init");
 			SettingsHost.LoadFile();
 			infovm = new ViewModels.InformationWindowViewModel(nameof(Views.InformationWindow));
 			
@@ -53,7 +53,7 @@ namespace KanburaLike
 				info.Close();
 
 			SettingsHost.SaveFile();
-			KanColleModel.DebugWriteLine("KanburaLike Dispose");
+			DebugModel.DebugWriteLine("KanburaLike Dispose");
 		}
 	}
 }

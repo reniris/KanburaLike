@@ -18,7 +18,6 @@ namespace KanburaLike.Models.Settings
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-			KanColleModel.DebugWriteLine($"Changed {propertyName}");
 		}
 
 		public virtual string CategoryName => this.GetType().Name;
