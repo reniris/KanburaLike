@@ -38,9 +38,9 @@ namespace KanburaLike
 		public void Initialize()
 		{
 			KanColleModel.DebugWriteLine("KanburaLike Init");
-			SettingsHost.Init();
-			infovm = new ViewModels.InformationWindowViewModel();
-
+			SettingsHost.LoadFile();
+			infovm = new ViewModels.InformationWindowViewModel(nameof(Views.InformationWindow));
+			
 			info = new Views.InformationWindow
 			{
 				DataContext = infovm

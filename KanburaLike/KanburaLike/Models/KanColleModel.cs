@@ -164,7 +164,7 @@ namespace KanburaLike.Models
 		[Conditional("DEBUG")]
 		public static void DumpDebugData(object data, string filename)
 		{
-			string dir = Settings.SettingsHost.GetDllFolder();
+			string dir = Settings.SettingPath.GetDllFolder();
 			var fullpath = Path.Combine(dir, filename);
 			try
 			{
@@ -198,6 +198,9 @@ namespace KanburaLike.Models
 		public static void DebugWriteLine(Exception e)
 		{
 			DebugWriteLine($"{e.GetType().ToString()} {e?.TargetSite.ToString()} {e.Message}");
+			var inner = e.InnerException;
+			if (inner != null)
+				DebugWriteLine($"{inner.GetType().ToString()} {inner.TargetSite.ToString()} {inner.Message}");
 		}
 
 		[Conditional("DEBUG")]
@@ -206,7 +209,7 @@ namespace KanburaLike.Models
 			//DefaultTraceListenerオブジェクトを取得
 			DefaultTraceListener drl = (DefaultTraceListener)Trace.Listeners["Default"];
 			//LogFileNameを変更する
-			string dir = SettingsHost.GetDllFolder();
+			string dir = SettingPath.GetDllFolder();
 			drl.LogFileName = Path.Combine(dir, "debug.txt");
 
 			//デバッグログを見やすくするために空行を入れる

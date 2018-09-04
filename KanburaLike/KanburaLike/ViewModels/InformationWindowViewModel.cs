@@ -12,9 +12,9 @@ namespace KanburaLike.ViewModels
 	{
 		public InformationViewModel Info { get; } = new InformationViewModel();
 
-		public InformationWindowViewModel()
+		public InformationWindowViewModel(string key) : base(key)
 		{
-			this.Setting = SettingsHost.Instance<InformationWindowSetting>();
+
 		}
 	}
 }

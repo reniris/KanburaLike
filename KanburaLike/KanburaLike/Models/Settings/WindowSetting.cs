@@ -1,54 +1,48 @@
-﻿using MetroRadiance.Interop.Win32;
+﻿using Livet;
+using MetroRadiance.Interop.Win32;
 using MetroRadiance.UI.Controls;
+using MetroTrilithon.Serialization;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace KanburaLike.Models.Settings
 {
 	/// <summary>
-	/// ウインドウ設定用抽象クラス
+	/// ウインドウ設定用クラス
 	/// </summary>
 	/// <seealso cref="KanburaLike.Models.Settings.SettingsHost" />
 	/// <seealso cref="MetroRadiance.UI.Controls.IWindowSettings" />
-	public abstract class WindowSetting : SettingsHost, IWindowSettings
+	public class WindowSetting : SerializableSetting, IWindowSettings
 	{
-
-		#region Topmost変更通知プロパティ
 		/// <summary>
-		/// を保持するフィールド
+		/// ウィンドウを常に最前面に表示するかどうかを示す設定値を取得します。
 		/// </summary>
-		private bool _Topmost;
+	
+		#region TopMost変更通知プロパティ
+		private bool _TopMost;
 
-		/// <summary>
-		/// の真偽値を保持するプロパティ
-		/// </summary>
-		public bool Topmost
+		public bool TopMost
 		{
 			get
-			{ return _Topmost; }
+			{ return _TopMost; }
 			set
-			{
-				if (_Topmost == value)
+			{ 
+				if (_TopMost == value)
 					return;
-				_Topmost = value;
-
-				RaisePropertyChanged(nameof(Topmost));
+				_TopMost = value;
+				RaisePropertyChanged(nameof(TopMost));
 			}
 		}
 		#endregion
 
 		#region Placementプロパティ
-		/// <summary>
-		/// を保持するフィールド
-		/// </summary>
 		private WINDOWPLACEMENT? _Placement;
-
-		/// <summary>
-		/// を保持するプロパティ
-		/// </summary>
 		public WINDOWPLACEMENT? Placement
 		{
 			get
@@ -62,14 +56,13 @@ namespace KanburaLike.Models.Settings
 		}
 		#endregion
 
-		/// <summary>
-		/// SettingsHost.SettingDataに入っているインスタンスをとる
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		protected T GetSettingData<T>() where T : WindowSetting
+		public override string CategoryName { get; }
+
+		public WindowSetting() : this(null) { }
+
+		public WindowSetting(string key)
 		{
-			return SettingData.TryGetValue(typeof(T), out SettingsHost host) ? (T)host : null;
+			this.CategoryName = key ?? this.GetType().Name;
 		}
 
 		/// <summary>
@@ -77,16 +70,17 @@ namespace KanburaLike.Models.Settings
 		/// </summary>
 		public virtual void Reload()
 		{
-
+			//var data = SettingsHost.GetCache<WindowSetting>(this.CategoryName);
+			//KanColleModel.DebugWriteLine($"WindowSetting Load T {data.TopMost == this.TopMost}");
 		}
 
 		/// <summary>
 		/// SettingsHost.SettingDataから読み出す
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		protected virtual void Reload<T>() where T : WindowSetting
+		/*protected virtual void Reload<T>() where T : WindowSetting
 		{
-			KanColleModel.DebugWriteLine($"WindowSetting Load Topmost={Topmost}");
+			KanColleModel.DebugWriteLine($"WindowSetting Load");
 
 			var data = GetSettingData<T>();
 			this.Topmost = data.Topmost;
@@ -94,22 +88,29 @@ namespace KanburaLike.Models.Settings
 			if (data.Placement.HasValue)
 				this.Placement = data.Placement;
 
-			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost}");
-		}
+			KanColleModel.DebugWriteLine($"SettingValue}");
+		}*/
 
 		/// <summary>
 		/// IWindowSettings.Save
 		/// </summary>
 		public virtual void Save()
 		{
+			/*var data = SettingsHost.GetCache<WindowSetting>(this.CategoryName);
 
+			KanColleModel.DebugWriteLine($"WindowSetting Save T {data.TopMost == this.TopMost}");
+
+			data.TopMost = this.TopMost;
+
+			if (this.Placement.HasValue)
+				data.Placement = this.Placement;*/
 		}
 
 		/// <summary>
 		/// SettingsHost.SettingDataへ書き出す
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		protected virtual void Save<T>() where T : WindowSetting
+		/*protected virtual void Save<T>() where T : WindowSetting
 		{
 			KanColleModel.DebugWriteLine($"WindowSetting Save Topmost={Topmost} {Placement.Value.normalPosition.Left}");
 
@@ -120,29 +121,6 @@ namespace KanburaLike.Models.Settings
 				data.Placement = this.Placement;
 
 			KanColleModel.DebugWriteLine($"SettingValue Topmost={data.Topmost} {data.Placement.Value.normalPosition.Left}");
-		}
-	}
-
-	/// <summary>
-	/// 情報ウインドウ設定用クラス
-	/// </summary>
-	/// <seealso cref="KanburaLike.Models.Settings.WindowSetting" />
-	public class InformationWindowSetting : WindowSetting
-	{
-		/// <summary>
-		/// SettingsHost.SettingDataから読み出す
-		/// </summary>
-		public override void Reload()
-		{
-			base.Reload<InformationWindowSetting>();
-		}
-
-		/// <summary>
-		/// SettingsHost.SettingDataへ書き出す
-		/// </summary>
-		public override void Save()
-		{
-			base.Save<InformationWindowSetting>();
-		}
+		}*/
 	}
 }

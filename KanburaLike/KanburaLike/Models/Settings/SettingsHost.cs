@@ -1,129 +1,113 @@
 ﻿using MetroRadiance.Interop.Win32;
 using MetroRadiance.UI.Controls;
+using MetroTrilithon.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace KanburaLike.Models.Settings
 {
-	public abstract class SettingsHost : INotifyPropertyChanged
+	public static class SettingsHost
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
-		protected void RaisePropertyChanged([CallerMemberName]string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-			KanColleModel.DebugWriteLine($"Changed {propertyName}");
-		}
+		private static Dictionary<string, SerializableSetting> cached_instances = new Dictionary<string, SerializableSetting>();
+		private static readonly object _sync = new object();
 
 		/// <summary>
-		/// 設定データ
-		/// </summary>
-		protected static Dictionary<Type, SettingsHost> SettingData { get; set; } = new Dictionary<Type, SettingsHost>();
-
-		/// <summary>
-		/// ファイル書き込み用設定データ
-		/// </summary>
-		protected static List<SettingsHost> SettingValue { get { return SettingData?.Values.ToList(); } }
-
-		/// <summary>
-		/// 設定ファイルのフルパス
-		/// </summary>
-		protected static readonly string fullpath = Path.Combine(GetDllFolder(), "KanburaLike.xml");
-
-		private static XmlSerializer serializer;
-
-		static SettingsHost()
-		{
-			var root = new XmlRootAttribute
-			{
-				ElementName = "KanburaLike",
-				Namespace = String.Empty,
-				IsNullable = true
-			};
-			var types = new Type[] { typeof(InformationWindowSetting) };
-			serializer = new XmlSerializer(typeof(List<SettingsHost>), null, types, root, "");
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SettingsHost"/> class.
-		/// </summary>
-		protected SettingsHost()
-		{
-			SettingData[this.GetType()] = this;
-		}
-
-		/// <summary>
-		/// 初期化（ファイルが読める場合はそれを読んで、読めない場合は何もしない）
-		/// </summary>
-		public static void Init()
-		{
-			if (System.IO.File.Exists(fullpath))
-			{
-				try
-				{
-					SettingData.Clear();
-					LoadFile();
-				}
-				catch (Exception e)
-				{
-					KanColleModel.DebugWriteLine("SettingHost Init Exception");
-					KanColleModel.DebugWriteLine(e);
-				}
-			}
-			else
-			{
-				KanColleModel.DebugWriteLine("SettingHost File Not Found");
-			}
-		}
-
-		/// <summary>
-		/// ファイルから読み込み
-		/// </summary>
-		public static void LoadFile()
-		{
-			// 読み込み
-			using (var inputStream = new FileStream(fullpath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-			{
-				var data = (List<SettingsHost>)serializer.Deserialize(inputStream);
-
-				var dic = data.ToDictionary(d => d.GetType());
-				SettingData = dic;
-
-				inputStream.Close();
-			}
-		}
-
-		/// <summary>
-		/// ファイルへ書き込み
-		/// </summary>
-		public static void SaveFile()
-		{
-			using (var outputStream = new FileStream(fullpath, FileMode.OpenOrCreate, FileAccess.Write))
-			using (var writer = new StreamWriter(outputStream, Encoding.UTF8))
-			{
-				serializer.Serialize(writer, SettingValue);
-
-				writer.Flush();
-				writer.Close();
-				outputStream.Close();
-			}
-			KanColleModel.DebugWriteLine("SettingHost Save");
-		}
-
-		/// <summary>
-		/// このプラグインのあるフォルダを取得
+		/// 現在のインスタンスにキャッシュされている <see cref="{T}"/>
+		/// を取得します。 キャッシュがない場合は <see cref="create"/> に従って生成します。
 		/// </summary>
 		/// <returns></returns>
-		public static string GetDllFolder() => Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+		public static T Cache<T>(Func<string, T> create, string key) where T : SerializableSetting
+		{
+			if (cached_instances.TryGetValue(key, out SerializableSetting obj) && obj is T) return (T)obj;
 
-		/// <summary>
-		/// <typeparamref name="T"/> 型の設定オブジェクトの唯一のインスタンスを取得します。
-		/// </summary>
-		public static T Instance<T>() where T : SettingsHost, new() => SettingData.TryGetValue(typeof(T), out SettingsHost host) ? (T)host : new T();
+			var property = create(key);
+			cached_instances[key] = property;
+
+			return property;
+		}
+
+		public static T GetCache<T>(string key) where T : SerializableSetting
+		{
+			if (cached_instances.TryGetValue(key, out SerializableSetting obj) && obj is T) return (T)obj;
+
+			return null;
+		}
+
+		#region Load / Save
+
+		public static void LoadFile()
+		{
+			try
+			{
+				if (File.Exists(SettingPath.Current))
+				{
+					using (var stream = new FileStream(SettingPath.Current, FileMode.Open, FileAccess.Read))
+					{
+						lock (_sync)
+						{
+							// 読み込み
+							var serializer = new XmlSerializer(typeof(SettingsRoot));
+							var root = (SettingsRoot)serializer.Deserialize(stream);
+							var dic = root.Keys.Zip(root.Values, (k, v) => new KeyValuePair<string, SerializableSetting>(k, v))
+								.ToDictionary(kv => kv.Key, kv => kv.Value);
+
+							cached_instances = dic;
+						}
+					}
+				}
+				else
+				{
+					lock (_sync)
+					{
+						cached_instances = new Dictionary<string, SerializableSetting>();
+					}
+				}
+			}
+			catch (Exception)
+			{
+				File.Delete(SettingPath.Current);
+				cached_instances = new Dictionary<string, SerializableSetting>();
+			}
+		}
+
+		public static void SaveFile()
+		{
+			try
+			{
+				if (cached_instances.Count == 0) return;
+
+				lock (_sync)
+				{
+					using (var stream = new FileStream(SettingPath.Current, FileMode.Create, FileAccess.ReadWrite))
+					using (var writer = new StreamWriter(stream, Encoding.UTF8))
+					{
+						SettingsRoot root = new SettingsRoot
+						{
+							Keys = cached_instances.Keys.ToArray(),
+							Values = cached_instances.Values.ToArray()
+						};
+						var serializer = new XmlSerializer(typeof(SettingsRoot));
+						serializer.Serialize(writer, root);
+
+						writer.Flush();
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				KanColleModel.DebugWriteLine(ex);
+				//MessageBox.Show(string.Format(message, Providers.PluginPath, ex.Message), "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		#endregion
 	}
 }

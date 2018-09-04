@@ -16,7 +16,7 @@
 		Foreground="{DynamicResource ActiveForegroundBrushKey}"
         Height="600" Width="300" IsRestoringWindowPlacement="True" 
 		d:DataContext="{d:DesignInstance {x:Type ViewModels:InformationWindowViewModel}}" 
-		WindowSettings="{Binding Setting}" Topmost="{Binding Setting.Topmost, Mode=TwoWay}">
+		WindowSettings="{Binding Setting}" Topmost="{Binding Setting.TopMost, Mode=TwoWay}">
 
 	<metro:MetroWindow.Resources>
 		<ResourceDictionary>
@@ -42,7 +42,7 @@
 				<metro:CaptionButton 
 					Style="{DynamicResource PinButtonStyleKey}" 
 					VerticalAlignment="Top" 
-					IsChecked="{Binding Setting.Topmost, Mode=TwoWay}" />
+					IsChecked="{Binding Setting.TopMost, Mode=TwoWay}" />
 
 				<metro:CaptionButton WindowAction="Minimize" VerticalAlignment="Top" >
 					<Path Style="{DynamicResource MinimizeIconKey}"/>

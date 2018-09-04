@@ -119,7 +119,9 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
-			this.RepairWaiting.SortedUpdate(ships.Where(s => s.TimeToRepair > TimeSpan.Zero && s.Situation.HasFlag(ShipSituation.Repair) == false)
+			this.RepairWaiting.SortedUpdate(ships.Where(s =>
+			s.TimeToRepair > TimeSpan.Zero
+			&& s.Situation.HasFlag(ShipSituation.Repair) == false)
 				, Ship => Ship.TimeToRepair);
 			RaisePropertyChanged(nameof(RepairWaiting));
 		}
