@@ -80,8 +80,6 @@ namespace KanburaLike.Models
 
 		private KanColleModel()
 		{
-			
-
 			KanColleClient.Current
 				.Subscribe(nameof(KanColleClient.IsStarted), this.RegisterHomeportListener, false)
 				.AddTo(this);
@@ -92,8 +90,6 @@ namespace KanburaLike.Models
 			if (this.IsRegistered) return;
 			try
 			{
-				DebugModel.WriteLine("RegisterHomeportListener");
-
 				var client = KanColleClient.Current;
 				if (client.Homeport == null) return;
 
@@ -101,8 +97,6 @@ namespace KanburaLike.Models
 					.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
 					.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))
 					.AddTo(this);
-
-				DebugModel.WriteLine("Registered HomeportListener");
 
 				this.IsRegistered = true;
 			}
@@ -156,35 +150,6 @@ namespace KanburaLike.Models
 			//this.dockyardDisposables?.Dispose();
 			//this.repairyardDisposables?.Dispose();
 			//this.organizationDisposables?.Dispose();
-		}
-
-		/// <summary>
-		/// デバッグ用データ書き出し
-		/// </summary>
-		[Conditional("DEBUG")]
-		public static void DumpDebugData(object data, string filename)
-		{
-			string dir = SettingPath.GetDllFolder();
-			var fullpath = Path.Combine(dir, filename);
-			try
-			{
-				// XAMLで書き出し
-				var text = System.Windows.Markup.XamlWriter.Save(data);
-				DebugModel.WriteLine(text);
-				System.IO.File.WriteAllText(fullpath + ".xaml", text);
-
-				//XMLで書き出し
-				var xmls = new XmlSerializer(data.GetType());
-				using (var writer = new StreamWriter(fullpath + ".xml", false, Encoding.UTF8))
-				{
-					xmls.Serialize(writer, data);
-					writer.Flush();
-				}
-			}
-			catch (Exception e)
-			{
-				DebugModel.WriteLine(e);
-			}
 		}
 	}
 }
