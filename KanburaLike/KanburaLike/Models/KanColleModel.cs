@@ -164,7 +164,7 @@ namespace KanburaLike.Models
 		[Conditional("DEBUG")]
 		public static void DumpDebugData(object data, string filename)
 		{
-			string dir = Settings.SettingPath.GetDllFolder();
+			string dir = SettingPath.GetDllFolder();
 			var fullpath = Path.Combine(dir, filename);
 			try
 			{

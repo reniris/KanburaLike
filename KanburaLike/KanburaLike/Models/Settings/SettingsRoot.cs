@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.Models.Settings
 {
-	[System.SerializableAttribute()]
+	[SerializableAttribute()]
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 	[System.Xml.Serialization.XmlRootAttribute(ElementName = "KanburaLike", Namespace = "", IsNullable = false)]
 	[System.Xml.Serialization.XmlInclude(typeof(WindowSetting))]
