@@ -37,7 +37,7 @@ namespace KanburaLike
 
 		public void Initialize()
 		{
-			DebugModel.DebugWriteLine("KanburaLike Init");
+			DebugModel.WriteLine("KanburaLike Init");
 			SettingsHost.LoadFile();
 			infovm = new ViewModels.InformationWindowViewModel(nameof(Views.InformationWindow));
 			
@@ -53,7 +53,7 @@ namespace KanburaLike
 				info.Close();
 
 			SettingsHost.SaveFile();
-			DebugModel.DebugWriteLine("KanburaLike Dispose");
+			DebugModel.WriteLine("KanburaLike Dispose");
 		}
 	}
 }

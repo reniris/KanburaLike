@@ -12,11 +12,11 @@ namespace KanburaLike.Models
 	{
 		static DebugModel()
 		{
-			InitDebug();
+			Init();
 		}
 
 		[Conditional("DEBUG")]
-		private static void InitDebug()
+		private static void Init()
 		{
 			//DefaultTraceListenerオブジェクトを取得
 			DefaultTraceListener drl = (DefaultTraceListener)Trace.Listeners["Default"];
@@ -29,19 +29,19 @@ namespace KanburaLike.Models
 		}
 
 		[Conditional("DEBUG")]
-		public static void DebugWriteLine(string message)
+		public static void WriteLine(string message)
 		{
 			var now = DateTime.Now;
 			Debug.WriteLine($"{now}\t{message}");
 		}
 
 		[Conditional("DEBUG")]
-		public static void DebugWriteLine(Exception e)
+		public static void WriteLine(Exception e)
 		{
-			DebugWriteLine($"{e.GetType().ToString()} {e?.TargetSite.ToString()} {e.Message}");
+			WriteLine($"{e.GetType().ToString()} {e.TargetSite?.ToString()} {e.Message}");
 			var inner = e.InnerException;
 			if (inner != null)
-				DebugWriteLine($"{inner.GetType().ToString()} {inner.TargetSite.ToString()} {inner.Message}");
+				WriteLine($"{inner.GetType().ToString()} {inner.TargetSite?.ToString()} {inner.Message}");
 		}
 	}
 }

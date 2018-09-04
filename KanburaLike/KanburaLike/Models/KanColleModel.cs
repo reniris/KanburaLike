@@ -92,7 +92,7 @@ namespace KanburaLike.Models
 			if (this.IsRegistered) return;
 			try
 			{
-				DebugModel.DebugWriteLine("RegisterHomeportListener");
+				DebugModel.WriteLine("RegisterHomeportListener");
 
 				var client = KanColleClient.Current;
 				if (client.Homeport == null) return;
@@ -102,13 +102,13 @@ namespace KanburaLike.Models
 					.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))
 					.AddTo(this);
 
-				DebugModel.DebugWriteLine("Registered HomeportListener");
+				DebugModel.WriteLine("Registered HomeportListener");
 
 				this.IsRegistered = true;
 			}
 			catch (Exception e)
 			{
-				DebugModel.DebugWriteLine(e);
+				DebugModel.WriteLine(e);
 			}
 		}
 
@@ -146,7 +146,7 @@ namespace KanburaLike.Models
 			}
 			catch (Exception e)
 			{
-				DebugModel.DebugWriteLine(e);
+				DebugModel.WriteLine(e);
 			}
 		}
 
@@ -170,7 +170,7 @@ namespace KanburaLike.Models
 			{
 				// XAMLで書き出し
 				var text = System.Windows.Markup.XamlWriter.Save(data);
-				DebugModel.DebugWriteLine(text);
+				DebugModel.WriteLine(text);
 				System.IO.File.WriteAllText(fullpath + ".xaml", text);
 
 				//XMLで書き出し
@@ -183,7 +183,7 @@ namespace KanburaLike.Models
 			}
 			catch (Exception e)
 			{
-				DebugModel.DebugWriteLine(e);
+				DebugModel.WriteLine(e);
 			}
 		}
 	}

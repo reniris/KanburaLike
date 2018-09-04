@@ -39,7 +39,7 @@ namespace KanburaLike.ViewModels
 		private void Register()
 		{
 			Messenger.Raise(new InteractionMessage("InfoShow"));
-			DebugModel.DebugWriteLine("艦これ Start");
+			DebugModel.WriteLine("艦これ Start");
 		}
 
 		private PropertyChangedEventListener listener;
@@ -80,7 +80,7 @@ namespace KanburaLike.ViewModels
 			}
 			catch (Exception e)
 			{
-				DebugModel.DebugWriteLine(e);
+				DebugModel.WriteLine(e);
 			}
 		}
 

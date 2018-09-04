@@ -102,7 +102,7 @@ namespace KanburaLike.Models.Settings
 			}
 			catch (Exception ex)
 			{
-				DebugModel.DebugWriteLine(ex);
+				DebugModel.WriteLine(ex);
 			}
 		}
 
