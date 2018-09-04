@@ -34,15 +34,11 @@ namespace KanburaLike.Models.Settings
 			return property;
 		}
 
-		public static T GetCache<T>(string key) where T : SerializableSetting
-		{
-			if (cached_instances.TryGetValue(key, out SerializableSetting obj) && obj is T) return (T)obj;
-
-			return null;
-		}
-
 		#region Load / Save
 
+		/// <summary>
+		/// ファイルからロード
+		/// </summary>
 		public static void LoadFile()
 		{
 			try
@@ -78,6 +74,9 @@ namespace KanburaLike.Models.Settings
 			}
 		}
 
+		/// <summary>
+		/// ファイルにセーブ
+		/// </summary>
 		public static void SaveFile()
 		{
 			try
@@ -104,7 +103,6 @@ namespace KanburaLike.Models.Settings
 			catch (Exception ex)
 			{
 				KanColleModel.DebugWriteLine(ex);
-				//MessageBox.Show(string.Format(message, Providers.PluginPath, ex.Message), "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
