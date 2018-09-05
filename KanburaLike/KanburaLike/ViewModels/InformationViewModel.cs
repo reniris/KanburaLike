@@ -67,7 +67,10 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private void UpdateRepairDocks()
 		{
-			this.Kancolle.RepairDocks.Select(r => r.Subscribe(nameof(r.State), () => UpdateRepairWaiting()));
+			foreach (var r in this.Kancolle.RepairDocks)
+			{
+				r.Subscribe(nameof(r.State), () => UpdateRepairWaiting());
+			}
 		}
 
 		/// <summary>
