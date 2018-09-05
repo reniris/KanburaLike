@@ -20,7 +20,7 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// 艦隊情報
 		/// </summary>
-		public DispatcherCollection<FleetViewModel> Fleets { get; } = new DispatcherCollection<FleetViewModel>(DispatcherHelper.UIDispatcher);
+		public FleetViewModel[] Fleets { get; private set; }
 
 		/// <summary>
 		/// キラ艦
@@ -72,11 +72,7 @@ namespace KanburaLike.ViewModels
 
 				if (fleets == null) return;
 
-				Fleets.Clear();
-				foreach (var f in fleets.Select(f => new FleetViewModel(f)))
-				{
-					Fleets.Add(f);
-				}
+				Fleets = fleets.Select(f => new FleetViewModel(f)).ToArray();
 				RaisePropertyChanged(nameof(Fleets));
 			}
 			catch (Exception e)
