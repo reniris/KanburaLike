@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.ViewModels
 {
-	public class FleetViewModel : Livet.ViewModel
+	public class FleetViewModel : ShipsViewModel
 	{
 
 		#region Name変更通知プロパティ
@@ -30,33 +30,14 @@ namespace KanburaLike.ViewModels
 			}
 		}
 		#endregion
-
-		#region IsExpanded変更通知プロパティ
-		private bool _IsExpanded = true;
-
-		public bool IsExpanded
-		{
-			get
-			{ return _IsExpanded; }
-			set
-			{
-				if (_IsExpanded == value)
-					return;
-				_IsExpanded = value;
-				RaisePropertyChanged(nameof(IsExpanded));
-			}
-		}
-		#endregion
-
-		public ShipViewModel[] Ships { get; private set; }
-
+		
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
 
 		/// <summary>
 		/// 艦これの艦隊データ
 		/// </summary>
-		public Fleet Source { get; }
+		//public Fleet Source { get; }
 
 		private PropertyChangedEventListener listener;
 
@@ -76,22 +57,21 @@ namespace KanburaLike.ViewModels
 		/// <param name="f">f</param>
 		public FleetViewModel(Fleet f)
 		{
-			Source = f;
+			_IsExpanded = true;
+			//Source = f;
 
 			Name = f.Name;
-			UpdateShips();
+			//Update(f.Ships);
 
 			listener = new PropertyChangedEventListener(f);
-			listener.RegisterHandler(() => f.Ships, (s, e) => UpdateShips());
+			listener.RegisterHandler(() => f.Ships, (s, e) => Update(f.Ships));
 			listener.RegisterHandler(() => f.Name, (s, e) => Name = f.Name);
 			this.CompositeDisposable.Add(listener);
 		}
 
-		private void UpdateShips()
+		protected override void Update(IEnumerable<Ship> ships)
 		{
-			this.Ships = this.Source.Ships.Select((x, i) => new ShipViewModel(x, i + 1)).ToArray();
-
-			RaisePropertyChanged(nameof(Ships));
+			base.Update(ships);
 			RaisePropertyChanged(nameof(SumLv));
 			RaisePropertyChanged(nameof(SumAirSuperiority));
 		}

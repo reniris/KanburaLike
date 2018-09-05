@@ -52,7 +52,7 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public ShipViewModel[] Ships { get; private set; }
+		public ShipViewModel[] Ships { get; protected set; }
 
 		/// <summary>
 		/// 隻数
