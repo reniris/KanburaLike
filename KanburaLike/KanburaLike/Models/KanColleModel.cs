@@ -74,6 +74,23 @@ namespace KanburaLike.Models
 		}
 		#endregion
 
+		#region Repairyard変更通知プロパティ
+		private Repairyard _Repairyard;
+
+		public Repairyard Repairyard
+		{
+			get
+			{ return _Repairyard; }
+			set
+			{ 
+				if (_Repairyard == value)
+					return;
+				_Repairyard = value;
+				RaisePropertyChanged(nameof(Repairyard));
+			}
+		}
+		#endregion
+
 		#region IsRegistered変更通知プロパティ
 		private bool _IsRegistered = false;
 
@@ -133,6 +150,8 @@ namespace KanburaLike.Models
 		private void UpdateRepairyard(Repairyard repairyard)
 		{
 			this.RepairDocks = repairyard.Docks.Values;
+
+			Repairyard = repairyard;
 		}
 
 		/// <summary>

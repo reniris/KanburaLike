@@ -26,8 +26,8 @@ namespace KanburaLike.ViewModels
 		/// キラ艦
 		/// </summary>
 		public ShipsViewModel Brilliant { get; } = new ShipsViewModel();
-		/// <summary>
 
+		/// <summary>
 		/// 入渠待ち
 		/// </summary>
 		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel();
@@ -67,10 +67,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private void UpdateRepairDocks()
 		{
-			foreach (var r in this.Kancolle.RepairDocks)
-			{
-				r.Subscribe(nameof(r.State), () => UpdateRepairWaiting());
-			}
+			UpdateRepairWaiting();
 		}
 
 		/// <summary>
@@ -117,7 +114,7 @@ namespace KanburaLike.ViewModels
 
 			this.RepairWaiting.SortedUpdate(ships
 				.Where(s => s.TimeToRepair > TimeSpan.Zero)
-				.Where(s => s.Situation.HasFlag(ShipSituation.Repair) == false)
+				.Where(s => this.Kancolle.Repairyard.CheckRepairing(s.Id) == false)
 				, Ship => Ship.TimeToRepair);
 			RaisePropertyChanged(nameof(RepairWaiting));
 		}
