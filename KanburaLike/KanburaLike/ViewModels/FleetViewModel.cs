@@ -34,11 +34,6 @@ namespace KanburaLike.ViewModels
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
 
-		/// <summary>
-		/// 艦これの艦隊データ
-		/// </summary>
-		//public Fleet Source { get; }
-
 		private PropertyChangedEventListener listener;
 
 		/// <summary>
@@ -58,10 +53,9 @@ namespace KanburaLike.ViewModels
 		public FleetViewModel(Fleet f)
 		{
 			_IsExpanded = true;
-			//Source = f;
 
 			Name = f.Name;
-			//Update(f.Ships);
+			Update(f.Ships);
 
 			listener = new PropertyChangedEventListener(f);
 			listener.RegisterHandler(() => f.Ships, (s, e) => Update(f.Ships));
