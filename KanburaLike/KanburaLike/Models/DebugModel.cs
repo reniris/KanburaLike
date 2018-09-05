@@ -5,9 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace KanburaLike.Models
 {
+	/// <summary>
+	/// デバッグ用ユーティリティクラス
+	/// </summary>
 	public static class DebugModel
 	{
 		static DebugModel()
@@ -42,6 +46,35 @@ namespace KanburaLike.Models
 			var inner = e.InnerException;
 			if (inner != null)
 				WriteLine($"{inner.GetType().ToString()} {inner.TargetSite?.ToString()} {inner.Message}");
+		}
+
+		/// <summary>
+		/// デバッグ用データ書き出し
+		/// </summary>
+		[Conditional("DEBUG")]
+		public static void Dump(object data, string filename)
+		{
+			string dir = SettingPath.GetDllFolder();
+			var fullpath = Path.Combine(dir, filename);
+			try
+			{
+				// XAMLで書き出し
+				var text = System.Windows.Markup.XamlWriter.Save(data);
+				DebugModel.WriteLine(text);
+				System.IO.File.WriteAllText(fullpath + ".xaml", text);
+
+				//XMLで書き出し
+				var xmls = new XmlSerializer(data.GetType());
+				using (var writer = new StreamWriter(fullpath + ".xml", false, Encoding.UTF8))
+				{
+					xmls.Serialize(writer, data);
+					writer.Flush();
+				}
+			}
+			catch (Exception e)
+			{
+				DebugModel.WriteLine(e);
+			}
 		}
 	}
 }

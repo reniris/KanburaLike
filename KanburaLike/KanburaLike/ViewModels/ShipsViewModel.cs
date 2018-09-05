@@ -17,7 +17,7 @@ namespace KanburaLike.ViewModels
 	public class ShipsViewModel : Livet.ViewModel
 	{
 		#region IsExpanded変更通知プロパティ
-		private bool _IsExpanded = false;
+		protected bool _IsExpanded = false;
 
 		public bool IsExpanded
 		{
@@ -34,7 +34,7 @@ namespace KanburaLike.ViewModels
 		#endregion
 
 		#region IsAscending変更通知プロパティ
-		private bool _IsAscending = true;
+		protected bool _IsAscending = true;
 
 		public bool IsAscending
 		{
@@ -52,12 +52,12 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public DispatcherCollection<ShipViewModel> Ships { get; } = new DispatcherCollection<ShipViewModel>(DispatcherHelper.UIDispatcher);
-		
+		public ShipViewModel[] Ships { get; protected set; }
+
 		/// <summary>
 		/// 隻数
 		/// </summary>
-		public int Count => (Ships != null) ? Ships.Count : 0;
+		public int Count => (Ships != null) ? Ships.Count() : 0;
 
 		public ShipsViewModel()
 		{
@@ -68,13 +68,9 @@ namespace KanburaLike.ViewModels
 		/// 更新
 		/// </summary>
 		/// <param name="ships">ships</param>
-		public void Update(IEnumerable<Ship> ships)
+		protected virtual void Update(IEnumerable<Ship> ships)
 		{
-			this.Ships.Clear();
-			foreach (var s in ships.Select((s, i) => new ShipViewModel(s, i + 1)))
-			{
-				this.Ships.Add(s);
-			}
+			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
 
 			RaisePropertyChanged(nameof(Ships));
 			RaisePropertyChanged(nameof(Count));
@@ -97,13 +93,9 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// 昇順、降順を切り替え（SortedUpdateでソートされてるはずなのでここでは逆順にするだけ）
 		/// </summary>
-		public void ReverseShips()
+		protected virtual void ReverseShips()
 		{
-			this.Ships.Clear();
-			foreach (var s in this.Ships.Reverse())
-			{
-				this.Ships.Add(s);	//めんどいのでIndexは変えない
-			}
+			this.Ships = this.Ships.Reverse().ToArray();
 			RaisePropertyChanged(nameof(Ships));
 		}
 	}
