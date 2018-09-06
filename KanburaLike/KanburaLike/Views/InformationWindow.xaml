@@ -1,21 +1,21 @@
 ﻿<metro:MetroWindow
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:kcvc="http://schemes.grabacr.net/winfx/2015/kancolleviewer/controls"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-			 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-			 xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+		xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+		xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
 		xmlns:local="clr-namespace:KanburaLike.Views"
-		xmlns:ViewModels="clr-namespace:KanburaLike.ViewModels"
+		xmlns:vm="clr-namespace:KanburaLike.ViewModels"
 		x:Class="KanburaLike.Views.InformationWindow"
 		mc:Ignorable="d"
 		Background="{DynamicResource ThemeBrushKey}"
 		Foreground="{DynamicResource ActiveForegroundBrushKey}"
         Height="600" Width="300" IsRestoringWindowPlacement="True" 
-		d:DataContext="{d:DesignInstance {x:Type ViewModels:InformationWindowViewModel}}" 
+		d:DataContext="{d:DesignInstance {x:Type vm:InformationWindowViewModel}}" 
 		WindowSettings="{Binding Setting}" Topmost="{Binding Setting.TopMost, Mode=TwoWay}">
 
 	<metro:MetroWindow.Resources>
