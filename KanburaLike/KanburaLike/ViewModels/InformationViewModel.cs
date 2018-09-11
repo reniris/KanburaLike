@@ -10,8 +10,10 @@ using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Linq;
 
 namespace KanburaLike.ViewModels
 {
@@ -67,6 +69,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private void UpdateRepairDocks()
 		{
+			DebugModel.WriteLine("Update RepairDocks");
 			UpdateRepairWaiting();
 		}
 
@@ -100,7 +103,10 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
-			this.Brilliant.SortedUpdate(ships.Where(s => s.ConditionType == ConditionType.Brilliant), Ship => Ship.Info.ShipType.SortNumber);
+			this.Brilliant.Update(ships, s => s.ConditionType == ConditionType.Brilliant
+								, new string[] { nameof(Ship.ConditionType) }
+								, new string[] { nameof(Ship.Info.ShipType.SortNumber) });
+
 			RaisePropertyChanged(nameof(Brilliant));
 		}
 
@@ -112,11 +118,13 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
-			this.RepairWaiting.SortedUpdate(ships
-				.Where(s => s.TimeToRepair > TimeSpan.Zero)
-				.Where(s => this.Kancolle.Repairyard.CheckRepairing(s.Id) == false)
-				, Ship => Ship.TimeToRepair);
+			this.RepairWaiting.Update(ships
+				, s => s.TimeToRepair > TimeSpan.Zero && s.Situation.HasFlag(ShipSituation.Repair) == true
+				, new string[] { nameof(Ship.TimeToRepair), nameof(ShipSituation) }
+				, new string[] { nameof(Ship.TimeToRepair) });
+
 			RaisePropertyChanged(nameof(RepairWaiting));
+			DebugModel.WriteLine("Update RepairWaiting");
 		}
 
 		#region TestCommand

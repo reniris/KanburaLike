@@ -54,7 +54,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-
 		#region Lv変更通知プロパティ
 		private int _Lv;
 
@@ -114,7 +113,6 @@ namespace KanburaLike.ViewModels
 			}
 		}
 		#endregion
-
 
 		#region ExpForNextLevel変更通知プロパティ
 		private int _ExpForNextLevel;
@@ -196,7 +194,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-
 		#region HPRateIndex変更通知プロパティ
 		private int _HPRateIndex = 0;
 
@@ -265,7 +262,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-
 		#region ShipTypeName変更通知プロパティ
 		private string _ShipTypeName;
 
@@ -291,7 +287,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _SortNumber; }
 			set
-			{ 
+			{
 				if (_SortNumber == value)
 					return;
 				_SortNumber = value;
@@ -300,13 +296,14 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		public Ship Ship { get; set; }
 
 		/// <summary>
 		/// デザイナ用<see cref="ShipViewModel"/> class.
 		/// </summary>
 		public ShipViewModel()
 		{
-			
+
 		}
 
 		/// <summary>
@@ -315,6 +312,8 @@ namespace KanburaLike.ViewModels
 		/// <param name="s">s</param>
 		public ShipViewModel(Ship s, int i)
 		{
+			this.Ship = s;
+
 			this.Name = s.Info?.Name;
 			this.Index = i;
 			this.Lv = s.Level;
