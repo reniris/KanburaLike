@@ -81,8 +81,8 @@ namespace KanburaLike.ViewModels
 
 			FilteredShips = CollectionViewShaper.Create<ShipViewModel>(this.Ships);
 
-			this.FilteredShips.LiveView.IsLiveFiltering = true;
-			this.FilteredShips.LiveView.IsLiveSorting = true;
+			this.FilteredShips.LiveShaping.IsLiveFiltering = true;
+			this.FilteredShips.LiveShaping.IsLiveSorting = true;
 
 			if (this.IsAscending == true)
 				FilteredShips.OrderBy(sortSelector);
@@ -90,14 +90,14 @@ namespace KanburaLike.ViewModels
 				FilteredShips.OrderByDescending(sortSelector);
 
 			FilteredShips.Where(filter);
-			FilteredShips.Apply();
+			FilteredShips.Apply();	//フィルター、ソートをここで適用
 
 			RaisePropertyChanged(nameof(FilteredShips));
 			RaisePropertyChanged(nameof(Count));
 		}
 
 		/// <summary>
-		/// 昇順、降順を切り替え（あとまわし）
+		/// 昇順、降順を切り替え
 		/// </summary>
 		protected virtual void ReverseShips()
 		{

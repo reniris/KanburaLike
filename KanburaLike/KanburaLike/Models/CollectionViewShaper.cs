@@ -17,7 +17,7 @@ namespace KanburaLike.Models
 	//をもとに作成しました
 
 	/// <summary>
-	/// ファクトリ
+	/// CollectionViewShaperファクトリ
 	/// </summary>
 	public static class CollectionViewShaper
 	{
@@ -33,6 +33,11 @@ namespace KanburaLike.Models
 		}
 	}
 
+	/// <summary>
+	/// ListCollectionViewのフィルター、グルーピング、ソートをラムダ式で設定できるようにするクラス
+	/// Live Shapingにも対応しています
+	/// </summary>
+	/// <typeparam name="TSource">The type of the source.</typeparam>
 	public class CollectionViewShaper<TSource>
 	{
 		private readonly ListCollectionView _view;
@@ -44,20 +49,29 @@ namespace KanburaLike.Models
 
 		private static ConcurrentDictionary<Tuple<string, string>, Func<TSource, bool>> filter_cache = new ConcurrentDictionary<Tuple<string, string>, Func<TSource, bool>>();
 
-		public ICollectionViewLiveShaping LiveView => _view;
+		/// <summary>
+		/// Live Shaping用インターフェース
+		/// </summary>
+		public ICollectionViewLiveShaping LiveShaping => _view;
+		/// <summary>
+		/// バインド用
+		/// </summary>
 		public IEnumerable View => _view;
+		/// <summary>
+		/// フィルター済みの件数
+		/// </summary>
 		public int Count => (_view != null) ? _view.Count : 0;
 
-		public CollectionViewShaper(ListCollectionView view)
+		internal CollectionViewShaper(ListCollectionView view)
 		{
 			_view = view ?? throw new ArgumentNullException("view");
 			_filter = view.Filter;
 			_sortDescriptions = view.SortDescriptions.ToList();
 			_groupDescriptions = view.GroupDescriptions.ToList();
 
-			if (LiveView.CanChangeLiveFiltering == true)
+			if (LiveShaping.CanChangeLiveFiltering == true)
 			{
-				_filterDescriptions = LiveView.LiveFilteringProperties.ToList();
+				_filterDescriptions = LiveShaping.LiveFilteringProperties.ToList();
 			}
 
 			_customComparer = view.CustomSort;
@@ -73,32 +87,32 @@ namespace KanburaLike.Models
 			{
 				//フィルター
 				_view.Filter = _filter;
-				if (LiveView.CanChangeLiveFiltering == true)
+				if (LiveShaping.CanChangeLiveFiltering == true)
 				{
-					LiveView.LiveFilteringProperties.Clear();
-					_filterDescriptions.ForEach(p => LiveView.LiveFilteringProperties.Add(p));
+					LiveShaping.LiveFilteringProperties.Clear();
+					_filterDescriptions.ForEach(p => LiveShaping.LiveFilteringProperties.Add(p));
 				}
 
 				//ソート
 				_view.SortDescriptions.Clear();
-				LiveView.LiveSortingProperties.Clear();
+				LiveShaping.LiveSortingProperties.Clear();
 				foreach (var s in _sortDescriptions)
 				{
 					_view.SortDescriptions.Add(s);
 
-					if (LiveView.CanChangeLiveSorting == true)
-						LiveView.LiveSortingProperties.Add(s.PropertyName);
+					if (LiveShaping.CanChangeLiveSorting == true)
+						LiveShaping.LiveSortingProperties.Add(s.PropertyName);
 				}
 
 				//グルーピング
 				_view.GroupDescriptions.Clear();
-				LiveView.LiveGroupingProperties.Clear();
+				LiveShaping.LiveGroupingProperties.Clear();
 				foreach (var g in _groupDescriptions)
 				{
 					_view.GroupDescriptions.Add(g);
 
-					if (LiveView.CanChangeLiveGrouping == true)
-						LiveView.LiveGroupingProperties.Add((g as PropertyGroupDescription)?.PropertyName);
+					if (LiveShaping.CanChangeLiveGrouping == true)
+						LiveShaping.LiveGroupingProperties.Add((g as PropertyGroupDescription)?.PropertyName);
 				}
 
 				//カスタムソート
@@ -161,9 +175,15 @@ namespace KanburaLike.Models
 			return this;
 		}
 
+		/// <summary>
+		/// フィルターをセットする
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <param name="predicate">フィルター式</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> Where(Expression<Func<TSource, bool>> predicate)
 		{
-			var path = GetPath(predicate.Body);
+			var path = GetSwitchPropertyPath(predicate.Body);
 			var key = string.Join(":", path);
 
 			var f = filter_cache.GetOrAdd(Tuple.Create(nameof(TSource), key), predicate.Compile());
@@ -174,31 +194,75 @@ namespace KanburaLike.Models
 			return this;
 		}
 
+		/// <summary>
+		/// 昇順ソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> OrderBy<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
 			return OrderBy(keySelector, true, ListSortDirection.Ascending);
 		}
 
+		/// <summary>
+		/// 昇順ソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <param name="Comparer">ソート用比較インターフェース</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> OrderBy<TKey>(Expression<Func<TSource, TKey>> keySelector, IComparer Comparer)
 		{
 			return OrderBy(keySelector, true, ListSortDirection.Ascending, Comparer);
 		}
 
+		/// <summary>
+		/// 昇順ソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <param name="Comparer">ソート用比較ラムダ式</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> OrderBy<TKey>(Expression<Func<TSource, TKey>> keySelector, Comparison<TSource> Comparer)
 		{
 			return OrderBy(keySelector, true, ListSortDirection.Ascending, Comparer<TSource>.Create(Comparer));
 		}
 
+		/// <summary>
+		/// 降順ソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> OrderByDescending<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
 			return OrderBy(keySelector, true, ListSortDirection.Descending);
 		}
 
+		/// <summary>
+		/// 後続の要素を昇順ソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> ThenBy<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
 			return OrderBy(keySelector, false, ListSortDirection.Ascending);
 		}
 
+		/// <summary>
+		/// 後続の要素を降順ソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> ThenByDescending<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
 			return OrderBy(keySelector, false, ListSortDirection.Descending);
@@ -227,6 +291,12 @@ namespace KanburaLike.Models
 			return this;
 		}
 
+		/// <summary>
+		/// グルーピング
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">グルーピング用キーセレクタ</param>
+		/// <returns></returns>
 		public CollectionViewShaper<TSource> GroupBy<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
 			string path = GetPropertyPath(keySelector.Body);
@@ -235,7 +305,12 @@ namespace KanburaLike.Models
 			return this;
 		}
 
-		private static List<string> GetPath(Expression exp)
+		/// <summary>
+		/// 式からプロパティ名を取得する
+		/// </summary>
+		/// <param name="exp">式</param>
+		/// <returns></returns>
+		private static List<string> GetSwitchPropertyPath(Expression exp)
 		{
 			List<string> list = new List<string>();
 			string path;
@@ -245,8 +320,8 @@ namespace KanburaLike.Models
 					var binary = exp as BinaryExpression;
 					var left = binary?.Left;
 					var right = binary?.Right;
-					list.AddRange(LeftPropertyPath(left));
-					list.AddRange(LeftPropertyPath(right));
+					list.AddRange(DecomposePropertyPath(left));
+					list.AddRange(DecomposePropertyPath(right));
 					break;
 
 				case UnaryExpression _:
@@ -257,7 +332,10 @@ namespace KanburaLike.Models
 					break;
 
 				case MethodCallExpression _:
-					list.Add(MethodPropertyPath(exp));
+					var m = exp as MethodCallExpression;
+					path = GetPropertyPath(m.Object);
+					if (path != null)
+						list.Add(path);
 					break;
 
 				case MemberExpression _:
@@ -274,7 +352,12 @@ namespace KanburaLike.Models
 			return list;
 		}
 
-		private static List<string> LeftPropertyPath(Expression left)
+		/// <summary>
+		/// 式を分解してプロパティ名を取得する
+		/// </summary>
+		/// <param name="left">式</param>
+		/// <returns></returns>
+		private static List<string> DecomposePropertyPath(Expression left)
 		{
 			if (left == null)
 				return null;
@@ -283,21 +366,21 @@ namespace KanburaLike.Models
 			while (left is BinaryExpression l)
 			{
 				left = l.Left;
-				list.AddRange(LeftPropertyPath(l.Right));
+				list.AddRange(DecomposePropertyPath(l.Right));
 			}
-			var path = GetPath(left);
+			var path = GetSwitchPropertyPath(left);
 			if (path != null)
 				list.AddRange(path);
 
 			return list;
 		}
 
-		private static string MethodPropertyPath(Expression method)
-		{
-			var m = method as MethodCallExpression;
-			return GetPropertyPath(m.Object);
-		}
-
+		/// <summary>
+		/// 式からプロパティ名を取得する
+		/// </summary>
+		/// <param name="expression">式</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">The selector body must contain only property or field access expressions</exception>
 		private static string GetPropertyPath(Expression expression)
 		{
 			var names = new Stack<string>();
