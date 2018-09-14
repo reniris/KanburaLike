@@ -101,11 +101,7 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		protected virtual void ReverseShips()
 		{
-			/*if (this.IsAscending == true)
-				FilteredShips.OrderBy(sortSelector);
-			else
-				FilteredShips.OrderByDescending(sortSelector);
-			*/
+			FilteredShips.ReverseSort();
 			RaisePropertyChanged(nameof(FilteredShips));
 		}
 	}
