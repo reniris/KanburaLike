@@ -2,6 +2,7 @@
 using KanburaLike.Models;
 using Livet;
 using Livet.EventListeners;
+using MetroTrilithon.Lifetime;
 using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -56,8 +57,8 @@ namespace KanburaLike.ViewModels
 			_IsExpanded = true;
 			Source = f;
 
-			Source.Subscribe(nameof(Fleet.Name), () => this.Name = Source.Name);
-			Source.Subscribe(nameof(Fleet.Ships), () => Update(Source.Ships));
+			Source.Subscribe(nameof(Fleet.Name), () => this.Name = Source.Name).AddTo(this); ;
+			Source.Subscribe(nameof(Fleet.Ships), () => Update(Source.Ships)).AddTo(this); ;
 		}
 
 		protected void Update(IEnumerable<Ship> ships)
