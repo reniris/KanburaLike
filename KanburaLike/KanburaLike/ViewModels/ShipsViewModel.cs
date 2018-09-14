@@ -1,5 +1,6 @@
 ﻿using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
+using KanburaLike.Models;
 using Livet;
 using Livet.EventListeners;
 using System;
@@ -55,7 +56,7 @@ namespace KanburaLike.ViewModels
 		#endregion
 
 		public ShipViewModel[] Ships { get; protected set; }
-		public ListCollectionView FilteredShips { get; protected set; }
+		public CollectionViewShaper<ShipViewModel> FilteredShips { get; protected set; }
 
 		/// <summary>
 		/// 隻数
@@ -70,33 +71,27 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// 更新
 		/// </summary>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
 		/// <param name="ships">ships</param>
 		/// <param name="filter">filter</param>
-		/// <param name="filter_names">filter_names</param>
-		/// <param name="sort_names">sort_names</param>
-		public virtual void Update(IEnumerable<Ship> ships, Func<Ship, bool> filter, IEnumerable<string> filter_names, IEnumerable<string> sort_names)
+		/// <param name="sortSelector">sortSelector</param>
+		public virtual void Update<TKey>(IEnumerable<Ship> ships, Expression<Func<ShipViewModel, bool>> filter, Expression<Func<ShipViewModel, TKey>> sortSelector)
 		{
 			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
-			this.FilteredShips = new ListCollectionView(this.Ships)
-			{
-				Filter = obj => filter(((ShipViewModel)obj).Ship),
-				IsLiveFiltering = true,
-				IsLiveSorting = true,
-			};
 
-			foreach (var f in filter_names)
-			{
-				this.FilteredShips.LiveFilteringProperties.Add(f);
-			}
-			foreach (var s in sort_names)
-			{
-				if (this.IsAscending == true)
-					this.FilteredShips.SortDescriptions.Add(new SortDescription(s, ListSortDirection.Ascending));
-				else
-					this.FilteredShips.SortDescriptions.Add(new SortDescription(s, ListSortDirection.Descending));
+			FilteredShips = CollectionViewShaper.Create<ShipViewModel>(this.Ships);
 
-				this.FilteredShips.LiveSortingProperties.Add(s);
-			}
+			this.FilteredShips.LiveView.IsLiveFiltering = true;
+			this.FilteredShips.LiveView.IsLiveSorting = true;
+
+			if (this.IsAscending == true)
+				FilteredShips.OrderBy(sortSelector);
+			else
+				FilteredShips.OrderByDescending(sortSelector);
+
+			FilteredShips.Where(filter);
+			FilteredShips.Apply();
+
 			RaisePropertyChanged(nameof(FilteredShips));
 			RaisePropertyChanged(nameof(Count));
 		}
@@ -106,14 +101,11 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		protected virtual void ReverseShips()
 		{
-			for (var i = 0; i < this.FilteredShips.SortDescriptions.Count; i++)
-			{
-				var s = FilteredShips.SortDescriptions[i];
-				if (this.IsAscending == true)
-					s.Direction = ListSortDirection.Ascending;
-				else
-					s.Direction = ListSortDirection.Descending;
-			}
+			/*if (this.IsAscending == true)
+				FilteredShips.OrderBy(sortSelector);
+			else
+				FilteredShips.OrderByDescending(sortSelector);
+			*/
 			RaisePropertyChanged(nameof(FilteredShips));
 		}
 	}

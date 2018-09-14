@@ -69,8 +69,8 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private void UpdateRepairDocks()
 		{
-			DebugModel.WriteLine("Update RepairDocks");
-			UpdateRepairWaiting();
+			//DebugModel.WriteLine("Update RepairDocks");
+			//UpdateRepairWaiting();
 		}
 
 		/// <summary>
@@ -103,11 +103,12 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
-			this.Brilliant.Update(ships, s => s.ConditionType == ConditionType.Brilliant
-								, new string[] { nameof(Ship.ConditionType) }
-								, new string[] { nameof(Ship.Info.ShipType.SortNumber) });
+			this.Brilliant.Update(ships
+				, s => s.Ship.ConditionType == ConditionType.Brilliant
+				, s => s.Ship.Info.ShipType.SortNumber);
 
 			RaisePropertyChanged(nameof(Brilliant));
+			DebugModel.WriteLine("Update Brilliant");
 		}
 
 		/// <summary>
@@ -119,9 +120,8 @@ namespace KanburaLike.ViewModels
 			if (ships == null) return;
 
 			this.RepairWaiting.Update(ships
-				, s => s.TimeToRepair > TimeSpan.Zero && s.Situation.HasFlag(ShipSituation.Repair) == true
-				, new string[] { nameof(Ship.TimeToRepair), nameof(ShipSituation) }
-				, new string[] { nameof(Ship.TimeToRepair) });
+				, s => s.Ship.TimeToRepair > TimeSpan.Zero && s.Ship.Situation.HasFlag(ShipSituation.Repair) == true
+				, s => s.Ship.TimeToRepair);
 
 			RaisePropertyChanged(nameof(RepairWaiting));
 			DebugModel.WriteLine("Update RepairWaiting");

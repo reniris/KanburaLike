@@ -52,6 +52,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CollectionViewShaper.cs" />
     <Compile Include="Models\DebugModel.cs" />
     <Compile Include="Models\KanColleModel.cs" />
     <Compile Include="Models\SettingPath.cs" />
