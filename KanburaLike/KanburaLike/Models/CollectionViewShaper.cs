@@ -13,6 +13,12 @@ using System.Windows.Data;
 
 namespace KanburaLike.Models
 {
+	//https://www.thomaslevesque.com/2011/11/30/wpf-using-linq-to-shape-data-in-a-collectionview/
+	//をもとに作成しました
+
+	/// <summary>
+	/// ファクトリ
+	/// </summary>
 	public static class CollectionViewShaper
 	{
 		public static CollectionViewShaper<TSource> Create<TSource>(this IList source)
@@ -31,12 +37,13 @@ namespace KanburaLike.Models
 	{
 		private readonly ListCollectionView _view;
 		private Predicate<object> _filter;
-		private readonly List<SortDescription> _sortDescriptions = new List<SortDescription>();
-		private readonly List<GroupDescription> _groupDescriptions = new List<GroupDescription>();
-		private readonly List<string> _filterDescriptions = new List<string>();
+		private readonly List<SortDescription> _sortDescriptions;
+		private readonly List<GroupDescription> _groupDescriptions;
+		private readonly List<string> _filterDescriptions;
+		private IComparer _customComparer;
 
 		private static ConcurrentDictionary<Tuple<string, string>, Func<TSource, bool>> filter_cache = new ConcurrentDictionary<Tuple<string, string>, Func<TSource, bool>>();
-		
+
 		public ICollectionViewLiveShaping LiveView => _view;
 		public IEnumerable View => _view;
 		public int Count => (_view != null) ? _view.Count : 0;
@@ -52,6 +59,8 @@ namespace KanburaLike.Models
 			{
 				_filterDescriptions = LiveView.LiveFilteringProperties.ToList();
 			}
+
+			_customComparer = view.CustomSort;
 		}
 
 		/// <summary>
@@ -91,6 +100,33 @@ namespace KanburaLike.Models
 					if (LiveView.CanChangeLiveGrouping == true)
 						LiveView.LiveGroupingProperties.Add((g as PropertyGroupDescription)?.PropertyName);
 				}
+
+				//カスタムソート
+				_view.CustomSort = _customComparer;
+			}
+		}
+
+		/// <summary>
+		/// ソート反転
+		/// </summary>
+		public void ReverseSort()
+		{
+			_view.SortDescriptions.Clear();
+			for (int i = 0; i < _sortDescriptions.Count(); i++)
+			{
+				var s = _sortDescriptions[i];
+				var rev = new SortDescription
+				{
+					PropertyName = s.PropertyName
+				};
+				if (s.Direction == ListSortDirection.Ascending)
+					rev.Direction = ListSortDirection.Descending;
+				else
+					rev.Direction = ListSortDirection.Ascending;
+
+				_view.SortDescriptions.Add(rev);
+
+				_sortDescriptions[i] = rev;
 			}
 		}
 
@@ -143,6 +179,16 @@ namespace KanburaLike.Models
 			return OrderBy(keySelector, true, ListSortDirection.Ascending);
 		}
 
+		public CollectionViewShaper<TSource> OrderBy<TKey>(Expression<Func<TSource, TKey>> keySelector, IComparer Comparer)
+		{
+			return OrderBy(keySelector, true, ListSortDirection.Ascending, Comparer);
+		}
+
+		public CollectionViewShaper<TSource> OrderBy<TKey>(Expression<Func<TSource, TKey>> keySelector, Comparison<TSource> Comparer)
+		{
+			return OrderBy(keySelector, true, ListSortDirection.Ascending, Comparer<TSource>.Create(Comparer));
+		}
+
 		public CollectionViewShaper<TSource> OrderByDescending<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
 			return OrderBy(keySelector, true, ListSortDirection.Descending);
@@ -166,6 +212,18 @@ namespace KanburaLike.Models
 
 			_sortDescriptions.Add(new SortDescription(path, direction));
 
+			return this;
+		}
+
+		private CollectionViewShaper<TSource> OrderBy<TKey>(Expression<Func<TSource, TKey>> keySelector, bool clear, ListSortDirection direction, IComparer Comparer)
+		{
+			string path = GetPropertyPath(keySelector.Body);
+			_customComparer = Comparer;
+
+			if (clear)
+				_sortDescriptions.Clear();
+
+			_sortDescriptions.Add(new SortDescription(path, direction));
 			return this;
 		}
 
