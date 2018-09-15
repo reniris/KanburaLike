@@ -34,16 +34,6 @@ MIT ライセンスの下で公開する、オープンソース / フリーソ�
 * **ライセンス :** The MIT License (MIT)
 * **ライセンス全文 :** [LICENSE.txt](https://github.com/Grabacr07/KanColleViewer/blob/develop/LICENSE.txt)
 
-#### [MetroTrilithon.Desktop](https://github.com/Grabacr07/MetroTrilithon)
-
->The MIT License (MIT)
->
->Copyright (c) 2015 Manato KAMEYA
-
-* **用途 :** プラグイン開発用ライブラリ
-* **ライセンス :** The MIT License (MIT)
-* **ライセンス全文 :** [LICENSE.txt](https://github.com/Grabacr07/MetroTrilithon/blob/master/LICENSE.txt)
-
 #### [Livet](http://ugaya40.hateblo.jp/entry/Livet)
 
 * **用途 :** MVVM(Model/View/ViewModel)パターン用インフラストラクチャ
