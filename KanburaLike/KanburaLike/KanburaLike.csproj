@@ -129,7 +129,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Converter\" />
+    <Folder Include="Views\Converters\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="KanColleViewer.Composition">

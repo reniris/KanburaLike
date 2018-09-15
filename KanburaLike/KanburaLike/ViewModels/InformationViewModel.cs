@@ -120,7 +120,7 @@ namespace KanburaLike.ViewModels
 			if (ships == null) return;
 
 			this.RepairWaiting.Update(ships
-				, s => s.Ship.TimeToRepair > TimeSpan.Zero && s.Ship.Situation.HasFlag(ShipSituation.Repair) == true
+				, s => s.Ship.TimeToRepair > TimeSpan.Zero && s.IsRepairing == false
 				, s => s.Ship.TimeToRepair);
 
 			RaisePropertyChanged(nameof(RepairWaiting));

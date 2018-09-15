@@ -40,7 +40,7 @@ namespace KanburaLike
 			DebugModel.WriteLine("KanburaLike Init");
 			SettingsHost.LoadFile();
 			infovm = new ViewModels.InformationWindowViewModel(nameof(Views.InformationWindow));
-			
+
 			info = new Views.InformationWindow
 			{
 				DataContext = infovm
@@ -53,6 +53,8 @@ namespace KanburaLike
 				info.Close();
 
 			SettingsHost.SaveFile();
+
+			DebugModel.Dump(infovm.Info.Brilliant.Ships, nameof(infovm.Info.Brilliant));
 			DebugModel.WriteLine("KanburaLike Dispose");
 		}
 	}

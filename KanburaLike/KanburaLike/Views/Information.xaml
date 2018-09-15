@@ -113,7 +113,7 @@
 						<Run Text="{Binding Name}"/>
 						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
 						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  />										
-						<Run Text="{Binding TimeToRepair, StringFormat={}{0:hh\\:mm\\:ss}}"  />
+						<Run Text="{Binding Ship.TimeToRepair, StringFormat=\{0:hh\\:mm\\:ss\}}"  />
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock Foreground="{Binding HPRateIndex,Converter={StaticResource LimitedColor}}">
