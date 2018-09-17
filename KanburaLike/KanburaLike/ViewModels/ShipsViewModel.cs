@@ -1,16 +1,19 @@
 ﻿using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
+using KanburaLike.Models;
 using Livet;
 using Livet.EventListeners;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace KanburaLike.ViewModels
 {
@@ -53,11 +56,12 @@ namespace KanburaLike.ViewModels
 		#endregion
 
 		public ShipViewModel[] Ships { get; protected set; }
+		public CollectionViewShaper<ShipViewModel> FilteredShips { get; protected set; }
 
 		/// <summary>
 		/// 隻数
 		/// </summary>
-		public int Count => (Ships != null) ? Ships.Count() : 0;
+		public int Count => (FilteredShips != null) ? FilteredShips.Count : 0;
 
 		public ShipsViewModel()
 		{
@@ -67,36 +71,38 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// 更新
 		/// </summary>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
 		/// <param name="ships">ships</param>
-		protected virtual void Update(IEnumerable<Ship> ships)
+		/// <param name="filter">filter</param>
+		/// <param name="sortSelector">sortSelector</param>
+		public virtual void Update<TKey>(IEnumerable<Ship> ships, Expression<Func<ShipViewModel, bool>> filter, Expression<Func<ShipViewModel, TKey>> sortSelector)
 		{
 			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
 
-			RaisePropertyChanged(nameof(Ships));
+			FilteredShips = CollectionViewShaper.Create<ShipViewModel>(this.Ships);
+
+			this.FilteredShips.LiveShaping.IsLiveFiltering = true;
+			this.FilteredShips.LiveShaping.IsLiveSorting = true;
+
+			if (this.IsAscending == true)
+				FilteredShips.OrderBy(sortSelector);
+			else
+				FilteredShips.OrderByDescending(sortSelector);
+
+			FilteredShips.Where(filter);
+			FilteredShips.Apply();	//フィルター、ソートをここで適用
+
+			RaisePropertyChanged(nameof(FilteredShips));
 			RaisePropertyChanged(nameof(Count));
 		}
 
 		/// <summary>
-		/// ソートして更新
-		/// </summary>
-		/// <typeparam name="TKey">The type of the key.</typeparam>
-		/// <param name="ships">ships</param>
-		/// <param name="sort">sort</param>
-		public void SortedUpdate<TKey>(IEnumerable<Ship> ships, Func<Ship, TKey> sort)
-		{
-			if (this.IsAscending == true)
-				Update(ships.OrderBy(sort));
-			else
-				Update(ships.OrderByDescending(sort));
-		}
-
-		/// <summary>
-		/// 昇順、降順を切り替え（SortedUpdateでソートされてるはずなのでここでは逆順にするだけ）
+		/// 昇順、降順を切り替え
 		/// </summary>
 		protected virtual void ReverseShips()
 		{
-			this.Ships = this.Ships.Reverse().ToArray();
-			RaisePropertyChanged(nameof(Ships));
+			FilteredShips.ReverseSort();
+			RaisePropertyChanged(nameof(FilteredShips));
 		}
 	}
 }

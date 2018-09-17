@@ -2,6 +2,7 @@
 using KanburaLike.Models;
 using Livet;
 using Livet.EventListeners;
+using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,6 +51,23 @@ namespace KanburaLike.ViewModels
 					return;
 				_Index = value;
 				RaisePropertyChanged(nameof(Index));
+			}
+		}
+		#endregion
+
+		#region IsRepairing変更通知プロパティ
+		private bool _IsRepairing;
+
+		public bool IsRepairing
+		{
+			get
+			{ return _IsRepairing; }
+			set
+			{
+				if (_IsRepairing == value)
+					return;
+				_IsRepairing = value;
+				RaisePropertyChanged(nameof(IsRepairing));
 			}
 		}
 		#endregion
@@ -114,7 +132,6 @@ namespace KanburaLike.ViewModels
 			}
 		}
 		#endregion
-
 
 		#region ExpForNextLevel変更通知プロパティ
 		private int _ExpForNextLevel;
@@ -196,7 +213,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-
 		#region HPRateIndex変更通知プロパティ
 		private int _HPRateIndex = 0;
 
@@ -248,24 +264,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		#region TimeToRepair変更通知プロパティ
-		private TimeSpan _TimeToRepair;
-
-		public TimeSpan TimeToRepair
-		{
-			get
-			{ return _TimeToRepair; }
-			set
-			{
-				if (_TimeToRepair == value)
-					return;
-				_TimeToRepair = value;
-				RaisePropertyChanged(nameof(TimeToRepair));
-			}
-		}
-		#endregion
-
-
 		#region ShipTypeName変更通知プロパティ
 		private string _ShipTypeName;
 
@@ -283,30 +281,14 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		#region ShipTypeSortNumber変更通知プロパティ
-		private int _SortNumber;
-
-		public int ShipTypeSortNumber
-		{
-			get
-			{ return _SortNumber; }
-			set
-			{ 
-				if (_SortNumber == value)
-					return;
-				_SortNumber = value;
-				RaisePropertyChanged(nameof(ShipTypeSortNumber));
-			}
-		}
-		#endregion
-
+		public Ship Ship { get; set; }
 
 		/// <summary>
 		/// デザイナ用<see cref="ShipViewModel"/> class.
 		/// </summary>
 		public ShipViewModel()
 		{
-			
+
 		}
 
 		/// <summary>
@@ -315,14 +297,19 @@ namespace KanburaLike.ViewModels
 		/// <param name="s">s</param>
 		public ShipViewModel(Ship s, int i)
 		{
-			this.Name = s.Info?.Name;
+			this.Ship = s;
 			this.Index = i;
+			var kmodel = KanColleModel.Current;
+			kmodel.Subscribe(nameof(kmodel.Repairyard.Docks), () => this.IsRepairing = kmodel.Repairyard.CheckRepairing(Ship.Id)).AddTo(this);
+
+			this.Name = s.Info.Name;
+
 			this.Lv = s.Level;
 			this.Condition = s.Condition;
 			this.ConditionType = (int)s.ConditionType;
 			this.ExpForNextLevel = s.ExpForNextLevel;
 
-			this.AirSuperiority = s.GetAirSuperiorityPotential();
+			this.Ship.Subscribe(nameof(Ship.Slots), () => this.AirSuperiority = s.GetAirSuperiorityPotential()).AddTo(this);
 
 			this.FuelRateIndex = GetRateIndex(s.Fuel.Current, s.Fuel.Maximum);
 			this.BullRateIndex = GetRateIndex(s.Bull.Current, s.Bull.Maximum);
@@ -332,10 +319,7 @@ namespace KanburaLike.ViewModels
 
 			UpdateHP();
 
-			this.TimeToRepair = s.TimeToRepair;
-
-			this.ShipTypeName = s.Info?.ShipType.Name;
-			this.ShipTypeSortNumber = s.Info.ShipType.SortNumber;
+			this.ShipTypeName = s.Info.ShipType.Name;
 		}
 
 		private decimal GetRate(decimal current, decimal max)

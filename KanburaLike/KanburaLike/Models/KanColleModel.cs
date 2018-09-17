@@ -57,6 +57,40 @@ namespace KanburaLike.Models
 		}
 		#endregion
 
+		#region RepairDocks変更通知プロパティ
+		private IEnumerable<RepairingDock> _RepairDocks;
+
+		public IEnumerable<RepairingDock> RepairDocks
+		{
+			get
+			{ return _RepairDocks; }
+			set
+			{
+				if (_RepairDocks == value)
+					return;
+				_RepairDocks = value;
+				RaisePropertyChanged(nameof(RepairDocks));
+			}
+		}
+		#endregion
+
+		#region Repairyard変更通知プロパティ
+		private Repairyard _Repairyard;
+
+		public Repairyard Repairyard
+		{
+			get
+			{ return _Repairyard; }
+			set
+			{ 
+				if (_Repairyard == value)
+					return;
+				_Repairyard = value;
+				RaisePropertyChanged(nameof(Repairyard));
+			}
+		}
+		#endregion
+
 		#region IsRegistered変更通知プロパティ
 		private bool _IsRegistered = false;
 
@@ -75,6 +109,7 @@ namespace KanburaLike.Models
 		#endregion
 
 		//private LivetCompositeDisposable organizationDisposables;
+		//private LivetCompositeDisposable repairyardDisposables;
 		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 		public ICollection<IDisposable> CompositeDisposable => this.compositeDisposable;
 
@@ -91,7 +126,9 @@ namespace KanburaLike.Models
 			try
 			{
 				var client = KanColleClient.Current;
-				if (client.Homeport == null) return;
+				client.Homeport.Repairyard
+					.Subscribe(nameof(Repairyard.Docks), () => this.UpdateRepairyard(client.Homeport.Repairyard))
+					.AddTo(this);
 
 				client.Homeport.Organization
 					.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
@@ -107,18 +144,24 @@ namespace KanburaLike.Models
 		}
 
 		/// <summary>
+		/// 入渠ドックに変化があったとき呼ばれる
+		/// </summary>
+		/// <param name="repairyard">repairyard</param>
+		private void UpdateRepairyard(Repairyard repairyard)
+		{
+			this.RepairDocks = repairyard.Docks.Values;
+
+			Repairyard = repairyard;
+		}
+
+		/// <summary>
 		/// 艦娘に変化があったときに呼ばれる
 		/// </summary>
 		/// <param name="organization">organization</param>
 		/// <returns></returns>
 		private void UpdateShips(Organization organization)
 		{
-			//DebugWriteLine("Model UpdateShips");
-			var ships = organization?.Ships.Values;
-			if (ships != null)
-			{
-				Ships = ships;
-			}
+			this.Ships = organization.Ships.Values;
 		}
 
 		/// <summary>
@@ -127,21 +170,7 @@ namespace KanburaLike.Models
 		/// <param name="organization">organization</param>
 		private void UpdateFleets(Organization organization)
 		{
-			//this.organizationDisposables?.Dispose();
-			//this.organizationDisposables = new LivetCompositeDisposable();
-			try
-			{
-				//DebugWriteLine("Model UpdateFleets");
-				var fleets = organization.Fleets.Values;
-				if (fleets != null)
-				{
-					Fleets = fleets;
-				}
-			}
-			catch (Exception e)
-			{
-				DebugModel.WriteLine(e);
-			}
+			this.Fleets = organization.Fleets.Values;
 		}
 
 		public void Dispose()

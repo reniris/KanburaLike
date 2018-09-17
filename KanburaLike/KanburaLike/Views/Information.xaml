@@ -113,7 +113,7 @@
 						<Run Text="{Binding Name}"/>
 						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
 						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  />										
-						<Run Text="{Binding TimeToRepair, StringFormat={}{0:hh\\:mm\\:ss}}"  />
+						<Run Text="{Binding Ship.TimeToRepair, StringFormat=\{0:hh\\:mm\\:ss\}}"  />
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock Foreground="{Binding HPRateIndex,Converter={StaticResource LimitedColor}}">
@@ -182,7 +182,7 @@
 					<Run Text="{Binding Count, Mode=OneWay, StringFormat=(\{0:D\} 隻)}" />
 				</TextBlock>
 			</Expander.Header>
-			<ItemsControl ItemsSource="{Binding Ships}" 
+			<ItemsControl ItemsSource="{Binding FilteredShips.View}" 
 						  ItemTemplate="{DynamicResource Brilliant}"
 						  Template="{DynamicResource ScrollableTemplate}" 
 						  Style="{DynamicResource ScrollableItemsStyle}">
@@ -202,7 +202,7 @@
 					<Run Text="{Binding Count, Mode=OneWay, StringFormat=(\{0:D\} 隻)}" />
 				</TextBlock>
 			</Expander.Header>
-			<ItemsControl ItemsSource="{Binding Ships}" 
+			<ItemsControl ItemsSource="{Binding FilteredShips.View}" 
 						  ItemTemplate="{DynamicResource RepairWaiting}" 
 						  Template="{DynamicResource ScrollableTemplate}" 
 						  Style="{DynamicResource ScrollableItemsStyle}" >

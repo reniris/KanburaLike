@@ -10,8 +10,10 @@ using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Linq;
 
 namespace KanburaLike.ViewModels
 {
@@ -26,8 +28,8 @@ namespace KanburaLike.ViewModels
 		/// キラ艦
 		/// </summary>
 		public ShipsViewModel Brilliant { get; } = new ShipsViewModel();
-		/// <summary>
 
+		/// <summary>
 		/// 入渠待ち
 		/// </summary>
 		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel();
@@ -57,8 +59,18 @@ namespace KanburaLike.ViewModels
 			listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) => Register());
 			listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
 			listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
+			listener.RegisterHandler(() => Kancolle.RepairDocks, (s, e) => UpdateRepairDocks());
 
 			this.CompositeDisposable.Add(listener);
+		}
+
+		/// <summary>
+		/// 入渠ドックの状態が更新されたときに呼ばれる
+		/// </summary>
+		private void UpdateRepairDocks()
+		{
+			//DebugModel.WriteLine("Update RepairDocks");
+			//UpdateRepairWaiting();
 		}
 
 		/// <summary>
@@ -66,19 +78,12 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private void UpdateFleets()
 		{
-			try
-			{
-				var fleets = this.Kancolle.Fleets;
+			var fleets = this.Kancolle.Fleets;
 
-				if (fleets == null) return;
+			if (fleets == null) return;
 
-				Fleets = fleets.Select(f => new FleetViewModel(f)).ToArray();
-				RaisePropertyChanged(nameof(Fleets));
-			}
-			catch (Exception e)
-			{
-				DebugModel.WriteLine(e);
-			}
+			Fleets = fleets.Select(f => new FleetViewModel(f)).ToArray();
+			RaisePropertyChanged(nameof(Fleets));
 		}
 
 		/// <summary>
@@ -98,8 +103,12 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
-			this.Brilliant.SortedUpdate(ships.Where(s => s.ConditionType == ConditionType.Brilliant), Ship => Ship.Info.ShipType.SortNumber);
+			this.Brilliant.Update(ships
+				, s => s.Ship.ConditionType == ConditionType.Brilliant
+				, s => s.Ship.Info.ShipType.SortNumber);
+
 			RaisePropertyChanged(nameof(Brilliant));
+			DebugModel.WriteLine("Update Brilliant");
 		}
 
 		/// <summary>
@@ -110,11 +119,12 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
-			this.RepairWaiting.SortedUpdate(ships
-				.Where(s => s.TimeToRepair > TimeSpan.Zero)
-				.Where(s => s.Situation.HasFlag(ShipSituation.Repair) == false)
-				, Ship => Ship.TimeToRepair);
+			this.RepairWaiting.Update(ships
+				, s => s.Ship.TimeToRepair > TimeSpan.Zero && s.IsRepairing == false
+				, s => s.Ship.TimeToRepair);
+
 			RaisePropertyChanged(nameof(RepairWaiting));
+			DebugModel.WriteLine("Update RepairWaiting");
 		}
 
 		#region TestCommand

@@ -2,6 +2,8 @@
 using KanburaLike.Models;
 using Livet;
 using Livet.EventListeners;
+using MetroTrilithon.Lifetime;
+using MetroTrilithon.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,16 +32,11 @@ namespace KanburaLike.ViewModels
 			}
 		}
 		#endregion
-		
+
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
 
-		/// <summary>
-		/// 艦これの艦隊データ
-		/// </summary>
-		//public Fleet Source { get; }
-
-		private PropertyChangedEventListener listener;
+		private Fleet Source { get; }
 
 		/// <summary>
 		/// デザイナ用 <see cref="FleetViewModel"/> class.
@@ -58,20 +55,17 @@ namespace KanburaLike.ViewModels
 		public FleetViewModel(Fleet f)
 		{
 			_IsExpanded = true;
-			//Source = f;
+			Source = f;
 
-			Name = f.Name;
-			//Update(f.Ships);
-
-			listener = new PropertyChangedEventListener(f);
-			listener.RegisterHandler(() => f.Ships, (s, e) => Update(f.Ships));
-			listener.RegisterHandler(() => f.Name, (s, e) => Name = f.Name);
-			this.CompositeDisposable.Add(listener);
+			Source.Subscribe(nameof(Fleet.Name), () => this.Name = Source.Name).AddTo(this); ;
+			Source.Subscribe(nameof(Fleet.Ships), () => Update(Source.Ships)).AddTo(this); ;
 		}
 
-		protected override void Update(IEnumerable<Ship> ships)
+		protected void Update(IEnumerable<Ship> ships)
 		{
-			base.Update(ships);
+			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
+
+			RaisePropertyChanged(nameof(Ships));
 			RaisePropertyChanged(nameof(SumLv));
 			RaisePropertyChanged(nameof(SumAirSuperiority));
 		}
