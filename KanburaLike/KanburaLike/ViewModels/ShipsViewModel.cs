@@ -82,15 +82,13 @@ namespace KanburaLike.ViewModels
 			FilteredShips = CollectionViewShaper.Create<ShipViewModel>(this.Ships);
 
 			this.FilteredShips.LiveShaping.IsLiveFiltering = true;
-			this.FilteredShips.LiveShaping.IsLiveSorting = true;
-
+			
 			if (this.IsAscending == true)
-				FilteredShips.OrderBy(sortSelector);
+				FilteredShips.OrderBy(sortSelector).Where(filter).Apply();
 			else
-				FilteredShips.OrderByDescending(sortSelector);
+				FilteredShips.OrderByDescending(sortSelector).Where(filter).Apply();
 
-			FilteredShips.Where(filter);
-			FilteredShips.Apply();	//フィルター、ソートをここで適用
+			this.FilteredShips.LiveShaping.IsLiveSorting = true;
 
 			RaisePropertyChanged(nameof(FilteredShips));
 			RaisePropertyChanged(nameof(Count));

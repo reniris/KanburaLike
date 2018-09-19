@@ -1,80 +1,43 @@
 ﻿<vm:ShipsViewModel 
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:models="clr-namespace:Grabacr07.KanColleWrapper.Models;assembly=KanColleWrapper" 
 	xmlns:vm="clr-namespace:KanburaLike.ViewModels">
 	<vm:ShipsViewModel.Ships>
-		<vm:ShipViewModel Name="大潮改二" Index="1" Lv="81" Condition="53" ConditionType="0" ExpForNextLevel="9483" AirSuperiority="0" CurrentHP="31" MaxHP="31" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="北上改二" Index="2" Lv="106" Condition="84" ConditionType="0" ExpForNextLevel="5595" AirSuperiority="0" CurrentHP="49" MaxHP="49" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="重雷装巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="那珂改二" Index="3" Lv="94" Condition="66" ConditionType="0" ExpForNextLevel="28234" AirSuperiority="0" CurrentHP="48" MaxHP="48" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="霞改二" Index="4" Lv="96" Condition="54" ConditionType="0" ExpForNextLevel="55657" AirSuperiority="0" CurrentHP="31" MaxHP="31" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="3" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="神通改二" Index="5" Lv="94" Condition="75" ConditionType="0" ExpForNextLevel="24871" AirSuperiority="0" CurrentHP="51" MaxHP="51" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="3" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="球磨改" Index="6" Lv="94" Condition="51" ConditionType="0" ExpForNextLevel="12360" AirSuperiority="0" CurrentHP="42" MaxHP="42" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="加古改二" Index="7" Lv="91" Condition="96" ConditionType="0" ExpForNextLevel="15307" AirSuperiority="0" CurrentHP="52" MaxHP="52" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="羽黒改二" Index="8" Lv="91" Condition="100" ConditionType="0" ExpForNextLevel="11542" AirSuperiority="0" CurrentHP="57" MaxHP="57" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="金剛改二" Index="9" Lv="119" Condition="67" ConditionType="0" ExpForNextLevel="25368" AirSuperiority="0" CurrentHP="90" MaxHP="90" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="荒潮改二" Index="10" Lv="80" Condition="53" ConditionType="0" ExpForNextLevel="5005" AirSuperiority="0" CurrentHP="31" MaxHP="31" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="雷改" Index="11" Lv="77" Condition="53" ConditionType="0" ExpForNextLevel="934" AirSuperiority="0" CurrentHP="30" MaxHP="30" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="飛鷹改" Index="12" Lv="99" Condition="63" ConditionType="0" ExpForNextLevel="0" AirSuperiority="0" CurrentHP="50" MaxHP="50" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="軽空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="赤城改" Index="13" Lv="99" Condition="58" ConditionType="0" ExpForNextLevel="0" AirSuperiority="9" CurrentHP="77" MaxHP="77" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="正規空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="青葉改" Index="14" Lv="91" Condition="78" ConditionType="0" ExpForNextLevel="18698" AirSuperiority="0" CurrentHP="49" MaxHP="49" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="古鷹改二" Index="15" Lv="91" Condition="70" ConditionType="0" ExpForNextLevel="18030" AirSuperiority="0" CurrentHP="53" MaxHP="53" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="妙高改二" Index="16" Lv="91" Condition="79" ConditionType="0" ExpForNextLevel="19108" AirSuperiority="0" CurrentHP="56" MaxHP="56" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="龍驤改二" Index="17" Lv="99" Condition="60" ConditionType="0" ExpForNextLevel="0" AirSuperiority="0" CurrentHP="50" MaxHP="50" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="軽空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="伊168改" Index="18" Lv="75" Condition="59" ConditionType="0" ExpForNextLevel="9358" AirSuperiority="0" CurrentHP="15" MaxHP="15" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="潜水艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="朧改" Index="19" Lv="78" Condition="73" ConditionType="0" ExpForNextLevel="12829" AirSuperiority="0" CurrentHP="30" MaxHP="30" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="高雄改" Index="20" Lv="91" Condition="75" ConditionType="0" ExpForNextLevel="14387" AirSuperiority="0" CurrentHP="57" MaxHP="57" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="漣改" Index="21" Lv="77" Condition="82" ConditionType="0" ExpForNextLevel="11961" AirSuperiority="0" CurrentHP="30" MaxHP="30" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="阿武隈改二" Index="22" Lv="118" Condition="84" ConditionType="0" ExpForNextLevel="20444" AirSuperiority="0" CurrentHP="51" MaxHP="51" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="大井改二" Index="23" Lv="106" Condition="54" ConditionType="0" ExpForNextLevel="3551" AirSuperiority="0" CurrentHP="49" MaxHP="49" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="重雷装巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="愛宕改" Index="24" Lv="91" Condition="81" ConditionType="0" ExpForNextLevel="15917" AirSuperiority="0" CurrentHP="57" MaxHP="57" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="霧島改二" Index="25" Lv="99" Condition="55" ConditionType="0" ExpForNextLevel="0" AirSuperiority="0" CurrentHP="82" MaxHP="82" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="3" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="衣笠改二" Index="26" Lv="91" Condition="53" ConditionType="0" ExpForNextLevel="18234" AirSuperiority="0" CurrentHP="53" MaxHP="53" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="蒼龍改二" Index="27" Lv="115" Condition="72" ConditionType="0" ExpForNextLevel="17028" AirSuperiority="73" CurrentHP="74" MaxHP="74" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="正規空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="飛龍改二" Index="28" Lv="115" Condition="76" ConditionType="0" ExpForNextLevel="15379" AirSuperiority="8" CurrentHP="74" MaxHP="74" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="正規空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="伊勢改二" Index="29" Lv="99" Condition="82" ConditionType="0" ExpForNextLevel="0" AirSuperiority="0" CurrentHP="78" MaxHP="78" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="航空戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="陸奥改" Index="30" Lv="98" Condition="54" ConditionType="0" ExpForNextLevel="95558" AirSuperiority="0" CurrentHP="90" MaxHP="90" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="千代田甲" Index="31" Lv="80" Condition="63" ConditionType="0" ExpForNextLevel="6683" AirSuperiority="0" CurrentHP="42" MaxHP="42" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="水上機母艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="比叡改二" Index="32" Lv="108" Condition="85" ConditionType="0" ExpForNextLevel="7648" AirSuperiority="0" CurrentHP="91" MaxHP="91" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="千歳甲" Index="33" Lv="80" Condition="72" ConditionType="0" ExpForNextLevel="5004" AirSuperiority="0" CurrentHP="42" MaxHP="42" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="水上機母艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="熊野航改二" Index="34" Lv="99" Condition="50" ConditionType="0" ExpForNextLevel="0" AirSuperiority="0" CurrentHP="62" MaxHP="62" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="軽空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="長門改二" Index="35" Lv="99" Condition="57" ConditionType="0" ExpForNextLevel="0" AirSuperiority="0" CurrentHP="91" MaxHP="91" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="秋雲改" Index="36" Lv="77" Condition="75" ConditionType="0" ExpForNextLevel="8489" AirSuperiority="0" CurrentHP="32" MaxHP="32" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="伊19改" Index="37" Lv="76" Condition="53" ConditionType="0" ExpForNextLevel="7436" AirSuperiority="0" CurrentHP="18" MaxHP="18" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="潜水空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="明石改" Index="38" Lv="75" Condition="55" ConditionType="0" ExpForNextLevel="6831" AirSuperiority="0" CurrentHP="45" MaxHP="45" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="工作艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="酒匂改" Index="39" Lv="95" Condition="56" ConditionType="0" ExpForNextLevel="36976" AirSuperiority="0" CurrentHP="46" MaxHP="46" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="3" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="初風改" Index="40" Lv="77" Condition="70" ConditionType="0" ExpForNextLevel="9185" AirSuperiority="0" CurrentHP="32" MaxHP="32" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="龍鳳改" Index="41" Lv="99" Condition="55" ConditionType="0" ExpForNextLevel="0" AirSuperiority="3" CurrentHP="48" MaxHP="48" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="軽空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="雲龍改" Index="42" Lv="99" Condition="81" ConditionType="0" ExpForNextLevel="0" AirSuperiority="67" CurrentHP="60" MaxHP="60" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="正規空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="武蔵改二" Index="43" Lv="99" Condition="69" ConditionType="0" ExpForNextLevel="0" AirSuperiority="29" CurrentHP="99" MaxHP="99" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="3" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="朝雲改" Index="44" Lv="79" Condition="67" ConditionType="0" ExpForNextLevel="4965" AirSuperiority="0" CurrentHP="31" MaxHP="31" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="大鯨" Index="45" Lv="76" Condition="54" ConditionType="0" ExpForNextLevel="3378" AirSuperiority="0" CurrentHP="39" MaxHP="39" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="潜水母艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="清霜改" Index="46" Lv="78" Condition="70" ConditionType="0" ExpForNextLevel="10658" AirSuperiority="0" CurrentHP="32" MaxHP="32" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="能代改" Index="47" Lv="95" Condition="51" ConditionType="0" ExpForNextLevel="24246" AirSuperiority="0" CurrentHP="45" MaxHP="45" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="軽巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="天城改" Index="48" Lv="99" Condition="52" ConditionType="0" ExpForNextLevel="0" AirSuperiority="3" CurrentHP="60" MaxHP="60" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="正規空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Italia" Index="49" Lv="98" Condition="97" ConditionType="0" ExpForNextLevel="17789" AirSuperiority="0" CurrentHP="92" MaxHP="92" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="秋津洲改" Index="50" Lv="75" Condition="50" ConditionType="0" ExpForNextLevel="8401" AirSuperiority="0" CurrentHP="36" MaxHP="36" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="水上機母艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Roma改" Index="51" Lv="98" Condition="95" ConditionType="0" ExpForNextLevel="41737" AirSuperiority="0" CurrentHP="92" MaxHP="92" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="速吸改" Index="52" Lv="82" Condition="85" ConditionType="0" ExpForNextLevel="2992" AirSuperiority="0" CurrentHP="48" MaxHP="48" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="3" TimeToRepair="00:00:00" ShipTypeName="補給艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Libeccio改" Index="53" Lv="85" Condition="85" ConditionType="0" ExpForNextLevel="8847" AirSuperiority="0" CurrentHP="29" MaxHP="29" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="瑞穂改" Index="54" Lv="85" Condition="100" ConditionType="0" ExpForNextLevel="14445" AirSuperiority="49" CurrentHP="42" MaxHP="42" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="水上機母艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="鹿島改" Index="55" Lv="98" Condition="50" ConditionType="0" ExpForNextLevel="2682" AirSuperiority="0" CurrentHP="40" MaxHP="40" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="練習巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Zara due" Index="56" Lv="91" Condition="56" ConditionType="0" ExpForNextLevel="1689" AirSuperiority="18" CurrentHP="62" MaxHP="62" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="3" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="神風改" Index="57" Lv="78" Condition="71" ConditionType="0" ExpForNextLevel="12792" AirSuperiority="0" CurrentHP="23" MaxHP="23" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Pola改" Index="58" Lv="91" Condition="92" ConditionType="0" ExpForNextLevel="19515" AirSuperiority="3" CurrentHP="56" MaxHP="56" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="1" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Iowa改" Index="59" Lv="99" Condition="50" ConditionType="0" ExpForNextLevel="0" AirSuperiority="0" CurrentHP="92" MaxHP="92" HPRateIndex="0" FuelRateIndex="3" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Warspite改" Index="60" Lv="98" Condition="81" ConditionType="0" ExpForNextLevel="35537" AirSuperiority="0" CurrentHP="82" MaxHP="82" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Pola" Index="61" Lv="40" Condition="70" ConditionType="0" ExpForNextLevel="3905" AirSuperiority="0" CurrentHP="42" MaxHP="42" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="重巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="鈴谷改二" Index="62" Lv="92" Condition="78" ConditionType="0" ExpForNextLevel="17850" AirSuperiority="12" CurrentHP="61" MaxHP="61" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="航空巡洋艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="春風改" Index="63" Lv="78" Condition="73" ConditionType="0" ExpForNextLevel="12894" AirSuperiority="0" CurrentHP="23" MaxHP="23" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="藤波改" Index="64" Lv="77" Condition="59" ConditionType="0" ExpForNextLevel="5643" AirSuperiority="0" CurrentHP="32" MaxHP="32" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="沖波改" Index="65" Lv="77" Condition="63" ConditionType="0" ExpForNextLevel="3821" AirSuperiority="0" CurrentHP="32" MaxHP="32" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Гангут два" Index="66" Lv="97" Condition="100" ConditionType="0" ExpForNextLevel="55834" AirSuperiority="0" CurrentHP="77" MaxHP="77" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="旗風改" Index="67" Lv="78" Condition="50" ConditionType="0" ExpForNextLevel="10196" AirSuperiority="0" CurrentHP="23" MaxHP="23" HPRateIndex="0" FuelRateIndex="2" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="天霧改" Index="68" Lv="72" Condition="55" ConditionType="0" ExpForNextLevel="6529" AirSuperiority="0" CurrentHP="30" MaxHP="30" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Richelieu改" Index="69" Lv="96" Condition="90" ConditionType="0" ExpForNextLevel="6484" AirSuperiority="0" CurrentHP="89" MaxHP="89" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="戦艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="狭霧改" Index="70" Lv="73" Condition="58" ConditionType="0" ExpForNextLevel="5203" AirSuperiority="0" CurrentHP="30" MaxHP="30" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Jervis改" Index="71" Lv="73" Condition="50" ConditionType="0" ExpForNextLevel="2622" AirSuperiority="0" CurrentHP="31" MaxHP="31" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Gambier Bay改" Index="72" Lv="97" Condition="98" ConditionType="0" ExpForNextLevel="58741" AirSuperiority="49" CurrentHP="38" MaxHP="38" HPRateIndex="0" FuelRateIndex="1" BullRateIndex="2" TimeToRepair="00:00:00" ShipTypeName="軽空母"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="浜波改" Index="73" Lv="73" Condition="75" ConditionType="0" ExpForNextLevel="3183" AirSuperiority="0" CurrentHP="32" MaxHP="32" HPRateIndex="0" FuelRateIndex="0" BullRateIndex="0" TimeToRepair="00:00:00" ShipTypeName="駆逐艦"></vm:ShipViewModel>
-		<vm:ShipViewModel Name="Intrepid改" Index="74" Lv="98" Condition="85" ConditionType="0" ExpForNextLevel="143953" AirSuperiority="191" CurrentHP="69" MaxHP="69" HPRateIndex="0" FuelRateIndex="4" BullRateIndex="4" TimeToRepair="00:00:00" ShipTypeName="正規空母"></vm:ShipViewModel>
+		<vm:ShipViewModel>
+			<vm:ShipViewModel.Ship>
+				<models:Ship Id="1"
+					 Level="140"
+					 Exp="99887766"
+					 ExpForNextLevel="129800"
+					 Condition="80"
+					 ConditionType="Brilliant"
+					 Situation="HeavilyDamaged">
+					<models:Ship.Info>
+						<models:ShipInfo Id="987"
+								 Name="Bismarck sechs">
+							<models:ShipInfo.ShipType>
+								<models:ShipType Name="重雷装巡洋戦艦" />
+							</models:ShipInfo.ShipType>
+						</models:ShipInfo>
+					</models:Ship.Info>
+
+					<models:Ship.HP>
+						<models:LimitedValue Minimum="0"
+									 Maximum="130"
+									 Current="82" />
+					</models:Ship.HP>
+					<models:Ship.Fuel>
+						<models:LimitedValue Minimum="0"
+									 Maximum="120"
+									 Current="100" />
+					</models:Ship.Fuel>
+					<models:Ship.Bull>
+						<models:LimitedValue Minimum="0"
+									 Maximum="110"
+									 Current="100" />
+					</models:Ship.Bull>
+				</models:Ship>
+			</vm:ShipViewModel.Ship>
+		</vm:ShipViewModel>
 	</vm:ShipsViewModel.Ships>
 </vm:ShipsViewModel>

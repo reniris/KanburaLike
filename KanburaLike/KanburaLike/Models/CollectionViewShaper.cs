@@ -275,7 +275,7 @@ namespace KanburaLike.Models
 				ClearSort();
 
 			_sortDescriptions.Add(new SortDescription(path, direction));
-
+			DebugModel.WriteLine(path);
 			return this;
 		}
 
@@ -345,7 +345,7 @@ namespace KanburaLike.Models
 					break;
 
 				default:
-					DebugModel.WriteLine(exp.Type.Name);
+					//DebugModel.WriteLine(exp.ToString());
 					return null;
 			}
 
