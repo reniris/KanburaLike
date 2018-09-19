@@ -51,47 +51,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-/*
-		#region Lv変更通知プロパティ
-		private int _Lv;
-
-		/// <summary>
-		/// レベル
-		/// </summary>
-		public int Lv
-		{
-			get
-			{ return _Lv; }
-			set
-			{
-				if (_Lv == value)
-					return;
-				_Lv = value;
-				RaisePropertyChanged(nameof(Lv));
-			}
-		}
-		#endregion
-
-		#region Condition変更通知プロパティ
-		private int _Condition;
-
-		/// <summary>
-		/// Cond値
-		/// </summary>
-		public int Condition
-		{
-			get
-			{ return _Condition; }
-			set
-			{
-				if (_Condition == value)
-					return;
-				_Condition = value;
-				RaisePropertyChanged(nameof(Condition));
-			}
-		}
-		#endregion
-*/
 		#region ConditionType変更通知プロパティ
 		private int _ConditionType;
 
