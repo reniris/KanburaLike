@@ -59,18 +59,8 @@ namespace KanburaLike.ViewModels
 			listener.RegisterHandler(() => Kancolle.IsRegistered, (s, e) => Register());
 			listener.RegisterHandler(() => Kancolle.Fleets, (s, e) => UpdateFleets());
 			listener.RegisterHandler(() => Kancolle.Ships, (s, e) => UpdateShips());
-			listener.RegisterHandler(() => Kancolle.RepairDocks, (s, e) => UpdateRepairDocks());
 
 			this.CompositeDisposable.Add(listener);
-		}
-
-		/// <summary>
-		/// 入渠ドックの状態が更新されたときに呼ばれる
-		/// </summary>
-		private void UpdateRepairDocks()
-		{
-			//DebugModel.WriteLine("Update RepairDocks");
-			//UpdateRepairWaiting();
 		}
 
 		/// <summary>
@@ -108,7 +98,7 @@ namespace KanburaLike.ViewModels
 				, s => s.Ship.Info.ShipType.SortNumber);
 
 			RaisePropertyChanged(nameof(Brilliant));
-			DebugModel.WriteLine("Update Brilliant");
+			//DebugModel.WriteLine("Update Brilliant");
 		}
 
 		/// <summary>
@@ -124,7 +114,7 @@ namespace KanburaLike.ViewModels
 				, s => s.Ship.TimeToRepair);
 
 			RaisePropertyChanged(nameof(RepairWaiting));
-			DebugModel.WriteLine("Update RepairWaiting");
+			//DebugModel.WriteLine("Update RepairWaiting");
 		}
 
 		#region TestCommand

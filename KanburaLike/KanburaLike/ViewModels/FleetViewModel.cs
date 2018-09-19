@@ -33,7 +33,7 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Lv) : 0;
+		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Ship.Level) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
 
 		private Fleet Source { get; }

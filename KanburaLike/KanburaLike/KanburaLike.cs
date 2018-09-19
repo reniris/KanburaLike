@@ -54,7 +54,7 @@ namespace KanburaLike
 
 			SettingsHost.SaveFile();
 
-			DebugModel.Dump(infovm.Info.Brilliant.Ships, nameof(infovm.Info.Brilliant));
+			//DebugModel.Dump(infovm.Info.Brilliant.Ships.FirstOrDefault().Ship, nameof(infovm.Info.Brilliant));
 			DebugModel.WriteLine("KanburaLike Dispose");
 		}
 	}

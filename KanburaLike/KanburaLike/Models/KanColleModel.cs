@@ -57,23 +57,6 @@ namespace KanburaLike.Models
 		}
 		#endregion
 
-		#region RepairDocks変更通知プロパティ
-		private IEnumerable<RepairingDock> _RepairDocks;
-
-		public IEnumerable<RepairingDock> RepairDocks
-		{
-			get
-			{ return _RepairDocks; }
-			set
-			{
-				if (_RepairDocks == value)
-					return;
-				_RepairDocks = value;
-				RaisePropertyChanged(nameof(RepairDocks));
-			}
-		}
-		#endregion
-
 		#region Repairyard変更通知プロパティ
 		private Repairyard _Repairyard;
 
@@ -82,11 +65,28 @@ namespace KanburaLike.Models
 			get
 			{ return _Repairyard; }
 			set
-			{ 
+			{
 				if (_Repairyard == value)
 					return;
 				_Repairyard = value;
 				RaisePropertyChanged(nameof(Repairyard));
+			}
+		}
+		#endregion
+
+		#region RepairState変更通知プロパティ
+		private RepairingDockState _RepairState;
+
+		public RepairingDockState RepairState
+		{
+			get
+			{ return _RepairState; }
+			set
+			{
+				if (_RepairState == value)
+					return;
+				_RepairState = value;
+				RaisePropertyChanged(nameof(RepairState));
 			}
 		}
 		#endregion
@@ -109,7 +109,7 @@ namespace KanburaLike.Models
 		#endregion
 
 		//private LivetCompositeDisposable organizationDisposables;
-		//private LivetCompositeDisposable repairyardDisposables;
+		private LivetCompositeDisposable repairyardDisposables;
 		private readonly LivetCompositeDisposable compositeDisposable = new LivetCompositeDisposable();
 		public ICollection<IDisposable> CompositeDisposable => this.compositeDisposable;
 
@@ -149,9 +149,15 @@ namespace KanburaLike.Models
 		/// <param name="repairyard">repairyard</param>
 		private void UpdateRepairyard(Repairyard repairyard)
 		{
-			this.RepairDocks = repairyard.Docks.Values;
-
 			Repairyard = repairyard;
+
+			this.repairyardDisposables?.Dispose();
+			this.repairyardDisposables = new LivetCompositeDisposable();
+
+			foreach (var dock in repairyard.Docks.Values)
+			{
+				repairyardDisposables.Add(dock.Subscribe(nameof(dock.State), () => RepairState = dock.State));
+			}
 		}
 
 		/// <summary>
@@ -177,7 +183,7 @@ namespace KanburaLike.Models
 		{
 			this.compositeDisposable.Dispose();
 			//this.dockyardDisposables?.Dispose();
-			//this.repairyardDisposables?.Dispose();
+			this.repairyardDisposables?.Dispose();
 			//this.organizationDisposables?.Dispose();
 		}
 	}

@@ -14,27 +14,6 @@ namespace KanburaLike.ViewModels
 {
 	public class ShipViewModel : Livet.ViewModel
 	{
-
-		#region Name変更通知プロパティ
-		private string _Name;
-
-		/// <summary>
-		/// 艦の名前
-		/// </summary>
-		public string Name
-		{
-			get
-			{ return _Name; }
-			set
-			{
-				if (_Name == value)
-					return;
-				_Name = value;
-				RaisePropertyChanged(nameof(Name));
-			}
-		}
-		#endregion
-
 		#region Index変更通知プロパティ
 		private int _Index;
 
@@ -72,7 +51,7 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-
+/*
 		#region Lv変更通知プロパティ
 		private int _Lv;
 
@@ -112,7 +91,7 @@ namespace KanburaLike.ViewModels
 			}
 		}
 		#endregion
-
+*/
 		#region ConditionType変更通知プロパティ
 		private int _ConditionType;
 
@@ -129,26 +108,6 @@ namespace KanburaLike.ViewModels
 					return;
 				_ConditionType = value;
 				RaisePropertyChanged(nameof(ConditionType));
-			}
-		}
-		#endregion
-
-		#region ExpForNextLevel変更通知プロパティ
-		private int _ExpForNextLevel;
-
-		/// <summary>
-		/// 次のレベルへの経験値
-		/// </summary>
-		public int ExpForNextLevel
-		{
-			get
-			{ return _ExpForNextLevel; }
-			set
-			{
-				if (_ExpForNextLevel == value)
-					return;
-				_ExpForNextLevel = value;
-				RaisePropertyChanged(nameof(ExpForNextLevel));
 			}
 		}
 		#endregion
@@ -264,23 +223,6 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		#region ShipTypeName変更通知プロパティ
-		private string _ShipTypeName;
-
-		public string ShipTypeName
-		{
-			get
-			{ return _ShipTypeName; }
-			set
-			{
-				if (_ShipTypeName == value)
-					return;
-				_ShipTypeName = value;
-				RaisePropertyChanged(nameof(ShipTypeName));
-			}
-		}
-		#endregion
-
 		public Ship Ship { get; set; }
 
 		/// <summary>
@@ -288,7 +230,6 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public ShipViewModel()
 		{
-
 		}
 
 		/// <summary>
@@ -300,14 +241,9 @@ namespace KanburaLike.ViewModels
 			this.Ship = s;
 			this.Index = i;
 			var kmodel = KanColleModel.Current;
-			kmodel.Subscribe(nameof(kmodel.Repairyard.Docks), () => this.IsRepairing = kmodel.Repairyard.CheckRepairing(Ship.Id)).AddTo(this);
+			kmodel.Subscribe(nameof(kmodel.RepairState), () => this.IsRepairing = kmodel.Repairyard.CheckRepairing(Ship.Id)).AddTo(this);
 
-			this.Name = s.Info.Name;
-
-			this.Lv = s.Level;
-			this.Condition = s.Condition;
 			this.ConditionType = (int)s.ConditionType;
-			this.ExpForNextLevel = s.ExpForNextLevel;
 
 			this.Ship.Subscribe(nameof(Ship.Slots), () => this.AirSuperiority = s.GetAirSuperiorityPotential()).AddTo(this);
 
@@ -318,8 +254,6 @@ namespace KanburaLike.ViewModels
 			this.MaxHP = s.HP.Maximum;
 
 			UpdateHP();
-
-			this.ShipTypeName = s.Info.ShipType.Name;
 		}
 
 		private decimal GetRate(decimal current, decimal max)

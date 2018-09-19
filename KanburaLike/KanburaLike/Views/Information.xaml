@@ -44,7 +44,7 @@
 			<Thickness x:Key="DataMargin">5,0,0,0</Thickness>
 			<!-- 艦隊データテンプレート -->
 			<DataTemplate x:Key="Fleet" DataType="{x:Type vm:ShipViewModel}">
-				<StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance {x:Type vm:ShipViewModel}}">
 					<StackPanel.Resources>
 						<Style TargetType="{x:Type TextBlock}">
 							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
@@ -53,12 +53,12 @@
 					<TextBlock>
 						<Run Text="{Binding Index}" />
 					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Foreground="{Binding ConditionType, Converter={StaticResource CondColor}}">
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding ConditionType, Converter={StaticResource CondColor}, Mode=OneWay}">
 						<!-- ここからCondで色変え -->
-						<Run Text="{Binding Name}"/>
-						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
-						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  />										
-						<Run Text="{Binding ExpForNextLevel, StringFormat=次:\{0:D\}}"  />
+						<Run Text="{Binding Ship.Info.Name, Mode=OneWay}"/>
+						<Run Text="{Binding Ship.Level, Mode=OneWay, StringFormat=Lv.\{0:D\}}"  />
+						<Run Text="{Binding Ship.Condition, Mode=OneWay, StringFormat=(\{0:D\})}"  />										
+						<Run Text="{Binding Ship.ExpForNextLevel, Mode=OneWay, StringFormat=次:\{0:D\}}"  />
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock>
@@ -75,20 +75,20 @@
 
 			<!-- キラ艦データテンプレート -->
 			<DataTemplate x:Key="Brilliant" DataType="{x:Type vm:ShipViewModel}">
-				<StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance {x:Type vm:ShipViewModel}}">
 					<StackPanel.Resources>
 						<Style TargetType="TextBlock">
 							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
 						</Style>
 					</StackPanel.Resources>
 					<TextBlock TextWrapping="Wrap">
-						<Run Text="{Binding ShipTypeName}" />
+						<Run Text="{Binding Ship.Info.ShipType.Name, Mode=OneWay}" />
 					</TextBlock>
 					<TextBlock TextWrapping="Wrap" Foreground="{Binding ConditionType, Converter={StaticResource CondColor}}">
 						<!-- ここからCondで色変え -->
-						<Run Text="{Binding Name}" />
-						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}" />
-						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"/>
+						<Run Text="{Binding Ship.Info.Name, Mode=OneWay}" />
+						<Run Text="{Binding Ship.Level, Mode=OneWay, StringFormat=Lv.\{0:D\}}" />
+						<Run Text="{Binding Ship.Condition, Mode=OneWay, StringFormat=(\{0:D\})}"/>
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock>
@@ -102,7 +102,7 @@
 
 			<!-- 入渠待ちデータテンプレート -->
 			<DataTemplate x:Key="RepairWaiting" DataType="{x:Type vm:ShipViewModel}">
-				<StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance {x:Type vm:ShipViewModel}}">
 					<StackPanel.Resources>
 						<Style TargetType="TextBlock">
 							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
@@ -110,9 +110,9 @@
 					</StackPanel.Resources>
 					<TextBlock TextWrapping="Wrap" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}">
 						<!-- ここからCondで色変え -->
-						<Run Text="{Binding Name}"/>
-						<Run Text="{Binding Lv, StringFormat=Lv.\{0:D\}}"  />
-						<Run Text="{Binding Condition, StringFormat=(\{0:D\})}"  />										
+						<Run Text="{Binding Ship.Info.Name, Mode=OneWay}"/>
+						<Run Text="{Binding Ship.Level, Mode=OneWay, StringFormat=Lv.\{0:D\}}"  />
+						<Run Text="{Binding Ship.Condition, Mode=OneWay, StringFormat=(\{0:D\})}"  />										
 						<Run Text="{Binding Ship.TimeToRepair, StringFormat=\{0:hh\\:mm\\:ss\}}"  />
 						<!-- ここまで -->
 					</TextBlock>
