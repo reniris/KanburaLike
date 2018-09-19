@@ -19,7 +19,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
-			
+
 			<AlternationConverter x:Key="LimitedColor">
 				<SolidColorBrush Color="White" />
 				<SolidColorBrush Color="LightGray" />
@@ -122,22 +122,6 @@
 				</StackPanel>
 			</DataTemplate>
 
-			<!-- キラ艦、入渠待ちスタイル -->
-			<Style TargetType="ItemsControl" x:Key="ScrollableItemsStyle">
-				<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
-				<Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
-			</Style>
-			<!-- キラ艦、入渠待ちテンプレート -->
-			<ControlTemplate x:Key="ScrollableTemplate">
-				<ScrollViewer Padding="{TemplateBinding Control.Padding}" 
-							  Focusable="True" 
-							  VerticalScrollBarVisibility="Auto" 
-							  HorizontalScrollBarVisibility="Disabled" 
-							  >
-					<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-				</ScrollViewer>
-			</ControlTemplate>
-
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -183,9 +167,7 @@
 				</TextBlock>
 			</Expander.Header>
 			<ItemsControl ItemsSource="{Binding FilteredShips.View}" 
-						  ItemTemplate="{DynamicResource Brilliant}"
-						  Template="{DynamicResource ScrollableTemplate}" 
-						  Style="{DynamicResource ScrollableItemsStyle}">
+						  ItemTemplate="{DynamicResource Brilliant}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<VirtualizingStackPanel/>
@@ -203,9 +185,7 @@
 				</TextBlock>
 			</Expander.Header>
 			<ItemsControl ItemsSource="{Binding FilteredShips.View}" 
-						  ItemTemplate="{DynamicResource RepairWaiting}" 
-						  Template="{DynamicResource ScrollableTemplate}" 
-						  Style="{DynamicResource ScrollableItemsStyle}" >
+						  ItemTemplate="{DynamicResource RepairWaiting}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<VirtualizingStackPanel/>
