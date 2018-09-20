@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace KanburaLike.Models.Settings
 {
 	[SerializableAttribute()]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	[System.Xml.Serialization.XmlRootAttribute(ElementName = "KanburaLike", Namespace = "", IsNullable = false)]
-	[System.Xml.Serialization.XmlInclude(typeof(WindowSetting))]
+	[XmlTypeAttribute(AnonymousType = true)]
+	[XmlRoot(ElementName = "KanburaLike", Namespace = "", IsNullable = false)]
+	[XmlInclude(typeof(WindowSetting))]
+	[XmlInclude(typeof(ShipsSetting))]
 	public class SettingsRoot
 	{
-		[System.Xml.Serialization.XmlArrayItemAttribute(IsNullable = false)]
+		[XmlArrayItem(IsNullable = false)]
 		public string[] Keys { get; set; }
 
-		[System.Xml.Serialization.XmlArrayItemAttribute(IsNullable = false)]
+		[XmlArrayItem(IsNullable = false)]
 		public SerializableSetting[] Values { get; set; }
 	}
 }

@@ -34,11 +34,11 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// ソート用プロパティ名
 		/// </summary>
-		private string SortPropertyName = null;
+		protected string SortPropertyName = null;
 		/// <summary>
 		/// ソート用プロパティ名２
 		/// </summary>
-		private string SortPropertyName2 = null;
+		protected string SortPropertyName2 = null;
 
 		public ShipsViewModel(string key)
 		{
