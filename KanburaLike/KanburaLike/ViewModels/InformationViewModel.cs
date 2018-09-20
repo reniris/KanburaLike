@@ -95,7 +95,8 @@ namespace KanburaLike.ViewModels
 
 			this.Brilliant.Update(ships
 				, s => s.Ship.ConditionType == ConditionType.Brilliant
-				, s => s.Ship.Info.ShipType.SortNumber);
+				, s => s.Ship.Info.ShipType.SortNumber
+				, s => s.Ship.Condition);
 
 			RaisePropertyChanged(nameof(Brilliant));
 			//DebugModel.WriteLine("Update Brilliant");

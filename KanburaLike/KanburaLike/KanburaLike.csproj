@@ -67,6 +67,10 @@
     <Compile Include="ViewModels\Settings\WindowSettingViewModel.cs" />
     <Compile Include="ViewModels\ShipsViewModel.cs" />
     <Compile Include="ViewModels\ShipViewModel.cs" />
+    <Compile Include="Views\Converters\EnumToListObject.cs" />
+    <Compile Include="Views\Converters\LimitedValueToListObject.cs" />
+    <Compile Include="Views\Converters\LimitedValueToString.cs" />
+    <Compile Include="Views\Converters\ValueConverterBase.cs" />
     <Compile Include="Views\Information.xaml.cs">
       <DependentUpon>Information.xaml</DependentUpon>
     </Compile>
@@ -128,9 +132,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="KanColleViewer.Composition">
       <Version>1.4.0</Version>

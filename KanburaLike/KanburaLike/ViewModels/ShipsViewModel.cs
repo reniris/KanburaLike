@@ -55,6 +55,25 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		#region IsAscending2変更通知プロパティ
+		protected bool _IsAscending2 = true;
+
+		public bool IsAscending2
+		{
+			get
+			{ return _IsAscending2; }
+			set
+			{
+				if (_IsAscending2 == value)
+					return;
+				_IsAscending2 = value;
+
+				ReverseShips2();
+				RaisePropertyChanged(nameof(IsAscending2));
+			}
+		}
+		#endregion
+
 		public ShipViewModel[] Ships { get; protected set; }
 		public CollectionViewShaper<ShipViewModel> FilteredShips { get; protected set; }
 
@@ -62,6 +81,15 @@ namespace KanburaLike.ViewModels
 		/// 隻数
 		/// </summary>
 		public int Count => (FilteredShips != null) ? FilteredShips.Count : 0;
+
+		/// <summary>
+		/// ソート用プロパティ名
+		/// </summary>
+		private string SortPropertyName = null;
+		/// <summary>
+		/// ソート用プロパティ名２
+		/// </summary>
+		private string SortPropertyName2 = null;
 
 		public ShipsViewModel()
 		{
@@ -75,20 +103,22 @@ namespace KanburaLike.ViewModels
 		/// <param name="ships">ships</param>
 		/// <param name="filter">filter</param>
 		/// <param name="sortSelector">sortSelector</param>
-		public virtual void Update<TKey>(IEnumerable<Ship> ships, Expression<Func<ShipViewModel, bool>> filter, Expression<Func<ShipViewModel, TKey>> sortSelector)
+		public virtual void Update<TKey>(IEnumerable<Ship> ships, Expression<Func<ShipViewModel, bool>> filter
+			, Expression<Func<ShipViewModel, TKey>> sortSelector, Expression<Func<ShipViewModel, TKey>> sortSelector2 = null)
 		{
 			this.Ships = ships.Select((s, i) => new ShipViewModel(s, i + 1)).ToArray();
 
-			FilteredShips = CollectionViewShaper.Create<ShipViewModel>(this.Ships);
+			this.FilteredShips = CollectionViewShaper.Create<ShipViewModel>(this.Ships);
 
 			this.FilteredShips.LiveShaping.IsLiveFiltering = true;
-			
-			if (this.IsAscending == true)
-				FilteredShips.OrderBy(sortSelector).Where(filter).Apply();
-			else
-				FilteredShips.OrderByDescending(sortSelector).Where(filter).Apply();
-
 			this.FilteredShips.LiveShaping.IsLiveSorting = true;
+
+			FilteredShips.OrderBy(sortSelector, IsAscending).ThenBy(sortSelector2, IsAscending2).Where(filter).Apply();
+
+			//ソート用プロパティ名を保存
+			var props = this.FilteredShips.LiveShaping.LiveSortingProperties;
+			this.SortPropertyName = props.FirstOrDefault();
+			this.SortPropertyName2 = props.Skip(1).FirstOrDefault();
 
 			RaisePropertyChanged(nameof(FilteredShips));
 			RaisePropertyChanged(nameof(Count));
@@ -99,7 +129,16 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		protected virtual void ReverseShips()
 		{
-			FilteredShips.ReverseSort();
+			//実装はあとで
+			RaisePropertyChanged(nameof(FilteredShips));
+		}
+
+		/// <summary>
+		/// 昇順、降順を切り替え2
+		/// </summary>
+		protected virtual void ReverseShips2()
+		{
+			//実装はあとで
 			RaisePropertyChanged(nameof(FilteredShips));
 		}
 	}

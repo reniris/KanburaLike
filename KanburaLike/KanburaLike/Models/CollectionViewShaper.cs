@@ -116,31 +116,8 @@ namespace KanburaLike.Models
 				}
 
 				//カスタムソート
-				_view.CustomSort = _customComparer;
-			}
-		}
-
-		/// <summary>
-		/// ソート反転
-		/// </summary>
-		public void ReverseSort()
-		{
-			_view.SortDescriptions.Clear();
-			for (int i = 0; i < _sortDescriptions.Count(); i++)
-			{
-				var s = _sortDescriptions[i];
-				var rev = new SortDescription
-				{
-					PropertyName = s.PropertyName
-				};
-				if (s.Direction == ListSortDirection.Ascending)
-					rev.Direction = ListSortDirection.Descending;
-				else
-					rev.Direction = ListSortDirection.Ascending;
-
-				_view.SortDescriptions.Add(rev);
-
-				_sortDescriptions[i] = rev;
+				if (_customComparer != null)    //こうしないと通常のソートが利かない
+					_view.CustomSort = _customComparer;
 			}
 		}
 
@@ -207,6 +184,22 @@ namespace KanburaLike.Models
 		}
 
 		/// <summary>
+		/// ソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <param name="isAscending">昇順かどうか</param>
+		/// <returns></returns>
+		public CollectionViewShaper<TSource> OrderBy<TKey>(Expression<Func<TSource, TKey>> keySelector, bool isAscending)
+		{
+			if (isAscending == true)
+				return OrderBy(keySelector, true, ListSortDirection.Ascending);
+			else
+				return OrderBy(keySelector, true, ListSortDirection.Descending);
+		}
+
+		/// <summary>
 		/// 昇順ソート
 		/// 適用するためにはApply()を呼ぶ必要がある
 		/// </summary>
@@ -253,7 +246,29 @@ namespace KanburaLike.Models
 		/// <returns></returns>
 		public CollectionViewShaper<TSource> ThenBy<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
+			if (keySelector == null)
+				return this;
+
 			return OrderBy(keySelector, false, ListSortDirection.Ascending);
+		}
+
+		/// <summary>
+		/// 後続の要素をソート
+		/// 適用するためにはApply()を呼ぶ必要がある
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="keySelector">ソート用キーセレクタ</param>
+		/// <param name="isAscending">昇順かどうかを表す値</param>
+		/// <returns></returns>
+		public CollectionViewShaper<TSource> ThenBy<TKey>(Expression<Func<TSource, TKey>> keySelector, bool isAscending)
+		{
+			if (keySelector == null)
+				return this;
+
+			if (isAscending == true)
+				return OrderBy(keySelector, false, ListSortDirection.Ascending);
+			else
+				return OrderBy(keySelector, false, ListSortDirection.Descending);
 		}
 
 		/// <summary>
@@ -265,6 +280,9 @@ namespace KanburaLike.Models
 		/// <returns></returns>
 		public CollectionViewShaper<TSource> ThenByDescending<TKey>(Expression<Func<TSource, TKey>> keySelector)
 		{
+			if (keySelector == null)
+				return this;
+
 			return OrderBy(keySelector, false, ListSortDirection.Descending);
 		}
 
@@ -275,7 +293,6 @@ namespace KanburaLike.Models
 				ClearSort();
 
 			_sortDescriptions.Add(new SortDescription(path, direction));
-			DebugModel.WriteLine(path);
 			return this;
 		}
 
@@ -345,7 +362,6 @@ namespace KanburaLike.Models
 					break;
 
 				default:
-					//DebugModel.WriteLine(exp.ToString());
 					return null;
 			}
 
