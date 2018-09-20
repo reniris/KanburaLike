@@ -27,12 +27,12 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// キラ艦
 		/// </summary>
-		public ShipsViewModel Brilliant { get; } = new ShipsViewModel();
+		public ShipsViewModel Brilliant { get; } = new ShipsViewModel(nameof(Brilliant));
 
 		/// <summary>
 		/// 入渠待ち
 		/// </summary>
-		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel();
+		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel(nameof(RepairWaiting));
 
 		private KanColleModel Kancolle { get; } = KanColleModel.Current;
 
