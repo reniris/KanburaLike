@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:KanburaLike.Views"
+    xmlns:conv="clr-namespace:KanburaLike.Views.Converters"
     xmlns:vm="clr-namespace:KanburaLike.ViewModels" 
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
@@ -19,16 +19,17 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+			<conv:LimitedValueToString x:Key="LimitedToString" />
 
-			<AlternationConverter x:Key="LimitedColor">
+			<conv:LimitedValueToListObject x:Key="LimitedColor">
 				<SolidColorBrush Color="White" />
 				<SolidColorBrush Color="LightGray" />
 				<SolidColorBrush Color="Yellow" />
 				<SolidColorBrush Color="Orange" />
 				<SolidColorBrush Color="Red" />
-			</AlternationConverter>
+			</conv:LimitedValueToListObject>
 
-			<AlternationConverter x:Key="CondColor">
+			<conv:EnumToListObject x:Key="CondColor">
 				<SolidColorBrush Color="Yellow" />
 				<!-- ConditionType.Brilliant-->
 				<SolidColorBrush Color="White" />
@@ -39,7 +40,7 @@
 				<!-- ConditionType.OrangeTired -->
 				<SolidColorBrush Color="Red" />
 				<!-- ConditionType.RedTired -->
-			</AlternationConverter>
+			</conv:EnumToListObject>
 
 			<Thickness x:Key="DataMargin">5,0,0,0</Thickness>
 			<!-- 艦隊データテンプレート -->
@@ -53,7 +54,7 @@
 					<TextBlock>
 						<Run Text="{Binding Index}" />
 					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Foreground="{Binding ConditionType, Converter={StaticResource CondColor}, Mode=OneWay}">
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding Ship.ConditionType, Converter={StaticResource CondColor}, Mode=OneWay}">
 						<!-- ここからCondで色変え -->
 						<Run Text="{Binding Ship.Info.Name, Mode=OneWay}"/>
 						<Run Text="{Binding Ship.Level, Mode=OneWay, StringFormat=Lv.\{0:D\}}"  />
@@ -65,10 +66,10 @@
 						<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
 					</TextBlock>
 					<TextBlock>
-						<Run Text="燃" Foreground="{Binding FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding BullRateIndex, Converter={StaticResource LimitedColor}}"/>
+						<Run Text="燃" Foreground="{Binding Ship.Fuel, Converter={StaticResource LimitedColor}, Mode=OneWay}"/><Run Text="弾" Foreground="{Binding Ship.Bull, Converter={StaticResource LimitedColor}, Mode=OneWay}"/>
 					</TextBlock>
-					<TextBlock Foreground="{Binding HPRateIndex, Converter={StaticResource LimitedColor}}">
-						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
+					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource LimitedColor}, Mode=OneWay}">
+						<Run Text="{Binding Ship.HP, Converter={StaticResource LimitedToString}, Mode=OneWay}" />
 					</TextBlock>
 				</StackPanel>
 			</DataTemplate>
@@ -84,7 +85,7 @@
 					<TextBlock TextWrapping="Wrap">
 						<Run Text="{Binding Ship.Info.ShipType.Name, Mode=OneWay}" />
 					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Foreground="{Binding ConditionType, Converter={StaticResource CondColor}}">
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding Ship.ConditionType, Converter={StaticResource CondColor}, Mode=OneWay}">
 						<!-- ここからCondで色変え -->
 						<Run Text="{Binding Ship.Info.Name, Mode=OneWay}" />
 						<Run Text="{Binding Ship.Level, Mode=OneWay, StringFormat=Lv.\{0:D\}}" />
@@ -92,10 +93,10 @@
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock>
-						<Run Text="燃" Foreground="{Binding FuelRateIndex, Converter={StaticResource LimitedColor}}"/><Run Text="弾" Foreground="{Binding BullRateIndex, Converter={StaticResource LimitedColor}}"/>
+						<Run Text="燃" Foreground="{Binding Ship.Fuel, Converter={StaticResource LimitedColor}, Mode=OneWay}"/><Run Text="弾" Foreground="{Binding Ship.Bull, Converter={StaticResource LimitedColor}, Mode=OneWay}"/>
 					</TextBlock>
-					<TextBlock Foreground="{Binding HPRateIndex, Converter={StaticResource LimitedColor}}">
-						<Run Text="{Binding CurrentHP, StringFormat=(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
+					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource LimitedColor}, Mode=OneWay}">
+						<Run Text="{Binding Ship.HP, Converter={StaticResource LimitedToString}, Mode=OneWay}" />
 					</TextBlock>
 				</StackPanel>
 			</DataTemplate>
@@ -108,7 +109,7 @@
 							<Setter Property="Margin" Value="{StaticResource DataMargin}"/>
 						</Style>
 					</StackPanel.Resources>
-					<TextBlock TextWrapping="Wrap" Foreground="{Binding Path=ConditionType, Converter={StaticResource CondColor}}">
+					<TextBlock TextWrapping="Wrap" Foreground="{Binding Ship.ConditionType, Converter={StaticResource CondColor}, Mode=OneWay}">
 						<!-- ここからCondで色変え -->
 						<Run Text="{Binding Ship.Info.Name, Mode=OneWay}"/>
 						<Run Text="{Binding Ship.Level, Mode=OneWay, StringFormat=Lv.\{0:D\}}"  />
@@ -116,8 +117,8 @@
 						<Run Text="{Binding Ship.TimeToRepair, StringFormat=\{0:hh\\:mm\\:ss\}}"  />
 						<!-- ここまで -->
 					</TextBlock>
-					<TextBlock Foreground="{Binding HPRateIndex,Converter={StaticResource LimitedColor}}">
-						<Run Text="{Binding CurrentHP, StringFormat=HP(\{0:D\}/}"  /><Run Text="{Binding MaxHP, StringFormat=\{0:D\})}"/>
+					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource LimitedColor}, Mode=OneWay}">
+						<Run Text="{Binding Ship.HP, Converter={StaticResource LimitedToString}, Mode=OneWay}"  />
 					</TextBlock>
 				</StackPanel>
 			</DataTemplate>
