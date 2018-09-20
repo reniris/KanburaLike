@@ -1,8 +1,10 @@
 ﻿using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
 using KanburaLike.Models;
+using KanburaLike.Models.Settings;
 using Livet;
 using Livet.EventListeners;
+using MetroTrilithon.Mvvm;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,60 +21,7 @@ namespace KanburaLike.ViewModels
 {
 	public class ShipsViewModel : Livet.ViewModel
 	{
-		#region IsExpanded変更通知プロパティ
-		protected bool _IsExpanded = false;
-
-		public bool IsExpanded
-		{
-			get
-			{ return _IsExpanded; }
-			set
-			{
-				if (_IsExpanded == value)
-					return;
-				_IsExpanded = value;
-				RaisePropertyChanged(nameof(IsExpanded));
-			}
-		}
-		#endregion
-
-		#region IsAscending変更通知プロパティ
-		protected bool _IsAscending = true;
-
-		public bool IsAscending
-		{
-			get
-			{ return _IsAscending; }
-			set
-			{
-				if (_IsAscending == value)
-					return;
-				_IsAscending = value;
-
-				ReverseShips();
-				RaisePropertyChanged(nameof(IsAscending));
-			}
-		}
-		#endregion
-
-		#region IsAscending2変更通知プロパティ
-		protected bool _IsAscending2 = true;
-
-		public bool IsAscending2
-		{
-			get
-			{ return _IsAscending2; }
-			set
-			{
-				if (_IsAscending2 == value)
-					return;
-				_IsAscending2 = value;
-
-				ReverseShips2();
-				RaisePropertyChanged(nameof(IsAscending2));
-			}
-		}
-		#endregion
+		public ShipsSetting Setting { get; }
 
 		public ShipViewModel[] Ships { get; protected set; }
 		public CollectionViewShaper<ShipViewModel> FilteredShips { get; protected set; }
@@ -91,9 +40,11 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		private string SortPropertyName2 = null;
 
-		public ShipsViewModel()
+		public ShipsViewModel(string key)
 		{
-
+			Setting = SettingsHost.Cache<ShipsSetting>(k => new ShipsSetting(key), key);
+			Setting.Subscribe(nameof(Setting.IsAscending), () => ReverseSort(), false);
+			Setting.Subscribe(nameof(Setting.IsAscending2), () => ReverseSort2(), false);
 		}
 
 		/// <summary>
@@ -113,7 +64,7 @@ namespace KanburaLike.ViewModels
 			this.FilteredShips.LiveShaping.IsLiveFiltering = true;
 			this.FilteredShips.LiveShaping.IsLiveSorting = true;
 
-			FilteredShips.OrderBy(sortSelector, IsAscending).ThenBy(sortSelector2, IsAscending2).Where(filter).Apply();
+			this.FilteredShips.OrderBy(sortSelector, Setting.IsAscending).ThenBy(sortSelector2, Setting.IsAscending2).Where(filter).Apply();
 
 			//ソート用プロパティ名を保存
 			var props = this.FilteredShips.LiveShaping.LiveSortingProperties;
@@ -127,7 +78,7 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// 昇順、降順を切り替え
 		/// </summary>
-		protected virtual void ReverseShips()
+		protected virtual void ReverseSort()
 		{
 			//実装はあとで
 			RaisePropertyChanged(nameof(FilteredShips));
@@ -136,7 +87,7 @@ namespace KanburaLike.ViewModels
 		/// <summary>
 		/// 昇順、降順を切り替え2
 		/// </summary>
-		protected virtual void ReverseShips2()
+		protected virtual void ReverseSort2()
 		{
 			//実装はあとで
 			RaisePropertyChanged(nameof(FilteredShips));

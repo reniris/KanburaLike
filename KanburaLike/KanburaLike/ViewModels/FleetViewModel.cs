@@ -1,5 +1,6 @@
 ﻿using Grabacr07.KanColleWrapper.Models;
 using KanburaLike.Models;
+using KanburaLike.Models.Settings;
 using Livet;
 using Livet.EventListeners;
 using MetroTrilithon.Lifetime;
@@ -41,7 +42,7 @@ namespace KanburaLike.ViewModels
 			get
 			{ return _ViewRange; }
 			set
-			{ 
+			{
 				if (_ViewRange == value)
 					return;
 				_ViewRange = value;
@@ -56,22 +57,11 @@ namespace KanburaLike.ViewModels
 		private Fleet Source { get; }
 
 		/// <summary>
-		/// デザイナ用 <see cref="FleetViewModel"/> class.
-		/// </summary>
-		public FleetViewModel()
-		{
-			//listener.RegisterHandler(() => model.Value, (s, e) =>
-			// Value プロパティが変更した時にだけ実行する処理
-			//});
-		}
-
-		/// <summary>
 		/// コードからはこっちを使う <see cref="FleetViewModel"/> class.
 		/// </summary>
 		/// <param name="f">f</param>
-		public FleetViewModel(Fleet f)
+		public FleetViewModel(Fleet f) : base($"{nameof(Fleet)}{f.Id}")
 		{
-			_IsExpanded = true;
 			Source = f;
 
 			Source.Subscribe(nameof(Fleet.Name), () => this.Name = Source.Name).AddTo(this);

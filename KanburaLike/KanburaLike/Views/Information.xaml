@@ -141,7 +141,7 @@
 				<DataTemplate>
 					<StackPanel>
 						<Separator  />
-						<Expander IsExpanded="{Binding IsExpanded}">
+						<Expander IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 							<Expander.Header>
 								<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 								<Run Text="{Binding Name}" />
@@ -162,7 +162,7 @@
 		</ItemsControl>
 		<Separator  />
 		<!-- キラキラ -->
-		<Expander DataContext="{Binding Brilliant}" d:DataContext="{d:DesignData /SampleData/Brilliant.xaml}" IsExpanded="{Binding IsExpanded}">
+		<Expander DataContext="{Binding Brilliant}" d:DataContext="{d:DesignData /SampleData/Brilliant.xaml}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="キラキラーズ" />
@@ -180,7 +180,7 @@
 		</Expander>
 		<Separator  />
 		<!-- 入渠待ち -->
-		<Expander DataContext="{Binding RepairWaiting}" d:DataContext="{d:DesignData /SampleData/RepairWaiting.xaml}" IsExpanded="{Binding IsExpanded}">
+		<Expander DataContext="{Binding RepairWaiting}" d:DataContext="{d:DesignData /SampleData/RepairWaiting.xaml}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="入渠待ちーズ" />
