@@ -132,29 +132,31 @@
 		<!--<Button Command="{Binding TestCommand}" Content="Debug Command" 
 				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
 				Margin="2" HorizontalAlignment="Center" />-->
-		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
 		<TextBlock TextWrapping="Wrap" Text="あとで任務を表示"/>
-		<Separator  />
 		<!-- 艦隊情報 -->
 		<ItemsControl ItemsSource="{Binding Fleets}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Expander IsExpanded="{Binding IsExpanded}">
-						<Expander.Header>
-							<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+					<StackPanel>
+						<Separator  />
+						<Expander IsExpanded="{Binding IsExpanded}">
+							<Expander.Header>
+								<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 								<Run Text="{Binding Name}" />
 								<Run Text="{Binding SumLv, Mode=OneWay, StringFormat=Lv合計(\{0:D\})}" />
-								<Run Text="{Binding SumAirSuperiority, Mode=OneWay, StringFormat=制空合計(\{0:D\})}" />
-							</TextBlock>
-						</Expander.Header>
-						<StackPanel>
-							<Separator />
-							<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource Fleet}" >
-							</ItemsControl>
-						</StackPanel>
-					</Expander>
+								<Run Text="{Binding SumAirSuperiority, Mode=OneWay, StringFormat=制空(\{0:D\})}" />
+								<Run Text="{Binding ViewRange, StringFormat=索敵(\{0:F2\})}" />
+								</TextBlock>
+							</Expander.Header>
+							<StackPanel>
+								<Separator />
+								<ItemsControl ItemsSource="{Binding Ships}" ItemTemplate="{DynamicResource Fleet}" >
+								</ItemsControl>
+							</StackPanel>
+						</Expander>
+					</StackPanel>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
