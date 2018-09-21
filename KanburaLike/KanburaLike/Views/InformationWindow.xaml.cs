@@ -30,9 +30,11 @@ namespace KanburaLike.Views
 
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			if (this.WindowState == WindowState.Minimized)
-				this.WindowState = WindowState.Normal;
-
+			Task.Run(() =>
+			{
+				if (this.WindowState == WindowState.Minimized)
+					this.WindowState = WindowState.Normal;
+			});
 			base.OnClosing(e);
 		}
 	}
