@@ -1,6 +1,8 @@
 ﻿
+using MetroRadiance.UI.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +20,20 @@ namespace KanburaLike.Views
 	/// <summary>
 	/// InformationWindow.xaml の相互作用ロジック
 	/// </summary>
-	public partial class InformationWindow 
+	public partial class InformationWindow : MetroWindow
 	{
 		public InformationWindow()
 		{
 			InitializeComponent();
 
+		}
+
+		protected override void OnClosing(CancelEventArgs e)
+		{
+			if (this.WindowState == WindowState.Minimized)
+				this.WindowState = WindowState.Normal;
+
+			base.OnClosing(e);
 		}
 	}
 }

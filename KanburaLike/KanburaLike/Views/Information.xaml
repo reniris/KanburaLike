@@ -13,7 +13,7 @@
 	Foreground="{DynamicResource ActiveForegroundBrushKey}"
 	mc:Ignorable="d"
 	d:DesignHeight="1000" d:DesignWidth="300" 
-	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}" 
+	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}"
 	>
 
 	<UserControl.Resources>
