@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -44,7 +42,7 @@ namespace KanburaLike.Views.Converters
 
 	public abstract class ValueConverterBase<T> : IValueConverter
 	{
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			switch (value)
 			{
@@ -72,16 +70,16 @@ namespace KanburaLike.Views.Converters
 
 		public override object Convert(T value, Type targetType, object parameter, CultureInfo culture)
 		{
-			int index = ValueToIndex(value);
+			int index = ValueToIndex(value, parameter);
 			return this.Values[index];
 		}
 
 		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return IndexToValue(this.Values.IndexOf(value));
+			return IndexToValue(this.Values.IndexOf(value), parameter);
 		}
 
-		protected abstract int ValueToIndex(T value);
-		protected abstract T IndexToValue(int index);
+		protected abstract int ValueToIndex(T value, object param);
+		protected abstract T IndexToValue(int index, object param);
 	}
 }

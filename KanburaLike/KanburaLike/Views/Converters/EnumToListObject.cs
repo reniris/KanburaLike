@@ -11,12 +11,12 @@ namespace KanburaLike.Views.Converters
 {
 	class EnumToListObject : AlternationConverterBase<Enum>
 	{
-		protected override int ValueToIndex(Enum value)
+		protected override int ValueToIndex(Enum value, object param)
 		{
 			return System.Convert.ToInt32(value);
 		}
 
-		protected override Enum IndexToValue(int index)
+		protected override Enum IndexToValue(int index, object param)
 		{
 			return null;
 		}

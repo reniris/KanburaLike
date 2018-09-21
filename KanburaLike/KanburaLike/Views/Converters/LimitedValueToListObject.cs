@@ -10,14 +10,38 @@ using System.Windows.Markup;
 
 namespace KanburaLike.Views.Converters
 {
+	public enum LimitedValueOption
+	{
+		HP,
+		FuelBull
+	}
+
 	class LimitedValueToListObject : AlternationConverterBase<LimitedValue>
 	{
-		protected override int ValueToIndex(LimitedValue value)
+		public LimitedValueOption Option { get; set; }
+
+		protected override int ValueToIndex(LimitedValue value, object param)
 		{
-			return GetRateIndex(value.Current, value.Maximum);
+			int notch;
+			bool andover;
+
+			switch (param)
+			{
+				case LimitedValueOption.HP:
+					notch = 25;
+					andover = false;
+					break;
+				case LimitedValueOption.FuelBull:
+					notch = 10;
+					andover = true;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException($"{nameof(LimitedValueOption)}");
+			}
+			return GetRateIndex(value.Current, value.Maximum, notch, andover);
 		}
 
-		protected override LimitedValue IndexToValue(int index)
+		protected override LimitedValue IndexToValue(int index, object param)
 		{
 			//使わないんで適当に実装
 			return default(LimitedValue);
@@ -32,7 +56,7 @@ namespace KanburaLike.Views.Converters
 			return rate;
 		}
 
-		private int GetRateIndex(decimal current, decimal max)
+		private int GetRateIndex(decimal current, decimal max, int notch, bool andover)
 		{
 			var rate = GetRate(current, max);
 
@@ -40,23 +64,23 @@ namespace KanburaLike.Views.Converters
 			if (rate >= 100)
 				return 0;
 
-			//100未満 75超
-			if (rate < 100 && 75 < rate)
-				return 1;
+			int ret = 0;
+			for (int i = 100; i > 0; i -= notch)
+			{
+				if (andover == true)
+				{
+					if (rate >= i)
+						return ret;
+				}
+				else
+				{
+					if (rate > i)
+						return ret;
+				}
 
-			//75以下 50超
-			if (rate <= 75 && 50 < rate)
-				return 2;
-
-			//50以下 25超
-			if (rate <= 50 && 25 < rate)
-				return 3;
-
-			//25以下
-			if (rate <= 25)
-				return 4;
-
-			throw new ArgumentException();
+				ret++;
+			}
+			return ret;
 		}
 	}
 }
