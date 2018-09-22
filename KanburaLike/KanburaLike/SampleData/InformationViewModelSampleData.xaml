@@ -5,7 +5,7 @@
 	xmlns:Models="clr-namespace:Grabacr07.KanColleWrapper.Models;assembly=KanColleWrapper" 
 	xmlns:vm="clr-namespace:KanburaLike.ViewModels">
 	<vm:InformationViewModel.Fleets>
-		<vm:FleetViewModel Name="サンプル第一艦隊" IsExpanded="True">
+		<vm:FleetViewModel Name="サンプル第一艦隊">
 			<vm:FleetViewModel.Ships>
 				<vm:ShipViewModel Index="1">
 					<vm:ShipViewModel.Ship>

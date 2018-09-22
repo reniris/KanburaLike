@@ -13,7 +13,7 @@
 	Foreground="{DynamicResource ActiveForegroundBrushKey}"
 	mc:Ignorable="d"
 	d:DesignHeight="1000" d:DesignWidth="300" 
-	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}" 
+	d:DataContext="{d:DesignData /SampleData/InformationViewModelSampleData.xaml}"
 	>
 
 	<UserControl.Resources>
@@ -21,7 +21,7 @@
 			<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 			<conv:LimitedValueToString x:Key="LimitedToString" />
 
-			<conv:LimitedValueToListObject x:Key="LimitedColor">
+			<conv:LimitedValueToListObject x:Key="HPColor" Option="HP">
 				<SolidColorBrush Color="White" />
 				<SolidColorBrush Color="LightGray" />
 				<SolidColorBrush Color="Yellow" />
@@ -29,6 +29,24 @@
 				<SolidColorBrush Color="Red" />
 			</conv:LimitedValueToListObject>
 
+			<conv:LimitedValueToListObject x:Key="FuelBullColor" Option="FuelBull">
+				<SolidColorBrush Color="White" />
+				<SolidColorBrush Color="LightGray" />
+				<SolidColorBrush Color="LightBlue" />	
+			
+				<SolidColorBrush Color="Lime" />
+				<SolidColorBrush Color="LawnGreen" />	
+	
+				<SolidColorBrush Color="Yellow" />		
+				<SolidColorBrush Color="Gold" />
+
+				<SolidColorBrush Color="Orange" />
+				<SolidColorBrush Color="DarkOrange" />
+
+				<SolidColorBrush Color="OrangeRed" />	
+				<SolidColorBrush Color="Red" />			
+			</conv:LimitedValueToListObject>
+					
 			<conv:EnumToListObject x:Key="CondColor">
 				<SolidColorBrush Color="Yellow" />
 				<!-- ConditionType.Brilliant-->
@@ -66,9 +84,9 @@
 						<Run Text="{Binding AirSuperiority, StringFormat=制空:\{0:D\}}" />
 					</TextBlock>
 					<TextBlock>
-						<Run Text="燃" Foreground="{Binding Ship.Fuel, Converter={StaticResource LimitedColor}, Mode=OneWay}"/><Run Text="弾" Foreground="{Binding Ship.Bull, Converter={StaticResource LimitedColor}, Mode=OneWay}"/>
+						<Run Text="燃" Foreground="{Binding Ship.Fuel, Converter={StaticResource HPColor}, Mode=OneWay}"/><Run Text="弾" Foreground="{Binding Ship.Bull, Converter={StaticResource HPColor}, Mode=OneWay}"/>
 					</TextBlock>
-					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource LimitedColor}, Mode=OneWay}">
+					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource HPColor}, Mode=OneWay}">
 						<Run Text="{Binding Ship.HP, Converter={StaticResource LimitedToString}, Mode=OneWay}" />
 					</TextBlock>
 				</StackPanel>
@@ -93,9 +111,9 @@
 						<!-- ここまで -->
 					</TextBlock>
 					<TextBlock>
-						<Run Text="燃" Foreground="{Binding Ship.Fuel, Converter={StaticResource LimitedColor}, Mode=OneWay}"/><Run Text="弾" Foreground="{Binding Ship.Bull, Converter={StaticResource LimitedColor}, Mode=OneWay}"/>
+						<Run Text="燃" Foreground="{Binding Ship.Fuel, Converter={StaticResource HPColor}, Mode=OneWay}"/><Run Text="弾" Foreground="{Binding Ship.Bull, Converter={StaticResource HPColor}, Mode=OneWay}"/>
 					</TextBlock>
-					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource LimitedColor}, Mode=OneWay}">
+					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource HPColor}, Mode=OneWay}">
 						<Run Text="{Binding Ship.HP, Converter={StaticResource LimitedToString}, Mode=OneWay}" />
 					</TextBlock>
 				</StackPanel>
@@ -117,7 +135,7 @@
 						<Run Text="{Binding Ship.TimeToRepair, StringFormat=\{0:hh\\:mm\\:ss\}}"  />
 						<!-- ここまで -->
 					</TextBlock>
-					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource LimitedColor}, Mode=OneWay}">
+					<TextBlock Foreground="{Binding Ship.HP, Converter={StaticResource HPColor}, Mode=OneWay}">
 						<Run Text="{Binding Ship.HP, Converter={StaticResource LimitedToString}, Mode=OneWay}"  />
 					</TextBlock>
 				</StackPanel>
