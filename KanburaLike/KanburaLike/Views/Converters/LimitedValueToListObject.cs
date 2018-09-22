@@ -25,7 +25,7 @@ namespace KanburaLike.Views.Converters
 			int notch;
 			bool andover;
 
-			switch (param)
+			switch (Option)
 			{
 				case LimitedValueOption.HP:
 					notch = 25;
