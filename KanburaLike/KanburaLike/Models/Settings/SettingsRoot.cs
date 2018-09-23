@@ -12,6 +12,7 @@ namespace KanburaLike.Models.Settings
 	[XmlRoot(ElementName = "KanburaLike", Namespace = "", IsNullable = false)]
 	[XmlInclude(typeof(WindowSetting))]
 	[XmlInclude(typeof(ShipsSetting))]
+	[XmlInclude(typeof(QuestsSetting))]
 	public class SettingsRoot
 	{
 		[XmlArrayItem(IsNullable = false)]

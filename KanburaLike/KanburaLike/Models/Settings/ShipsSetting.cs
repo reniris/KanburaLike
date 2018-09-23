@@ -13,7 +13,7 @@ namespace KanburaLike.Models.Settings
 	public class ShipsSetting : SerializableSetting
 	{
 		/// <summary>
-		/// 表示するかどうか
+		/// 展開するかどうか
 		/// </summary>
 		#region IsExpanded変更通知プロパティ
 		protected bool _IsExpanded = false;
