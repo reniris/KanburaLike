@@ -166,7 +166,7 @@ namespace KanburaLike.ViewModels
 
 		private void UpdateCurrent(Quests quests)
 		{
-			if(this.IsUntaken == true)
+			if (this.IsUntaken == true)
 			{
 				//Setting.QuestsIDから読み取ってなんかする
 			}
