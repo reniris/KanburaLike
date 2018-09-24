@@ -33,7 +33,7 @@ namespace KanburaLike.Views.Converters
 					break;
 				case LimitedValueOption.FuelBull:
 					notch = 10;
-					andover = true;
+					andover = false;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException($"{nameof(LimitedValueOption)}");
