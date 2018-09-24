@@ -194,6 +194,22 @@ namespace KanburaLike.ViewModels
 
 		#endregion
 
+		#region Id変更通知プロパティ
+		private int _Id = -1;
+
+		public int Id
+		{
+			get
+			{ return _Id; }
+			set
+			{
+				if (_Id == value)
+					return;
+				_Id = value;
+				RaisePropertyChanged(nameof(Id));
+			}
+		}
+		#endregion
 
 		public QuestViewModel(Quest quest)
 		{
@@ -211,6 +227,8 @@ namespace KanburaLike.ViewModels
 				this.Progress = quest.Progress;
 				this.Title = quest.Title;
 				this.Detail = quest.Detail;
+
+				this.Id = quest.Id;
 			}
 		}
 	}

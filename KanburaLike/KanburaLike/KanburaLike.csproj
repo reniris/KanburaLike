@@ -74,6 +74,8 @@
     <Compile Include="Views\Converters\EnumToListObject.cs" />
     <Compile Include="Views\Converters\LimitedValueToListObject.cs" />
     <Compile Include="Views\Converters\LimitedValueToString.cs" />
+    <Compile Include="Views\Converters\MultiValueConverterBase.cs" />
+    <Compile Include="Views\Converters\QuestStatuscsToString.cs" />
     <Compile Include="Views\Converters\ValueConverterBase.cs" />
     <Compile Include="Views\Information.xaml.cs">
       <DependentUpon>Information.xaml</DependentUpon>

@@ -36,6 +36,7 @@
 			<conv:LimitedValueToString x:Key="LimitedToString" />
 			<kconv:QuestCategoryToColorConverter x:Key="QuestToColor" />
 			<mconv:StringToVisiblityConverter x:Key ="StringToVisibility" />
+			<conv:QuestStatuscsToString x:Key="QuestToString" />
 
 			<conv:LimitedValueToListObject x:Key="HPColor" Option="HP">
 				<SolidColorBrush Color="White" />
@@ -159,24 +160,25 @@
 
 			<!-- 任務データテンプレート -->
 			<DataTemplate x:Key="Quests">
-				<Grid d:DataContext="{d:DesignInstance {x:Type vm:QuestViewModel}}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition/>
-						<ColumnDefinition Width="Auto"/>
-					</Grid.ColumnDefinitions>
-
-					<Grid.ToolTip>
+				<StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance {x:Type vm:QuestViewModel}}">
+					<StackPanel.ToolTip>
 						<TextBlock Text="{Binding Detail}"/>
-					</Grid.ToolTip>
+					</StackPanel.ToolTip>
 					<Rectangle Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Margin="1"  >
 						<Rectangle.Fill>
 							<SolidColorBrush Color="{Binding Category, Converter={StaticResource QuestToColor}}" />
 						</Rectangle.Fill>
 					</Rectangle>
-					<TextBlock Grid.Column="1" Text="{Binding Title}"/>
-					<TextBlock HorizontalAlignment="Right" Grid.Column="2" Text="{Binding Progress}"/>
-				</Grid>
+					<TextBox>
+						<TextBox.Text>
+							<MultiBinding Converter="{StaticResource QuestToString}" UpdateSourceTrigger="PropertyChanged">
+								<Binding Path="{Binding State}" />
+								<Binding Path="{Binding Progress}" />
+							</MultiBinding>
+						</TextBox.Text>
+					</TextBox>
+					<TextBlock Text="{Binding Title}"/>
+				</StackPanel>
 			</DataTemplate>
 
 			<ResourceDictionary.MergedDictionaries>
@@ -197,7 +199,6 @@
 					<TextBlock TextWrapping="Wrap" >
 					<Run Text="遂行中任務" />
 					<Run Text="{Binding Count, Mode=OneWay, StringFormat=（\{0:D\}個）}" />
-					<Run  />
 					</TextBlock>
 					<TextBlock Text="{x:Static vm:QuestsViewModel.Untaken}" Visibility="{Binding IsUntaken, Converter={StaticResource BoolToVisibility}}"/>
 				</StackPanel>

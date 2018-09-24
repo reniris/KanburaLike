@@ -61,7 +61,8 @@ namespace KanburaLike.ViewModels
          * 自動的にUIDispatcher上での通知に変換されます。変更通知に際してUIDispatcherを操作する必要はありません。
          */
 
-		public QuestsSetting Setting { get;}
+		public QuestsSetting Setting { get; }
+
 		public int Count => Current != null ? Current.Count() : 0;
 
 		#region Current 変更通知プロパティ
@@ -151,16 +152,27 @@ namespace KanburaLike.ViewModels
 
 			this.IsUntaken = quests.IsUntaken;
 			this.Quests = quests.All.Select(x => new QuestViewModel(x)).ToArray();
-			this.Current = quests.Current.Select(x => new QuestViewModel(x)).ToArray();
+			UpdateCurrent(quests);
 			this.IsEmpty = quests.IsEmpty;
 
 			this.CompositeDisposable.Add(new PropertyChangedEventListener(quests)
 			{
 				{ nameof(quests.IsUntaken), (sender, args) => this.IsUntaken = quests.IsUntaken },
 				{ nameof(quests.All), (sender, args) => this.Quests = quests.All.Select(x => new QuestViewModel(x)).ToArray() },
-				{ nameof(quests.Current), (sender, args) => this.Current = quests.Current.Select(x => new QuestViewModel(x)).ToArray() },
+				{ nameof(quests.Current), (sender, args) => UpdateCurrent(quests) },
 				{ nameof(quests.IsEmpty), (sender, args) => this.IsEmpty = quests.IsEmpty }
 			});
+		}
+
+		private void UpdateCurrent(Quests quests)
+		{
+			if(this.IsUntaken == true)
+			{
+				//Setting.QuestsIDから読み取ってなんかする
+			}
+
+			this.Current = quests.Current.Select(x => new QuestViewModel(x)).ToArray();
+			this.Setting.QuestsID = this.Current.Select(x => x.Id).ToArray();
 		}
 	}
 }
