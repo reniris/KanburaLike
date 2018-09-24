@@ -7,7 +7,7 @@ namespace KanburaLike.Views.Converters
 {
 	public abstract class MultiValueConverterBase<Target, Source1, Source2> : IMultiValueConverter
 	{
-		public virtual object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public virtual object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
 			var v1 = values.OfType<Source1>().FirstOrDefault();
 			var v2 = values.OfType<Source2>().FirstOrDefault();
@@ -15,7 +15,7 @@ namespace KanburaLike.Views.Converters
 			return Convert(v1, v2);
 		}
 
-		public virtual object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+		public virtual object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
 		{
 			var src = ConvertBack((Target)value);
 			if (src == null) return null;
