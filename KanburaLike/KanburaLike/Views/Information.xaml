@@ -164,20 +164,20 @@
 					<StackPanel.ToolTip>
 						<TextBlock Text="{Binding Detail}"/>
 					</StackPanel.ToolTip>
-					<Rectangle Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Margin="1"  >
+					<Rectangle Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Margin="4">
 						<Rectangle.Fill>
-							<SolidColorBrush Color="{Binding Category, Converter={StaticResource QuestToColor}}" />
+							<SolidColorBrush Color="{Binding Category, Converter={StaticResource QuestToColor}, Mode=OneWay}" />
 						</Rectangle.Fill>
 					</Rectangle>
-					<TextBox>
-						<TextBox.Text>
+					<TextBlock>
+						<TextBlock.Text>
 							<MultiBinding Converter="{StaticResource QuestToString}" UpdateSourceTrigger="PropertyChanged">
-								<Binding Path="{Binding State}" />
-								<Binding Path="{Binding Progress}" />
+								<Binding Path="State" />
+								<Binding Path="Progress" />
 							</MultiBinding>
-						</TextBox.Text>
-					</TextBox>
-					<TextBlock Text="{Binding Title}"/>
+						</TextBlock.Text>
+					</TextBlock>
+					<TextBlock Text="{Binding Title}" Margin="4,0,0,0"/>
 				</StackPanel>
 			</DataTemplate>
 
@@ -193,7 +193,7 @@
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
 		<!--任務-->
-		<Expander DataContext="{Binding Quests}" IsExpanded="{Binding Setting.IsExpanded}">
+		<Expander DataContext="{Binding Quests}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 			<Expander.Header>
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<TextBlock TextWrapping="Wrap" >
