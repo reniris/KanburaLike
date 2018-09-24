@@ -85,18 +85,18 @@ namespace KanburaLike.ViewModels
 
 		#endregion
 
-		#region Quests 変更通知プロパティ
+		#region All 変更通知プロパティ
 
-		private QuestViewModel[] _Quests;
+		private QuestViewModel[] _All;
 
-		public QuestViewModel[] Quests
+		public QuestViewModel[] All
 		{
-			get { return this._Quests; }
+			get { return this._All; }
 			set
 			{
-				if (this._Quests != value)
+				if (this._All != value)
 				{
-					this._Quests = value;
+					this._All = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -151,14 +151,14 @@ namespace KanburaLike.ViewModels
 			var quests = KanColleClient.Current.Homeport.Quests;
 
 			this.IsUntaken = quests.IsUntaken;
-			this.Quests = quests.All.Select(x => new QuestViewModel(x)).ToArray();
+			this.All = quests.All.Select(x => new QuestViewModel(x)).ToArray();
 			UpdateCurrent(quests);
 			this.IsEmpty = quests.IsEmpty;
 
 			this.CompositeDisposable.Add(new PropertyChangedEventListener(quests)
 			{
 				{ nameof(quests.IsUntaken), (sender, args) => this.IsUntaken = quests.IsUntaken },
-				{ nameof(quests.All), (sender, args) => this.Quests = quests.All.Select(x => new QuestViewModel(x)).ToArray() },
+				{ nameof(quests.All), (sender, args) => this.All = quests.All.Select(x => new QuestViewModel(x)).ToArray() },
 				{ nameof(quests.Current), (sender, args) => UpdateCurrent(quests) },
 				{ nameof(quests.IsEmpty), (sender, args) => this.IsEmpty = quests.IsEmpty }
 			});
