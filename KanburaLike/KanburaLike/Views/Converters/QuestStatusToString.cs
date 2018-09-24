@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KanburaLike.Views.Converters
 {
-	class QuestStatuscsToString : MultiValueConverterBase<string, QuestState, QuestProgress>
+	class QuestStatusToString : MultiValueConverterBase<string, QuestState, QuestProgress>
 	{
 		protected override string Convert(QuestState value1, QuestProgress value2)
 		{

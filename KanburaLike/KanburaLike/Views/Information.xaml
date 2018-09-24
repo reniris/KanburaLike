@@ -36,7 +36,7 @@
 			<conv:LimitedValueToString x:Key="LimitedToString" />
 			<kconv:QuestCategoryToColorConverter x:Key="QuestToColor" />
 			<mconv:StringToVisiblityConverter x:Key ="StringToVisibility" />
-			<conv:QuestStatuscsToString x:Key="QuestToString" />
+			<conv:QuestStatusToString x:Key="QuestToString" />
 
 			<conv:LimitedValueToListObject x:Key="HPColor" Option="HP">
 				<SolidColorBrush Color="White" />
