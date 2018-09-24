@@ -12,7 +12,7 @@ namespace KanburaLike.Views.Converters
 		protected override string Convert(QuestState value1, QuestProgress value2)
 		{
 			if (value1 == QuestState.Accomplished)
-				return "完了";
+				return "達成";
 
 			switch (value2)
 			{
