@@ -169,7 +169,7 @@
 							<SolidColorBrush Color="{Binding Category, Converter={StaticResource QuestToColor}, Mode=OneWay}" />
 						</Rectangle.Fill>
 					</Rectangle>
-					<TextBlock>
+					<TextBlock Style="{DynamicResource QuestState}">
 						<TextBlock.Text>
 							<MultiBinding Converter="{StaticResource QuestToString}" UpdateSourceTrigger="PropertyChanged">
 								<Binding Path="State" />
@@ -180,6 +180,14 @@
 					<TextBlock Text="{Binding Title}" Margin="4,0,0,0"/>
 				</StackPanel>
 			</DataTemplate>
+			<Style x:Key="QuestState" TargetType="{x:Type TextBlock}">
+				<Setter Property="Background" Value="Orange"/>
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding State}" Value="Accomplished">
+						<Setter Property="Background" Value="SkyBlue"/>
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
 
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
@@ -193,7 +201,7 @@
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
 		<!--任務-->
-		<Expander DataContext="{Binding Quests}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
+		<Expander DataContext="{Binding Quests}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}" d:DataContext="{d:DesignInstance {x:Type vm:QuestsViewModel}}">
 			<Expander.Header>
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<TextBlock TextWrapping="Wrap" >
