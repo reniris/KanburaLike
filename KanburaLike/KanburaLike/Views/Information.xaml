@@ -1,6 +1,7 @@
 ﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:conv="clr-namespace:KanburaLike.Views.Converters"
@@ -8,6 +9,8 @@
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+	xmlns:kconv="http://schemes.grabacr.net/winfx/2015/kancolleviewer/converters"
+	xmlns:mconv="http://schemes.grabacr.net/winfx/2015/personal/converters"
 	x:Class="KanburaLike.Views.Information"
 	Background="{DynamicResource ThemeBrushKey}"
 	Foreground="{DynamicResource ActiveForegroundBrushKey}"
@@ -18,8 +21,22 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
+			<!-- Style to hide tool tips that have an empty content. -->
+			<Style TargetType="ToolTip">
+				<Style.Triggers>
+					<Trigger Property="Content" Value="{x:Static sys:String.Empty}">
+						<Setter Property="Visibility" Value="Collapsed" />
+					</Trigger>
+					<Trigger Property="Content" Value="{x:Null}">
+						<Setter Property="Visibility" Value="Collapsed" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
 			<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 			<conv:LimitedValueToString x:Key="LimitedToString" />
+			<kconv:QuestCategoryToColorConverter x:Key="QuestToColor" />
+			<mconv:StringToVisiblityConverter x:Key ="StringToVisibility" />
+			<conv:QuestStatusToString x:Key="QuestToString" />
 
 			<conv:LimitedValueToListObject x:Key="HPColor" Option="HP">
 				<SolidColorBrush Color="White" />
@@ -32,21 +49,21 @@
 			<conv:LimitedValueToListObject x:Key="FuelBullColor" Option="FuelBull">
 				<SolidColorBrush Color="White" />
 				<SolidColorBrush Color="LightGray" />
-				<SolidColorBrush Color="LightBlue" />	
-			
+				<SolidColorBrush Color="LightBlue" />
+
 				<SolidColorBrush Color="Lime" />
-				<SolidColorBrush Color="LawnGreen" />	
-	
-				<SolidColorBrush Color="Yellow" />		
+				<SolidColorBrush Color="LawnGreen" />
+
+				<SolidColorBrush Color="Yellow" />
 				<SolidColorBrush Color="Gold" />
 
 				<SolidColorBrush Color="Orange" />
 				<SolidColorBrush Color="DarkOrange" />
 
-				<SolidColorBrush Color="OrangeRed" />	
-				<SolidColorBrush Color="Red" />			
+				<SolidColorBrush Color="OrangeRed" />
+				<SolidColorBrush Color="Red" />
 			</conv:LimitedValueToListObject>
-					
+
 			<conv:EnumToListObject x:Key="CondColor">
 				<SolidColorBrush Color="Yellow" />
 				<!-- ConditionType.Brilliant-->
@@ -141,6 +158,37 @@
 				</StackPanel>
 			</DataTemplate>
 
+			<!-- 任務データテンプレート -->
+			<DataTemplate x:Key="Quests">
+				<StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance {x:Type vm:QuestViewModel}}">
+					<StackPanel.ToolTip>
+						<TextBlock Text="{Binding Detail}"/>
+					</StackPanel.ToolTip>
+					<Rectangle Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Margin="4">
+						<Rectangle.Fill>
+							<SolidColorBrush Color="{Binding Category, Converter={StaticResource QuestToColor}, Mode=OneWay}" />
+						</Rectangle.Fill>
+					</Rectangle>
+					<TextBlock Style="{DynamicResource QuestState}">
+						<TextBlock.Text>
+							<MultiBinding Converter="{StaticResource QuestToString}" UpdateSourceTrigger="PropertyChanged">
+								<Binding Path="State" />
+								<Binding Path="Progress" />
+							</MultiBinding>
+						</TextBlock.Text>
+					</TextBlock>
+					<TextBlock Text="{Binding Title}" Margin="4,0,0,0"/>
+				</StackPanel>
+			</DataTemplate>
+			<Style x:Key="QuestState" TargetType="{x:Type TextBlock}">
+				<Setter Property="Background" Value="Orange"/>
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding State}" Value="Accomplished">
+						<Setter Property="Background" Value="SkyBlue"/>
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -152,13 +200,25 @@
 				Margin="2" HorizontalAlignment="Center" />-->
 		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
 		<Separator  />
-		<TextBlock TextWrapping="Wrap" Text="あとで任務を表示"/>
+		<!--任務-->
+		<Expander DataContext="{Binding Quests}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}" d:DataContext="{d:DesignInstance {x:Type vm:QuestsViewModel}}">
+			<Expander.Header>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+					<TextBlock TextWrapping="Wrap" >
+					<Run Text="遂行中任務" />
+					<Run Text="{Binding Count, Mode=OneWay, StringFormat=（\{0:D\}個）}" />
+					</TextBlock>
+					<TextBlock Text="{x:Static vm:QuestsViewModel.Untaken}" Visibility="{Binding IsUntaken, Converter={StaticResource BoolToVisibility}}"/>
+				</StackPanel>
+			</Expander.Header>
+			<ItemsControl ItemsSource="{Binding Current}" ItemTemplate="{DynamicResource Quests}"/>
+		</Expander>
 		<!-- 艦隊情報 -->
 		<ItemsControl ItemsSource="{Binding Fleets}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<StackPanel>
-						<Separator  />
+						<Separator />
 						<Expander IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 							<Expander.Header>
 								<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">

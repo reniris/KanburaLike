@@ -34,6 +34,11 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel(nameof(RepairWaiting));
 
+		/// <summary>
+		/// 遂行中任務
+		/// </summary>
+		public QuestsViewModel Quests { get; private set; }
+
 		private KanColleModel Kancolle { get; } = KanColleModel.Current;
 
 		/// <summary>
@@ -42,6 +47,11 @@ namespace KanburaLike.ViewModels
 		private void Register()
 		{
 			Messenger.Raise(new InteractionMessage("InfoShow"));
+
+			//任務
+			this.Quests = new QuestsViewModel();
+			RaisePropertyChanged(nameof(Quests));
+
 			DebugModel.WriteLine("艦これ Start");
 		}
 

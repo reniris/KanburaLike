@@ -129,7 +129,7 @@ namespace KanburaLike.Models
 				client.Homeport.Repairyard
 					.Subscribe(nameof(Repairyard.Docks), () => this.UpdateRepairyard(client.Homeport.Repairyard))
 					.AddTo(this);
-
+				
 				client.Homeport.Organization
 					.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
 					.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))

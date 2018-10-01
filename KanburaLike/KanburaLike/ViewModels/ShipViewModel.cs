@@ -92,7 +92,7 @@ namespace KanburaLike.ViewModels
 			var kmodel = KanColleModel.Current;
 			kmodel.Subscribe(nameof(kmodel.RepairState), () => this.IsRepairing = kmodel.Repairyard.CheckRepairing(Ship.Id)).AddTo(this);
 
-			this.Ship.Subscribe(nameof(Ship.Slots), () => this.AirSuperiority = s.GetAirSuperiorityPotential()).AddTo(this);
+			this.Ship.Subscribe(nameof(Ship.EquippedItems), () => this.AirSuperiority = s.GetAirSuperiorityPotential()).AddTo(this);
 		}
 	}
 }
