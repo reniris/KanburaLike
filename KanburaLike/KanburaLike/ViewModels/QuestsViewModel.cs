@@ -14,6 +14,8 @@ using Livet.Messaging.Windows;
 using KanburaLike.Models;
 using Grabacr07.KanColleWrapper;
 using KanburaLike.Models.Settings;
+using System.Windows;
+using MetroTrilithon.Mvvm;
 
 namespace KanburaLike.ViewModels
 {
@@ -149,19 +151,10 @@ namespace KanburaLike.ViewModels
 			Setting = SettingsHost.Cache<QuestsSetting>(k => new QuestsSetting(), nameof(QuestsSetting));
 
 			var quests = KanColleClient.Current.Homeport.Quests;
-
-			this.IsUntaken = quests.IsUntaken;
-			this.All = quests.All.Select(x => new QuestViewModel(x)).ToArray();
-			UpdateCurrent(quests);
-			this.IsEmpty = quests.IsEmpty;
-
-			this.CompositeDisposable.Add(new PropertyChangedEventListener(quests)
-			{
-				{ nameof(quests.IsUntaken), (sender, args) => this.IsUntaken = quests.IsUntaken },
-				{ nameof(quests.All), (sender, args) => this.All = quests.All.Select(x => new QuestViewModel(x)).ToArray() },
-				{ nameof(quests.Current), (sender, args) => UpdateCurrent(quests) },
-				{ nameof(quests.IsEmpty), (sender, args) => this.IsEmpty = quests.IsEmpty }
-			});
+			quests.Subscribe(nameof(quests.IsUntaken),() => this.IsUntaken = quests.IsUntaken).AddTo(this);
+			quests.Subscribe(nameof(quests.All), () => this.All = quests.All.Select(x => new QuestViewModel(x)).ToArray()).AddTo(this);
+			quests.Subscribe(nameof(quests.Current), () => UpdateCurrent(quests)).AddTo(this);
+			quests.Subscribe(nameof(quests.IsEmpty), () => this.IsEmpty = quests.IsEmpty).AddTo(this);
 		}
 
 		private void UpdateCurrent(Quests quests)
