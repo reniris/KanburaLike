@@ -181,10 +181,16 @@
 				</StackPanel>
 			</DataTemplate>
 			<Style x:Key="QuestState" TargetType="{x:Type TextBlock}">
-				<Setter Property="Background" Value="Orange"/>
+				<Setter Property="Padding" Value="2,0,2,0"/>
 				<Style.Triggers>
+					<DataTrigger Binding="{Binding Progress}" Value="Progress50">
+						<Setter Property="Background" Value="Green"/>
+					</DataTrigger>
+					<DataTrigger Binding="{Binding Progress}" Value="Progress80">
+						<Setter Property="Background" Value="DarkGreen"/>
+					</DataTrigger>
 					<DataTrigger Binding="{Binding State}" Value="Accomplished">
-						<Setter Property="Background" Value="SkyBlue"/>
+						<Setter Property="Background" Value="DarkCyan"/>
 					</DataTrigger>
 				</Style.Triggers>
 			</Style>
