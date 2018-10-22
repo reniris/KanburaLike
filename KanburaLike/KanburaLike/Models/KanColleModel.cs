@@ -83,8 +83,8 @@ namespace KanburaLike.Models
 			{ return _RepairState; }
 			set
 			{
-				if (_RepairState == value)
-					return;
+				//if (_RepairState == value) return;
+
 				_RepairState = value;
 				RaisePropertyChanged(nameof(RepairState));
 			}
@@ -129,7 +129,7 @@ namespace KanburaLike.Models
 				client.Homeport.Repairyard
 					.Subscribe(nameof(Repairyard.Docks), () => this.UpdateRepairyard(client.Homeport.Repairyard))
 					.AddTo(this);
-				
+
 				client.Homeport.Organization
 					.Subscribe(nameof(Organization.Fleets), () => this.UpdateFleets(client.Homeport.Organization))
 					.Subscribe(nameof(Organization.Ships), () => this.UpdateShips(client.Homeport.Organization))

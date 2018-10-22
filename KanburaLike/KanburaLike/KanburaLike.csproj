@@ -62,6 +62,7 @@
     <Compile Include="Models\Settings\SettingsRoot.cs" />
     <Compile Include="Models\Settings\ShipsSetting.cs" />
     <Compile Include="Models\Settings\WindowSetting.cs" />
+    <Compile Include="ViewModels\Extensions.cs" />
     <Compile Include="ViewModels\FleetViewModel.cs" />
     <Compile Include="ViewModels\InformationWindowViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
