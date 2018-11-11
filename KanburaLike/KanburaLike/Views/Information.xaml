@@ -205,7 +205,14 @@
 		<!--<Button Command="{Binding TestCommand}" Content="Debug Command" 
 				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
 				Margin="2" HorizontalAlignment="Center" />-->
-		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
+		<!--母港-->
+		<Expander >
+			<Expander.Header>
+				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+					<Run Text="母港情報表示作成中" />
+				</TextBlock>
+			</Expander.Header>
+		</Expander>
 		<Separator  />
 		<!--任務-->
 		<Expander DataContext="{Binding Quests}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}" d:DataContext="{d:DesignInstance {x:Type vm:QuestsViewModel}}">
