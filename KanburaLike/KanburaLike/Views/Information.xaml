@@ -206,12 +206,37 @@
 				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
 				Margin="2" HorizontalAlignment="Center" />-->
 		<!--母港-->
-		<Expander >
+		<Expander DataContext="{Binding Homeport}" d:DataContext="{d:DesignInstance {x:Type vm:HomeportViewModel}}" >
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
-					<Run Text="母港情報表示作成中" />
+					<Run Text="母港情報" />
 				</TextBlock>
 			</Expander.Header>
+			<StackPanel Orientation="Horizontal">
+				<StackPanel>
+					<TextBlock>
+					<Run Text="所有艦娘数" />
+					<Run Text="{Binding ShipsCount, Mode=OneWay}" />
+					<Run Text="/" />
+					<Run Text="{Binding Admiral.Model.MaxShipCount, Mode=OneWay}" />
+					</TextBlock>
+					<TextBlock>
+					<Run Text="所有装備数" />
+					<Run Text="{Binding SlotItems.Count, Mode=OneWay}" />
+					<Run Text="/" />
+					<Run Text="{Binding Admiral.Model.MaxSlotItemCount, Mode=OneWay}" />
+					</TextBlock>
+					<TextBlock>
+					<Run Text="{Binding Admiral.Model.Level, Mode=OneWay, StringFormat=提督Lv \{0:D\}}" />
+					<Run Text="{Binding Admiral.Model.ExperienceForNexeLevel, Mode=OneWay, StringFormat=(次：\{0:D\})}" />
+					</TextBlock>
+				</StackPanel>
+				<StackPanel Margin="20,0,0,0">
+					<TextBlock>
+					<Run Text="{Binding Admiral.Coin, Mode=OneWay, StringFormat=家具コイン：\{0:D\}枚}" />
+					</TextBlock>
+				</StackPanel>
+			</StackPanel>
 		</Expander>
 		<Separator  />
 		<!--任務-->
