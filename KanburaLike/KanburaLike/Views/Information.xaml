@@ -206,7 +206,7 @@
 				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
 				Margin="2" HorizontalAlignment="Center" />-->
 		<!--母港-->
-		<Expander DataContext="{Binding Homeport}" d:DataContext="{d:DesignInstance {x:Type vm:HomeportViewModel}}" >
+		<Expander DataContext="{Binding Homeport}" d:DataContext="{d:DesignInstance {x:Type vm:HomeportViewModel}}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}" >
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="母港情報" />

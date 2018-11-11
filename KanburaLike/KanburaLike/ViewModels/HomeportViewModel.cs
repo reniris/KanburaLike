@@ -1,4 +1,5 @@
-﻿using Livet;
+﻿using KanburaLike.Models.Settings;
+using Livet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ namespace KanburaLike.ViewModels
 {
 	public class HomeportViewModel : Livet.ViewModel
 	{
-		public AdmiralViewModel Admiral { get; private set; } = new AdmiralViewModel();
+		public HomeportSetting Setting { get; }
 
-		public SlotItemsViewModel SlotItems { get; private set; } = new SlotItemsViewModel();
+		public AdmiralViewModel Admiral { get; } = new AdmiralViewModel();
 
-
+		public SlotItemsViewModel SlotItems { get; } = new SlotItemsViewModel();
+		
 		#region ShipsCount変更通知プロパティ
 		private int _ShipsCount;
 
@@ -30,6 +32,11 @@ namespace KanburaLike.ViewModels
 			}
 		}
 		#endregion
+
+		public HomeportViewModel()
+		{
+			Setting = SettingsHost.Cache<HomeportSetting>(k => new HomeportSetting(), nameof(HomeportSetting));
+		}
 
 	}
 }
