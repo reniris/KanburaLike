@@ -205,7 +205,14 @@
 		<!--<Button Command="{Binding TestCommand}" Content="Debug Command" 
 				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
 				Margin="2" HorizontalAlignment="Center" />-->
-		<TextBlock TextWrapping="Wrap" Text="あとで提督情報"/>
+		<!--母港-->
+		<Expander >
+			<Expander.Header>
+				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+					<Run Text="母港情報表示作成中" />
+				</TextBlock>
+			</Expander.Header>
+		</Expander>
 		<Separator  />
 		<!--任務-->
 		<Expander DataContext="{Binding Quests}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}" d:DataContext="{d:DesignInstance {x:Type vm:QuestsViewModel}}">
@@ -224,7 +231,7 @@
 		<ItemsControl ItemsSource="{Binding Fleets}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<StackPanel>
+					<StackPanel d:DataContext="{d:DesignInstance {x:Type vm:FleetViewModel}}">
 						<Separator />
 						<Expander IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 							<Expander.Header>
@@ -232,7 +239,7 @@
 								<Run Text="{Binding Name}" />
 								<Run Text="{Binding SumLv, Mode=OneWay, StringFormat=Lv合計(\{0:D\})}" />
 								<Run Text="{Binding SumAirSuperiority, Mode=OneWay, StringFormat=制空(\{0:D\})}" />
-								<Run Text="{Binding ViewRange, StringFormat=索敵(\{0:F2\})}" />
+								<Run Text="{Binding State.ViewRange, Mode=OneWay, StringFormat=索敵(\{0:F2\})}" />
 								</TextBlock>
 							</Expander.Header>
 							<StackPanel>
