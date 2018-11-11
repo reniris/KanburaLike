@@ -65,7 +65,7 @@ namespace KanburaLike.ViewModels
 			Source = f;
 
 			Source.Subscribe(nameof(Fleet.Name), () => this.Name = Source.Name).AddTo(this);
-			Source.Subscribe(nameof(Fleet.State.ViewRange), () => this.ViewRange = Source.State.ViewRange).AddTo(this);
+			Source.Subscribe(nameof(Fleet.ShipsUpdated), () => this.ViewRange = Source.State.ViewRange).AddTo(this);
 			Source.Subscribe(nameof(Fleet.Ships), () => Update(Source.Ships)).AddTo(this); ;
 		}
 
