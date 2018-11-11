@@ -231,7 +231,7 @@
 		<ItemsControl ItemsSource="{Binding Fleets}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<StackPanel>
+					<StackPanel d:DataContext="{d:DesignInstance {x:Type vm:FleetViewModel}}">
 						<Separator />
 						<Expander IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 							<Expander.Header>
@@ -239,7 +239,7 @@
 								<Run Text="{Binding Name}" />
 								<Run Text="{Binding SumLv, Mode=OneWay, StringFormat=Lv合計(\{0:D\})}" />
 								<Run Text="{Binding SumAirSuperiority, Mode=OneWay, StringFormat=制空(\{0:D\})}" />
-								<Run Text="{Binding ViewRange, StringFormat=索敵(\{0:F2\})}" />
+								<Run Text="{Binding State.ViewRange, Mode=OneWay, StringFormat=索敵(\{0:F2\})}" />
 								</TextBlock>
 							</Expander.Header>
 							<StackPanel>

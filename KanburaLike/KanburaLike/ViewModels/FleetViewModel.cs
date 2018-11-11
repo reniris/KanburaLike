@@ -34,27 +34,12 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		#region ViewRange変更通知プロパティ
-		private double _ViewRange;
-
-		public double ViewRange
-		{
-			get
-			{ return _ViewRange; }
-			set
-			{
-				if (_ViewRange == value)
-					return;
-				_ViewRange = value;
-				RaisePropertyChanged(nameof(ViewRange));
-			}
-		}
-		#endregion
-
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Ship.Level) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
 
 		private Fleet Source { get; }
+
+		public FleetStateViewModel State { get; }
 
 		/// <summary>
 		/// コードからはこっちを使う <see cref="FleetViewModel"/> class.
@@ -65,8 +50,15 @@ namespace KanburaLike.ViewModels
 			Source = f;
 
 			Source.Subscribe(nameof(Fleet.Name), () => this.Name = Source.Name).AddTo(this);
-			Source.Subscribe(nameof(Fleet.ShipsUpdated), () => this.ViewRange = Source.State.ViewRange).AddTo(this);
-			Source.Subscribe(nameof(Fleet.Ships), () => Update(Source.Ships)).AddTo(this); ;
+			Source.Subscribe(nameof(Fleet.Ships), () => Update(Source.Ships)).AddTo(this);
+
+			/*this.CompositeDisposable.Add(new PropertyChangedEventListener(f)
+			{
+				(sender, args) => this.RaisePropertyChanged(args.PropertyName),
+			});*/
+			
+			this.State = new FleetStateViewModel(f.State);
+			this.CompositeDisposable.Add(this.State);
 		}
 
 		protected void Update(IEnumerable<Ship> ships)

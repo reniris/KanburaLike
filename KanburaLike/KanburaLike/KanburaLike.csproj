@@ -64,6 +64,7 @@
     <Compile Include="Models\Settings\WindowSetting.cs" />
     <Compile Include="ViewModels\AdmiralViewModel.cs" />
     <Compile Include="ViewModels\Extensions.cs" />
+    <Compile Include="ViewModels\FleetStateViewModel.cs" />
     <Compile Include="ViewModels\FleetViewModel.cs" />
     <Compile Include="ViewModels\InformationWindowViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
