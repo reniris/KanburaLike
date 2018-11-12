@@ -146,6 +146,8 @@ namespace KanburaLike.ViewModels
 			var ships = this.Kancolle.Ships;
 			if (ships == null) return;
 
+			if (Homeport == null) return;
+
 			Homeport.ShipsCount = ships.Count();
 
 			RaisePropertyChanged(nameof(Homeport));
