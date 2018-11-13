@@ -213,7 +213,7 @@
 				</TextBlock>
 			</Expander.Header>
 			<StackPanel Orientation="Horizontal">
-				<StackPanel>
+				<StackPanel Margin="{DynamicResource DataMargin}">
 					<TextBlock>
 					<Run Text="所有艦娘数" />
 					<Run Text="{Binding ShipsCount, Mode=OneWay}" />
