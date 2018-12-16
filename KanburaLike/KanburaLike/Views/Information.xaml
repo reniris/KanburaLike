@@ -11,6 +11,7 @@
 	xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
 	xmlns:kconv="http://schemes.grabacr.net/winfx/2015/kancolleviewer/converters"
 	xmlns:mconv="http://schemes.grabacr.net/winfx/2015/personal/converters"
+	xmlns:controls="clr-namespace:KanburaLike.Views.Controls"
 	x:Class="KanburaLike.Views.Information"
 	Background="{DynamicResource ThemeBrushKey}"
 	Foreground="{DynamicResource ActiveForegroundBrushKey}"
@@ -196,6 +197,8 @@
 				</Style.Triggers>
 			</Style>
 
+
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -206,13 +209,18 @@
 				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
 				Margin="2" HorizontalAlignment="Center" />-->
 		<!--母港-->
-		<Expander DataContext="{Binding Homeport}" d:DataContext="{d:DesignInstance {x:Type vm:HomeportViewModel}}" IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}" >
+		<Expander DataContext="{Binding Homeport}"  IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}"
+				  d:DataContext="{d:DesignInstance {x:Type vm:HomeportViewModel}}" >
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
 					<Run Text="母港情報" />
 				</TextBlock>
 			</Expander.Header>
-			<StackPanel Orientation="Horizontal">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 				<StackPanel Margin="{DynamicResource DataMargin}">
 					<TextBlock>
 					<Run Text="所有艦娘数" />
@@ -230,13 +238,49 @@
 					<Run Text="{Binding Admiral.Model.Level, Mode=OneWay, StringFormat=提督Lv \{0:D\}}" />
 					<Run Text="{Binding Admiral.Model.ExperienceForNexeLevel, Mode=OneWay, StringFormat=(次：\{0:D\})}" />
 					</TextBlock>
-				</StackPanel>
-				<StackPanel Margin="20,0,0,0">
 					<TextBlock>
 					<Run Text="{Binding Admiral.Coin, Mode=OneWay, StringFormat=家具コイン：\{0:D\}枚}" />
 					</TextBlock>
 				</StackPanel>
-			</StackPanel>
+
+				<ItemsControl ItemsSource="{Binding Materials.Items}" Grid.Column="1" Margin="20,0,0,0">
+					<ItemsControl.ItemTemplate>
+						<!--資材データテンプレート-->
+						<DataTemplate>
+							<controls:MetroComboBox ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+										d:DataContext="{d:DesignInstance {x:Type vm:MaterialItemsViewModel}, IsDesignTimeCreatable=True}" 
+										 >
+								<controls:MetroComboBox.ItemTemplate>
+									<DataTemplate DataType="{x:Type vm:MaterialViewModel}">
+										<Grid MinWidth="125" Margin="0,0,4,0">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto"/>
+												<ColumnDefinition Width="*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock Style="{DynamicResource DefaultTextStyleKey}"
+									   VerticalAlignment="Bottom">
+								<Run Text="{Binding Display, Mode=OneWay}" />
+								<Run Text=":" />
+											</TextBlock>
+											<TextBlock Grid.Column="1"
+									   Text="{Binding Value, Mode=OneWay}"
+									   Style="{DynamicResource EmphaticTextStyleKey}"
+									   HorizontalAlignment="Right"
+									   VerticalAlignment="Bottom"/>
+										</Grid>
+									</DataTemplate>
+								</controls:MetroComboBox.ItemTemplate>
+							</controls:MetroComboBox>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<UniformGrid Columns="1"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+			</Grid>
 		</Expander>
 		<Separator  />
 		<!--任務-->

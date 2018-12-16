@@ -15,7 +15,9 @@ namespace KanburaLike.ViewModels
 		public AdmiralViewModel Admiral { get; } = new AdmiralViewModel();
 
 		public SlotItemsViewModel SlotItems { get; } = new SlotItemsViewModel();
-		
+
+		public MaterialsViewModel Materials { get; } = new MaterialsViewModel();
+
 		#region ShipsCount変更通知プロパティ
 		private int _ShipsCount;
 
@@ -37,6 +39,5 @@ namespace KanburaLike.ViewModels
 		{
 			Setting = SettingsHost.Cache<HomeportSetting>(k => new HomeportSetting(), nameof(HomeportSetting));
 		}
-
 	}
 }
