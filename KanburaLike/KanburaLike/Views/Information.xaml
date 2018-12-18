@@ -216,24 +216,26 @@
 			</Expander.Header>
 			<StackPanel Orientation="Horizontal">
 				<StackPanel Margin="5,2,0,0">
-					<TextBlock>
-					<Run Text="所有艦娘数" />
+					<TextBlock Style="{DynamicResource EmphaticTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="所属艦娘：" Style="{DynamicResource DefaultTextElementStyleKey}"/>
 					<Run Text="{Binding ShipsCount, Mode=OneWay}" />
 					<Run Text="/" />
 					<Run Text="{Binding Admiral.Model.MaxShipCount, Mode=OneWay}" />
 					</TextBlock>
-					<TextBlock>
-					<Run Text="所有装備数" />
+					<TextBlock Style="{DynamicResource EmphaticTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="保有装備：" Style="{DynamicResource DefaultTextElementStyleKey}"/>
 					<Run Text="{Binding SlotItems.Count, Mode=OneWay}" />
 					<Run Text="/" />
 					<Run Text="{Binding Admiral.Model.MaxSlotItemCount, Mode=OneWay}" />
 					</TextBlock>
-					<TextBlock>
-					<Run Text="{Binding Admiral.Model.Level, Mode=OneWay, StringFormat=提督Lv \{0:D\}}" />
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="司令部Lv：" />
+					<Run Text="{Binding Admiral.Model.Level, Mode=OneWay, StringFormat=\{0:D\}}"  Style="{DynamicResource EmphaticTextElementStyleKey}"/>
 					<Run Text="{Binding Admiral.Model.ExperienceForNexeLevel, Mode=OneWay, StringFormat=(次：\{0:D\})}" />
 					</TextBlock>
-					<TextBlock>
-					<Run Text="{Binding Admiral.Coin, Mode=OneWay, StringFormat=家具コイン：\{0:D\}枚}" />
+					<TextBlock Style="{DynamicResource EmphaticTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="家具コイン：" Style="{DynamicResource DefaultTextElementStyleKey}"/>
+					<Run Text="{Binding Admiral.Coin, Mode=OneWay, StringFormat=\{0:D\}枚}" />
 					</TextBlock>
 				</StackPanel>
 
