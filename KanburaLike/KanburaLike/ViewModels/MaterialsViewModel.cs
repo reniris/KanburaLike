@@ -1,4 +1,5 @@
 ﻿using Grabacr07.KanColleWrapper;
+using KanburaLike.Models;
 using KanburaLike.Models.Settings;
 using Livet;
 using MetroTrilithon.Lifetime;
@@ -23,19 +24,18 @@ namespace KanburaLike.ViewModels
 	{
 		public MaterialsSetting Setting { get; }
 
-		public IReadOnlyList<MaterialItemsViewModel> Items { get; }
+		public IList<MaterialItemsViewModel> Items { get; }
 
 		public MaterialsViewModel()
 		{
 			Setting = SettingsHost.Cache<MaterialsSetting>(k => new MaterialsSetting(), nameof(MaterialsSetting));
 
-			Items = Enumerable.Repeat(new MaterialItemsViewModel(), Setting.CurrentMaterialCount).ToList().AsReadOnly();
-			var defitems = MaterialItemsSource.Instance.Values.Reverse();
+			Items = new MaterialItemsViewModel[Setting.CurrentMaterialCount];
+			int lastindex = MaterialItemsSource.Instance.Values.Count() - 1;
 			for (int i = 0; i < Setting.CurrentMaterialCount; i++)
 			{
-				Items[i].SelectedItem = MaterialItemsSource.Instance.Values.FirstOrDefault(x => x.Key == Setting.CurrentSelectedItem[i]) ?? defitems.Skip(Setting.CurrentMaterialCount - i).First();
-
-				Items[i].Subscribe(nameof(MaterialItemsViewModel.SelectedItem), () => Setting.CurrentSelectedItem[i] = Items[i].SelectedItem.Key).AddTo(this);
+				Items[i] = new MaterialItemsViewModel(i, Setting);
+				Items[i].SelectedItem = Items[i].Values.FirstOrDefault(x => x.Key == Setting.CurrentSelectedItem[i]) ?? Items[i].Values.ElementAt(lastindex - i);
 			}
 		}
 	}
@@ -60,16 +60,11 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
-		private Materials Model { get; set; }
+		public Materials Model { get; }
 
-		public ICollection<MaterialViewModel> Values { get; private set; }
+		public IList<MaterialViewModel> Values { get; }
 
 		private MaterialItemsSource()
-		{
-			InitModel();
-		}
-
-		public void InitModel()
 		{
 			string[] names = new string[] { "燃料", "弾薬", "鋼鉄", "ボーキサイト", "開発資材", "高速修復材", "高速建造材", "改修資材" };
 
@@ -120,7 +115,7 @@ namespace KanburaLike.ViewModels
 	public class MaterialItemsViewModel : Livet.ViewModel
 	{
 		#region SelectedItem変更通知プロパティ
-		private MaterialViewModel _SelectedItem = null;
+		private MaterialViewModel _SelectedItem;
 
 		public MaterialViewModel SelectedItem
 		{
@@ -131,16 +126,25 @@ namespace KanburaLike.ViewModels
 				if (_SelectedItem == value)
 					return;
 				_SelectedItem = value;
-
 				RaisePropertyChanged(nameof(SelectedItem));
+				UpdateSetting();
 			}
 		}
 		#endregion
 
-		public ICollection<MaterialViewModel> Values { get; } = MaterialItemsSource.Instance.Values;
+		public int SettingIndex { get; }
+		public MaterialsSetting Setting { get; }
+		public IList<MaterialViewModel> Values { get; set; } = MaterialItemsSource.Instance.Values;
 
-		public MaterialItemsViewModel()
+		public MaterialItemsViewModel(int s_index, MaterialsSetting setting)
 		{
+			SettingIndex = s_index;
+			Setting = setting;
+		}
+
+		public void UpdateSetting()
+		{
+			Setting.CurrentSelectedItem[SettingIndex] = SelectedItem.Key;
 		}
 	}
 

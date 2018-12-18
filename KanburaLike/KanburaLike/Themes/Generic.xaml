@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="/KanburaLike;component/Views/KanColleResource.xaml"/>
+		<ResourceDictionary Source="/KanburaLike;component/Themes/Generic.MetroComboBox.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

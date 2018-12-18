@@ -197,8 +197,6 @@
 				</Style.Triggers>
 			</Style>
 
-
-
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="KanColleResource.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
@@ -216,12 +214,8 @@
 					<Run Text="母港情報" />
 				</TextBlock>
 			</Expander.Header>
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<StackPanel Margin="{DynamicResource DataMargin}">
+			<StackPanel Orientation="Horizontal">
+				<StackPanel Margin="5,2,0,0">
 					<TextBlock>
 					<Run Text="所有艦娘数" />
 					<Run Text="{Binding ShipsCount, Mode=OneWay}" />
@@ -243,13 +237,13 @@
 					</TextBlock>
 				</StackPanel>
 
-				<ItemsControl ItemsSource="{Binding Materials.Items}" Grid.Column="1" Margin="20,0,0,0">
+				<ItemsControl ItemsSource="{Binding Materials.Items}" Margin="{DynamicResource DataMargin}">
 					<ItemsControl.ItemTemplate>
 						<!--資材データテンプレート-->
 						<DataTemplate>
-							<controls:MetroComboBox ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-										d:DataContext="{d:DesignInstance {x:Type vm:MaterialItemsViewModel}, IsDesignTimeCreatable=True}" 
-										 >
+							<controls:MetroComboBox d:DataContext="{d:DesignInstance {x:Type vm:MaterialItemsViewModel}}"
+								ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+								Padding="-2">
 								<controls:MetroComboBox.ItemTemplate>
 									<DataTemplate DataType="{x:Type vm:MaterialViewModel}">
 										<Grid MinWidth="125" Margin="0,0,4,0">
@@ -273,14 +267,8 @@
 							</controls:MetroComboBox>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
-
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<UniformGrid Columns="1"/>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
 				</ItemsControl>
-			</Grid>
+			</StackPanel>
 		</Expander>
 		<Separator  />
 		<!--任務-->
