@@ -216,26 +216,27 @@
 			</Expander.Header>
 			<StackPanel Orientation="Horizontal">
 				<StackPanel Margin="5,2,0,0">
-					<TextBlock Style="{DynamicResource EmphaticTextStyleKey}" VerticalAlignment="Bottom">
-					<Run Text="所属艦娘：" Style="{DynamicResource DefaultTextElementStyleKey}"/>
-					<Run Text="{Binding ShipsCount, Mode=OneWay}" />
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="所属艦娘：" />
+					<Run Text="{Binding ShipsCount, Mode=OneWay}" Style="{DynamicResource EmphaticTextElementStyleKey}"/>
 					<Run Text="/" />
 					<Run Text="{Binding Admiral.Model.MaxShipCount, Mode=OneWay}" />
 					</TextBlock>
-					<TextBlock Style="{DynamicResource EmphaticTextStyleKey}" VerticalAlignment="Bottom">
-					<Run Text="保有装備：" Style="{DynamicResource DefaultTextElementStyleKey}"/>
-					<Run Text="{Binding SlotItems.Count, Mode=OneWay}" />
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="保有装備：" />
+					<Run Text="{Binding SlotItems.Count, Mode=OneWay}" Style="{DynamicResource EmphaticTextElementStyleKey}"/>
 					<Run Text="/" />
 					<Run Text="{Binding Admiral.Model.MaxSlotItemCount, Mode=OneWay}" />
 					</TextBlock>
 					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
 					<Run Text="司令部Lv：" />
-					<Run Text="{Binding Admiral.Model.Level, Mode=OneWay, StringFormat=\{0:D\}}"  Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+					<Run Text="{Binding Admiral.Model.Level, Mode=OneWay, StringFormat=\{0:D\}}" Style="{DynamicResource EmphaticTextElementStyleKey}"/>
 					<Run Text="{Binding Admiral.Model.ExperienceForNexeLevel, Mode=OneWay, StringFormat=(次：\{0:D\})}" />
 					</TextBlock>
-					<TextBlock Style="{DynamicResource EmphaticTextStyleKey}" VerticalAlignment="Bottom">
-					<Run Text="家具コイン：" Style="{DynamicResource DefaultTextElementStyleKey}"/>
-					<Run Text="{Binding Admiral.Coin, Mode=OneWay, StringFormat=\{0:D\}枚}" />
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="家具コイン："/>
+					<Run Style="{DynamicResource EmphaticTextElementStyleKey}"
+						 Text="{Binding Admiral.Coin, Mode=OneWay, StringFormat=\{0:D\}枚}" />
 					</TextBlock>
 				</StackPanel>
 
