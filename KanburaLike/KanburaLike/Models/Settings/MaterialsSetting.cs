@@ -34,6 +34,9 @@ namespace KanburaLike.Models.Settings
 			{ return _CurrentMaterialCount; }
 			set
 			{
+				//値チェック
+				if (value < MinMaterialCount || MaxMaterialCount < value)
+					return;
 				if (_CurrentMaterialCount == value)
 					return;
 				_CurrentMaterialCount = value;
