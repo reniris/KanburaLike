@@ -11,6 +11,7 @@
 	xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
 	xmlns:kconv="http://schemes.grabacr.net/winfx/2015/kancolleviewer/converters"
 	xmlns:mconv="http://schemes.grabacr.net/winfx/2015/personal/converters"
+	xmlns:controls="clr-namespace:KanburaLike.Views.Controls"
 	x:Class="KanburaLike.Views.Information"
 	Background="{DynamicResource ThemeBrushKey}"
 	Foreground="{DynamicResource ActiveForegroundBrushKey}"
@@ -206,12 +207,71 @@
 				Visibility="{Binding TestCommand.CanExecute, Converter={StaticResource BoolToVisibility}, Mode=OneWay}" 
 				Margin="2" HorizontalAlignment="Center" />-->
 		<!--母港-->
-		<Expander >
+		<Expander DataContext="{Binding Homeport}"  IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}"
+				  d:DataContext="{d:DesignInstance {x:Type vm:HomeportViewModel}}" >
 			<Expander.Header>
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
-					<Run Text="母港情報表示作成中" />
+					<Run Text="母港情報" />
 				</TextBlock>
 			</Expander.Header>
+			<StackPanel Orientation="Horizontal">
+				<StackPanel Margin="5,2,0,0">
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="所属艦娘：" />
+					<Run Text="{Binding ShipsCount, Mode=OneWay}" Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+					<Run Text="/" />
+					<Run Text="{Binding Admiral.Model.MaxShipCount, Mode=OneWay}" />
+					</TextBlock>
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="保有装備：" />
+					<Run Text="{Binding SlotItems.Count, Mode=OneWay}" Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+					<Run Text="/" />
+					<Run Text="{Binding Admiral.Model.MaxSlotItemCount, Mode=OneWay}" />
+					</TextBlock>
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="司令部Lv：" />
+					<Run Text="{Binding Admiral.Model.Level, Mode=OneWay, StringFormat=\{0:D\}}" Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+					<Run Text="{Binding Admiral.Model.ExperienceForNexeLevel, Mode=OneWay, StringFormat=(次：\{0:D\})}" />
+					</TextBlock>
+					<TextBlock Style="{DynamicResource DefaultTextStyleKey}" VerticalAlignment="Bottom">
+					<Run Text="家具コイン："/>
+					<Run Style="{DynamicResource EmphaticTextElementStyleKey}"
+						 Text="{Binding Admiral.Coin, Mode=OneWay, StringFormat=\{0:D\}枚}" />
+					</TextBlock>
+				</StackPanel>
+
+				<ItemsControl ItemsSource="{Binding Materials.Items}" Margin="{DynamicResource DataMargin}">
+					<ItemsControl.ItemTemplate>
+						<!--資材データテンプレート-->
+						<DataTemplate>
+							<controls:MetroComboBox d:DataContext="{d:DesignInstance {x:Type vm:MaterialItemsViewModel}}"
+								ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+								Padding="-2">
+								<controls:MetroComboBox.ItemTemplate>
+									<DataTemplate DataType="{x:Type vm:MaterialViewModel}">
+										<Grid MinWidth="125" Margin="0,0,4,0">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto"/>
+												<ColumnDefinition Width="*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock Style="{DynamicResource DefaultTextStyleKey}"
+									   VerticalAlignment="Bottom">
+								<Run Text="{Binding Display, Mode=OneWay}" />
+								<Run Text=":" />
+											</TextBlock>
+											<TextBlock Grid.Column="1"
+									   Text="{Binding Value, Mode=OneWay}"
+									   Style="{DynamicResource EmphaticTextStyleKey}"
+									   HorizontalAlignment="Right"
+									   VerticalAlignment="Bottom"/>
+										</Grid>
+									</DataTemplate>
+								</controls:MetroComboBox.ItemTemplate>
+							</controls:MetroComboBox>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
 		</Expander>
 		<Separator  />
 		<!--任務-->

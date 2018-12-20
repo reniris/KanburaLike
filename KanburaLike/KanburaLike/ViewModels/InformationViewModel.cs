@@ -20,6 +20,16 @@ namespace KanburaLike.ViewModels
 	public class InformationViewModel : ViewModel
 	{
 		/// <summary>
+		/// 母港情報
+		/// </summary>
+		public HomeportViewModel Homeport { get; private set; }
+
+		/// <summary>
+		/// 遂行中任務
+		/// </summary>
+		public QuestsViewModel Quests { get; private set; }
+
+		/// <summary>
 		/// 艦隊情報
 		/// </summary>
 		public FleetViewModel[] Fleets { get; private set; }
@@ -34,11 +44,6 @@ namespace KanburaLike.ViewModels
 		/// </summary>
 		public ShipsViewModel RepairWaiting { get; } = new ShipsViewModel(nameof(RepairWaiting));
 
-		/// <summary>
-		/// 遂行中任務
-		/// </summary>
-		public QuestsViewModel Quests { get; private set; }
-
 		private KanColleModel Kancolle { get; } = KanColleModel.Current;
 
 		/// <summary>
@@ -47,6 +52,10 @@ namespace KanburaLike.ViewModels
 		private void Register()
 		{
 			Messenger.Raise(new InteractionMessage("InfoShow"));
+
+			//母港情報
+			this.Homeport = new HomeportViewModel();
+			RaisePropertyChanged(nameof(Homeport));
 
 			//任務
 			this.Quests = new QuestsViewModel();
@@ -93,6 +102,7 @@ namespace KanburaLike.ViewModels
 		{
 			UpdateBrilliant();
 			UpdateRepairWaiting();
+			UpdateHomeportShips();
 		}
 
 		/// <summary>
@@ -126,6 +136,21 @@ namespace KanburaLike.ViewModels
 
 			RaisePropertyChanged(nameof(RepairWaiting));
 			//DebugModel.WriteLine("Update RepairWaiting");
+		}
+
+		/// <summary>
+		/// 母港情報の船更新
+		/// </summary>
+		private void UpdateHomeportShips()
+		{
+			var ships = this.Kancolle.Ships;
+			if (ships == null) return;
+
+			if (Homeport == null) return;
+
+			Homeport.ShipsCount = ships.Count();
+
+			RaisePropertyChanged(nameof(Homeport));
 		}
 
 		#region TestCommand

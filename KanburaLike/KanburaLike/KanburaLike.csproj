@@ -56,6 +56,8 @@
     <Compile Include="Models\DebugModel.cs" />
     <Compile Include="Models\KanColleModel.cs" />
     <Compile Include="Models\SettingPath.cs" />
+    <Compile Include="Models\Settings\HomeportSetting.cs" />
+    <Compile Include="Models\Settings\MaterialsSetting.cs" />
     <Compile Include="Models\Settings\QuestsSetting.cs" />
     <Compile Include="Models\Settings\SerializableSetting.cs" />
     <Compile Include="Models\Settings\SettingsHost.cs" />
@@ -66,14 +68,18 @@
     <Compile Include="ViewModels\Extensions.cs" />
     <Compile Include="ViewModels\FleetStateViewModel.cs" />
     <Compile Include="ViewModels\FleetViewModel.cs" />
+    <Compile Include="ViewModels\HomeportViewModel.cs" />
     <Compile Include="ViewModels\InformationWindowViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
     <Compile Include="KanburaLike.cs" />
+    <Compile Include="ViewModels\MaterialsViewModel.cs" />
     <Compile Include="ViewModels\QuestsViewModel.cs" />
     <Compile Include="ViewModels\QuestViewModel.cs" />
     <Compile Include="ViewModels\Settings\WindowSettingViewModel.cs" />
     <Compile Include="ViewModels\ShipsViewModel.cs" />
     <Compile Include="ViewModels\ShipViewModel.cs" />
+    <Compile Include="ViewModels\SlotItemsViewModel.cs" />
+    <Compile Include="Views\Controls\MetroComboBox.cs" />
     <Compile Include="Views\Converters\EnumToListObject.cs" />
     <Compile Include="Views\Converters\LimitedValueToListObject.cs" />
     <Compile Include="Views\Converters\LimitedValueToString.cs" />
@@ -101,6 +107,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="Themes\Generic.MetroComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Information.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

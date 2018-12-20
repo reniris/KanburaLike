@@ -99,6 +99,7 @@ namespace KanburaLike.ViewModels
 		private void Update(Admiral admiral)
 		{
 			this.Model = admiral;
+			RaisePropertyChanged(nameof(Coin));
 		}
 	}
 }
