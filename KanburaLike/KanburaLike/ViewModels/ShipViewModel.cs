@@ -71,6 +71,23 @@ namespace KanburaLike.ViewModels
 		}
 		#endregion
 
+		#region TP変更通知プロパティ
+		private decimal _TP;
+
+		public decimal TP
+		{
+			get
+			{ return _TP; }
+			set
+			{
+				if (_TP == value)
+					return;
+				_TP = value;
+				RaisePropertyChanged(nameof(TP));
+			}
+		}
+		#endregion
+
 		public Ship Ship { get; set; }
 
 		/// <summary>
@@ -92,7 +109,29 @@ namespace KanburaLike.ViewModels
 			var kmodel = KanColleModel.Current;
 			kmodel.Subscribe(nameof(kmodel.RepairState), () => this.IsRepairing = kmodel.Repairyard.CheckRepairing(Ship.Id)).AddTo(this);
 
-			this.Ship.Subscribe(nameof(Ship.EquippedItems), () => this.AirSuperiority = s.GetAirSuperiorityPotential()).AddTo(this);
+			this.Ship
+				.Subscribe(nameof(Ship.EquippedItems), () => UpdateEquippedItems())
+				.Subscribe(nameof(Ship.Situation), () => UpdateTP())
+				.AddTo(this);
+		}
+
+		/// <summary>
+		/// TP再計算
+		/// </summary>
+		void UpdateTP()
+		{
+			this.TP = this.Ship.CalcTP();
+		}
+
+		/// <summary>
+		/// 装備スロットが更新されたときに呼ぶ
+		/// </summary>
+		void UpdateEquippedItems()
+		{
+			//制空値再計算
+			this.AirSuperiority = this.Ship.GetAirSuperiorityPotential();
+			//TP再計算
+			UpdateTP();
 		}
 	}
 }

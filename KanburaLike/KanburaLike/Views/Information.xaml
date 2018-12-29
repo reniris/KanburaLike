@@ -295,11 +295,15 @@
 						<Separator />
 						<Expander IsExpanded="{Binding Setting.IsExpanded, Mode=TwoWay}">
 							<Expander.Header>
-								<TextBlock TextWrapping="Wrap" HorizontalAlignment="{Binding HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+								<TextBlock TextWrapping="Wrap">
 								<Run Text="{Binding Name}" />
-								<Run Text="{Binding SumLv, Mode=OneWay, StringFormat=Lv合計(\{0:D\})}" />
+								<Run Text="TP(" />
+								<Run Text="{Binding SumTP, Mode=OneWay, StringFormat=S:\{0:F0\}}" />
+								<Run Text="{Binding SumTP_A, Mode=OneWay, StringFormat=A:\{0:F0\}}" />
+								<Run Text=")" />
 								<Run Text="{Binding SumAirSuperiority, Mode=OneWay, StringFormat=制空(\{0:D\})}" />
 								<Run Text="{Binding State.ViewRange, Mode=OneWay, StringFormat=索敵(\{0:F2\})}" />
+								<Run Text="{Binding SumLv, Mode=OneWay, StringFormat=Lv合計(\{0:D\})}" />
 								</TextBlock>
 							</Expander.Header>
 							<StackPanel>
