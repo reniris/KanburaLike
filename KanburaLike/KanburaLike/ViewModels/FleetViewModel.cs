@@ -36,6 +36,8 @@ namespace KanburaLike.ViewModels
 
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Ship.Level) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
+		public decimal SumTP => (Ships != null) ? Ships.Sum(s => s.TP) : 0;
+		public decimal SumTP_A => SumTP * (decimal)0.7;
 
 		private Fleet Source { get; }
 
@@ -52,11 +54,6 @@ namespace KanburaLike.ViewModels
 			Source.Subscribe(nameof(Fleet.Name), () => this.Name = Source.Name).AddTo(this);
 			Source.Subscribe(nameof(Fleet.Ships), () => Update(Source.Ships)).AddTo(this);
 
-			/*this.CompositeDisposable.Add(new PropertyChangedEventListener(f)
-			{
-				(sender, args) => this.RaisePropertyChanged(args.PropertyName),
-			});*/
-			
 			this.State = new FleetStateViewModel(f.State);
 			this.CompositeDisposable.Add(this.State);
 		}
@@ -68,6 +65,8 @@ namespace KanburaLike.ViewModels
 			RaisePropertyChanged(nameof(Ships));
 			RaisePropertyChanged(nameof(SumLv));
 			RaisePropertyChanged(nameof(SumAirSuperiority));
+			RaisePropertyChanged(nameof(SumTP));
+			RaisePropertyChanged(nameof(SumTP_A));
 		}
 	}
 }
