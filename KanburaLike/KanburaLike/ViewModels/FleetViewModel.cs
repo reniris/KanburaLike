@@ -37,7 +37,7 @@ namespace KanburaLike.ViewModels
 		public int SumLv => (Ships != null) ? Ships.Sum(s => s.Ship.Level) : 0;
 		public int SumAirSuperiority => (Ships != null) ? Ships.Sum(s => s.AirSuperiority) : 0;
 		public decimal SumTP => (Ships != null) ? Ships.Sum(s => s.TP) : 0;
-		public decimal SumTP_A => SumTP * (decimal)0.7;
+		public decimal SumTP_A => Decimal.Floor(SumTP * (decimal)0.7);
 
 		private Fleet Source { get; }
 
