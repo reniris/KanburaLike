@@ -1,6 +1,10 @@
 # KanburaLike
 艦ぶらっぽい情報表示 提督業プラグイン
 
+###インストール
+[リリースフォルダ](https://github.com/reniris/KanburaLike/releases)のKanburaLike.zipをダウンロードして解凍してできた
+KanburaLike.dll を KanColleViewer の Plugins ディレクトリに放り込んで下さい。
+
 
 現在のイメージ
 
